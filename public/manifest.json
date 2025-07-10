@@ -1,0 +1,104 @@
+{
+  "name": "Cucinanostrard - Postres Artesanales",
+  "short_name": "Cucinanostrard",
+  "description": "Postres artesanales que abrazan el alma. Tartas personalizadas, macarons franceses y dulces únicos en Santo Domingo.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F2E9",
+  "theme_color": "#D4A574",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "es-DO",
+  "categories": ["food", "lifestyle", "shopping"],
+  "icons": [
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ver Menú",
+      "short_name": "Menú",
+      "description": "Explora nuestros deliciosos postres",
+      "url": "/menu",
+      "icons": [
+        {
+          "src": "/icon-menu-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Hacer Pedido",
+      "short_name": "Pedido",
+      "description": "Realiza tu pedido por WhatsApp",
+      "url": "/contact",
+      "icons": [
+        {
+          "src": "/icon-order-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Galería",
+      "short_name": "Galería",
+      "description": "Ve nuestras creaciones",
+      "url": "/gallery",
+      "icons": [
+        {
+          "src": "/icon-gallery-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "share_target": {
+    "action": "/share",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "whatsapp",
+      "url": "/contact?whatsapp=%s"
+    }
+  ],
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "handle_links": "preferred",
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+}

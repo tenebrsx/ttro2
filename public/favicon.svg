@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <style>
+    .primary { fill: #D4A373; }
+    .secondary { fill: #E9D8C4; }
+    .accent { fill: #8B5E34; }
+    @media (prefers-color-scheme: dark) {
+      .primary { fill: #E9D8C4; }
+      .secondary { fill: #D4A373; }
+      .accent { fill: #F5EBE0; }
+    }
+  </style>
+  <circle class="secondary" cx="16" cy="16" r="16" />
+  <path class="primary" d="M16,4 C9.373,4 4,9.373 4,16 C4,22.627 9.373,28 16,28 C22.627,28 28,22.627 28,16 C28,9.373 22.627,4 16,4 Z M16,26 C10.477,26 6,21.523 6,16 C6,10.477 10.477,6 16,6 C21.523,6 26,10.477 26,16 C26,21.523 21.523,26 16,26 Z" />
+  <path class="accent" d="M20,12 C20,14.209 18.209,16 16,16 C13.791,16 12,14.209 12,12 C12,9.791 13.791,8 16,8 C18.209,8 20,9.791 20,12 Z M16,20 C13.791,20 12,18.209 12,16 L20,16 C20,18.209 18.209,20 16,20 Z" />
+</svg>

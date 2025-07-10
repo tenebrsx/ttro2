@@ -1,0 +1,437 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Karla:wght@300;400;500;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Mobile-first optimizations */
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        touch-action: manipulation;
+    }
+
+    /* Better touch targets for mobile */
+    button,
+    a,
+    input,
+    textarea,
+    select {
+        touch-action: manipulation;
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* Improve mobile input experience */
+    input,
+    textarea,
+    select {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+}
+
+/* Cart animations and mobile styles */
+@layer components {
+    .cart-slide-enter {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    .cart-slide-enter-active {
+        transform: translateX(0);
+        opacity: 1;
+        transition:
+            transform 300ms ease-out,
+            opacity 300ms ease-out;
+    }
+
+    .cart-slide-exit {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    .cart-slide-exit-active {
+        transform: translateX(100%);
+        opacity: 0;
+        transition:
+            transform 300ms ease-in,
+            opacity 300ms ease-in;
+    }
+
+    /* Mobile cart item animations */
+    .cart-item-enter {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    .cart-item-enter-active {
+        opacity: 1;
+        transform: translateY(0);
+        transition:
+            opacity 200ms ease-out,
+            transform 200ms ease-out;
+    }
+
+    .cart-item-exit {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .cart-item-exit-active {
+        opacity: 0;
+        transform: translateX(-100px);
+        transition:
+            opacity 300ms ease-in,
+            transform 300ms ease-in;
+    }
+
+    /* Enhanced mobile touch interactions */
+    .touch-feedback {
+        transition: all 0.15s ease;
+    }
+
+    .touch-feedback:active {
+        transform: scale(0.98);
+    }
+
+    /* Improved mobile scroll areas */
+    .mobile-scroll {
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+    }
+
+    /* Mobile-optimized shadows */
+    .shadow-mobile {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Better mobile button styles */
+    .btn-mobile {
+        min-height: 48px;
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .btn-mobile:active {
+        transform: scale(0.98);
+    }
+
+    /* Mobile-first responsive text */
+    .text-responsive {
+        font-size: clamp(0.875rem, 2.5vw, 1rem);
+    }
+
+    .heading-responsive {
+        font-size: clamp(1.5rem, 5vw, 2.5rem);
+    }
+
+    /* Enhanced mobile cards */
+    .card-mobile {
+        border-radius: 16px;
+        padding: 16px;
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .card-mobile:active {
+        transform: translateY(1px);
+    }
+
+    /* Mobile navigation improvements */
+    .nav-mobile {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    /* Line clamp utility for mobile */
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* Smooth animations for mobile */
+    .animate-fade-in {
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    .animate-slide-up {
+        animation: slideUp 0.5s ease-out;
+    }
+
+    /* Mobile-optimized focus states */
+    .focus-mobile:focus {
+        outline: 2px solid #d4a574;
+        outline-offset: 2px;
+    }
+
+    /* Enhanced mobile loading states */
+    .loading-shimmer {
+        background: linear-gradient(
+            90deg,
+            #f0f0f0 25%,
+            #e0e0e0 50%,
+            #f0f0f0 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+    }
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Mobile-specific media queries */
+@media (max-width: 768px) {
+    /* Reduce motion for better performance on mobile */
+    .reduce-motion {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    /* Better mobile spacing */
+    .mobile-padding {
+        padding: 16px;
+    }
+
+    .mobile-margin {
+        margin: 16px 0;
+    }
+
+    /* Mobile-optimized grid */
+    .grid-mobile {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    /* Enhanced mobile typography */
+    .text-mobile-sm {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .text-mobile-base {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .text-mobile-lg {
+        font-size: 18px;
+        line-height: 1.4;
+    }
+}
+
+/* Dark mode support for mobile */
+@media (prefers-color-scheme: dark) {
+    .cart-item-bg {
+        background-color: rgba(255, 255, 255, 0.95);
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .btn-mobile {
+        border: 2px solid currentColor;
+    }
+
+    .card-mobile {
+        border: 1px solid currentColor;
+    }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        background-color: #f6f4f2;
+    }
+
+    body {
+        font-family: "Karla", sans-serif;
+        line-height: 1.6;
+        background-color: #f6f4f2;
+    }
+
+    /* Ensure all main containers use consistent background */
+    #root {
+        background-color: #f6f4f2;
+        min-height: 100vh;
+    }
+
+    /* Override any conflicting backgrounds */
+    .min-h-screen,
+    main,
+    section {
+        background-color: inherit;
+    }
+}
+
+@layer utilities {
+    .font-cormorant {
+        font-family: "Cormorant Garamond", serif;
+    }
+
+    .font-karla {
+        font-family: "Karla", sans-serif;
+    }
+
+    .text-shadow-soft {
+        text-shadow: 0 2px 4px rgba(131, 106, 93, 0.1);
+    }
+
+    .bg-texture {
+        background-image: radial-gradient(
+            circle at 2px 2px,
+            rgba(180, 195, 188, 0.05) 1px,
+            transparent 0
+        );
+        background-size: 24px 24px;
+    }
+
+    .shadow-soft {
+        box-shadow:
+            0 4px 20px rgba(131, 106, 93, 0.08),
+            0 1px 3px rgba(131, 106, 93, 0.1);
+    }
+
+    .shadow-gentle {
+        box-shadow: 0 2px 12px rgba(131, 106, 93, 0.06);
+    }
+
+    .shadow-warm {
+        box-shadow:
+            0 8px 25px rgba(131, 106, 93, 0.12),
+            0 3px 6px rgba(131, 106, 93, 0.08);
+    }
+
+    /* Enhanced Typography Styles */
+    .text-elegant {
+        font-family: "Playfair Display", serif;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        line-height: 1.2;
+    }
+
+    .text-beautiful {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 600;
+        letter-spacing: -0.015em;
+        line-height: 1.3;
+    }
+
+    .text-dusty-rose-elegant {
+        color: #d4a5a5;
+        font-weight: 600;
+        text-shadow: 0 1px 2px rgba(212, 165, 165, 0.2);
+    }
+
+    .text-black-bold {
+        color: #000000;
+        font-weight: 700;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .heading-primary {
+        font-family: "Playfair Display", serif;
+        font-weight: 700;
+        color: #000000;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+    }
+
+    .heading-secondary {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 600;
+        color: #d4a5a5;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+    }
+
+    .body-elegant {
+        font-family: "Source Serif Pro", serif;
+        font-weight: 400;
+        line-height: 1.7;
+        color: #836a5d;
+    }
+
+    .accent-dusty-rose {
+        color: #d4a5a5;
+        font-weight: 600;
+    }
+
+    .bg-dusty-rose-gradient {
+        background: linear-gradient(135deg, #d4a5a5 0%, #e8c4c4 100%);
+    }
+
+    .bg-elegant-cream {
+        background: linear-gradient(135deg, #f6f4f1 0%, #fdf2f2 100%);
+    }
+
+    .border-dusty-rose {
+        border-color: #d4a5a5;
+    }
+
+    .shadow-dusty-rose {
+        box-shadow: 0 4px 20px rgba(212, 165, 165, 0.15);
+    }
+
+    .text-shadow-elegant {
+        text-shadow: 0 2px 4px rgba(212, 165, 165, 0.2);
+    }
+}

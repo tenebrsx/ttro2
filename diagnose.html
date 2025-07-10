@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Rendering Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        h1 {
+            color: #D4A5A5;
+            margin-bottom: 20px;
+        }
+        .test-box {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .diagnostic {
+            background-color: #eef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Browser Rendering Test</h1>
+
+    <p></p>If you can see this page, your browser is successfully rendering HTML content from this server.</p>
+
+    <p>This is a static HTML test page and does not require any JavaScript or React to render.</p>
+
+    <div class="test-box">
+        <h2>Basic Rendering Test</h2>
+        <p class="success">✅ HTML rendering successful</p>
+        <p class="success">✅ CSS styling successful</p>
+        <p id="js-test">❌ JavaScript not running</p>
+    </div>
+
+    <div class="test-box">
+        <h2>Diagnostic Information</h2>
+        <p>Browser details:</p>
+        <div class="diagnostic" id="diagnostic-info">Information will appear here if JavaScript is working.</div>
+    </div>
+
+    <script>
+        // Test if JavaScript is working
+        document.getElementById('js-test').innerHTML = '✅ JavaScript running successfully';
+
+        // Add diagnostic information
+        const diagnosticInfo = `User Agent: ${navigator.userAgent}
+Screen Width: ${window.innerWidth}px
+Screen Height: ${window.innerHeight}px
+URL: ${window.location.href}
+Protocol: ${window.location.protocol}
+Hostname: ${window.location.hostname}
+Port: ${window.location.port || '(default)'}
+Page Loaded: ${new Date().toLocaleString()}`;
+
+        document.getElementById('diagnostic-info').textContent = diagnosticInfo;
+    </script>
+</body>
+</html>

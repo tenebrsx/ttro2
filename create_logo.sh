@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Create a more refined SVG logo based on the brand style
+cat > /Users/tenebrisx/Desktop/magna\ projects/ttrosa/public/logo.svg << 'EOF'
+<svg width="240" height="60" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .logo-text {
+        font-family: 'Cormorant', serif;
+        font-weight: 400;
+        font-style: italic;
+        fill: #3A4D40;
+        text-anchor: middle;
+        dominant-baseline: middle;
+      }
+    </style>
+  </defs>
+  
+  <!-- Background (transparent) -->
+  <rect width="240" height="60" fill="transparent"/>
+  
+  <!-- Logo Text -->
+  <text x="120" y="35" class="logo-text" font-size="28">
+    cucinanostrard
+  </text>
+  
+  <!-- Decorative elements -->
+  <circle cx="20" cy="30" r="2" fill="#B4C3BC" opacity="0.6"/>
+  <circle cx="220" cy="30" r="2" fill="#B4C3BC" opacity="0.6"/>
+  <path d="M 30 30 Q 50 20 70 30" stroke="#B4C3BC" stroke-width="1" fill="none" opacity="0.4"/>
+  <path d="M 170 30 Q 190 20 210 30" stroke="#B4C3BC" stroke-width="1" fill="none" opacity="0.4"/>
+</svg>
+EOF
