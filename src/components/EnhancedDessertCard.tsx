@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Heart, Clock, ChefHat } from "lucide-react";
+import Button from "./Button";
 
 interface DessertCardProps {
   name: string;
@@ -11,7 +12,6 @@ interface DessertCardProps {
   preparationTime?: string;
   isVegan?: boolean;
   isGlutenFree?: boolean;
-  tags?: string[];
   onClick?: () => void;
 }
 
@@ -24,7 +24,6 @@ const EnhancedDessertCard: React.FC<DessertCardProps> = ({
   preparationTime = "2-3 días",
   isVegan = false,
   isGlutenFree = false,
-  tags = [],
   onClick,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -167,9 +166,9 @@ const EnhancedDessertCard: React.FC<DessertCardProps> = ({
             transition={{ duration: 0.3 }}
           />
 
-          {/* Tags */}
-          {(isVegan || isGlutenFree || tags.length > 0) && (
-            <div className="flex flex-wrap gap-2 mb-3">
+          {/* Dietary Information */}
+          {(isVegan || isGlutenFree) && (
+            <div className="flex flex-wrap gap-2 mb-4">
               {isVegan && (
                 <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-medium">
                   Vegano
@@ -180,14 +179,6 @@ const EnhancedDessertCard: React.FC<DessertCardProps> = ({
                   Sin Gluten
                 </span>
               )}
-              {tags.slice(0, 2).map((tag, index) => (
-                <span
-                  key={index}
-                  className="text-xs bg-dusty-rose/10 text-dusty-rose px-2 py-1 rounded-full font-medium"
-                >
-                  {tag}
-                </span>
-              ))}
             </div>
           )}
 
@@ -252,23 +243,18 @@ const EnhancedDessertCard: React.FC<DessertCardProps> = ({
             }}
             transition={{ duration: 0.3, delay: 0.1 }}
           >
-            <motion.button
-              className="w-full bg-dusty-rose text-cream py-3 rounded-full text-sm font-medium shadow-gentle hover:shadow-soft transition-all duration-300 relative overflow-hidden"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <Button
+              variant="primary"
+              size="sm"
+              fullWidth
+              rounded="organic"
               onClick={(e) => {
                 e.stopPropagation();
                 // Handle order action
               }}
             >
-              <span className="relative z-10">Personalizar Pedido</span>
-              <motion.div
-                className="absolute inset-0 bg-mocha"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "0%" }}
-                transition={{ duration: 0.3 }}
-              />
-            </motion.button>
+              Personalizar Pedido
+            </Button>
           </motion.div>
         </div>
 

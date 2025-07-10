@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useCart } from "../contexts/CartContext";
 import { formatPrice } from "../utils/currency";
+import Button from "./Button";
 
 const MobileCart: React.FC = () => {
   const {
@@ -112,12 +113,15 @@ const MobileCart: React.FC = () => {
                     Descubre nuestros deliciosos postres y agrega algunos a tu
                     carrito
                   </p>
-                  <button
+                  <Button
+                    variant="secondary"
+                    size="md"
                     onClick={closeCart}
-                    className="bg-dusty-rose text-white px-6 py-3 rounded-full font-karla font-medium hover:bg-mocha transition-colors"
+                    rounded="organic"
+                    className="px-6"
                   >
-                    Explorar Postres
-                  </button>
+                    Seguir Comprando
+                  </Button>
                 </div>
               ) : (
                 <>
@@ -235,14 +239,18 @@ const MobileCart: React.FC = () => {
                     </div>
 
                     {/* WhatsApp Checkout Button */}
-                    <motion.button
-                      whileTap={{ scale: 0.98 }}
+                    <Button
+                      variant="gradient"
+                      size="lg"
+                      fullWidth
+                      rounded="organic"
                       onClick={generateWhatsAppMessage}
-                      className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-4 rounded-xl font-karla font-medium flex items-center justify-center space-x-2 shadow-lg hover:from-green-600 hover:to-green-700 transition-all duration-200"
+                      icon={MessageCircle}
+                      iconPosition="left"
+                      className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 shadow-lg"
                     >
-                      <MessageCircle className="w-5 h-5" />
-                      <span>Continuar con WhatsApp</span>
-                    </motion.button>
+                      Continuar con WhatsApp
+                    </Button>
 
                     {/* Clear Cart */}
                     <button
