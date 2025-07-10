@@ -120,7 +120,7 @@ const OrderingProcess = () => {
                     <div
                       className={`w-24 h-24 bg-gradient-to-br ${step.color} rounded-full flex items-center justify-center mx-auto shadow-lg group-hover:scale-105 transition-transform duration-300`}
                     >
-                      <IconComponent className="w-10 h-10 text-white" />
+                      <IconComponent className="w-10 h-10 text-dusty-rose" />
                     </div>
                     <div className="absolute -top-2 -right-2 w-8 h-8 bg-mocha text-white rounded-full flex items-center justify-center text-sm font-karla font-bold">
                       {index + 1}

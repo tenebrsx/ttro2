@@ -117,8 +117,8 @@ const InstagramCarousel = () => {
           </div>
 
           <h2 className="text-4xl sm:text-5xl font-playfair text-mocha mb-6 text-shadow-soft">
-            <span className="text-dusty-rose font-bold">Momentos</span> que
-            <span className="block text-mocha italic mt-2 font-light">
+            <span className="text-mocha font-bold">Momentos</span> que
+            <span className="block text-dusty-rose italic mt-2 font-light">
               Endulzan la Vida
             </span>
           </h2>

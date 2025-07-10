@@ -80,7 +80,7 @@ const TestimonialsPreview = () => {
             </div>
 
             <h2 className="text-4xl sm:text-5xl font-playfair text-black-bold text-shadow-elegant mb-6">
-              Palabras Dulces
+              Palabras <span className="text-dusty-rose">Dulces</span>
             </h2>
 
             <HandDrawnDivider className="mb-6" />

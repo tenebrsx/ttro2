@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChefHat, Cake, Heart, Star, Clock, Users, X } from "lucide-react";
 import { formatPrice } from "../utils/currency";
-import Button from "./Button";
 
 interface DessertOption {
   id: string;
@@ -501,15 +500,12 @@ const DessertCustomizer: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               >
                 Modificar
               </button>
-              <Button
-                variant="primary"
-                size="md"
+              <button
                 onClick={handleSubmit}
-                className="flex-1"
-                rounded="organic"
+                className="flex-1 bg-dusty-rose text-white py-3 rounded-full font-medium hover:bg-mocha transition-colors"
               >
                 Confirmar Pedido
-              </Button>
+              </button>
             </div>
           </div>
         </motion.div>
@@ -723,18 +719,15 @@ const DessertCustomizer: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             >
               Anterior
             </button>
-            <Button
-              variant="primary"
-              size="md"
+            <button
               onClick={nextStep}
               disabled={!canProceed()}
-              className="flex-1"
-              rounded="organic"
+              className="flex-1 bg-dusty-rose text-white py-3 rounded-full font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-mocha transition-colors"
             >
               {currentStep === customizationSteps.length - 1
                 ? "Finalizar"
                 : "Siguiente"}
-            </Button>
+            </button>
           </div>
         </div>
       </motion.div>

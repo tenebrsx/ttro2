@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Heart, Clock, ChefHat } from "lucide-react";
-import Button from "./Button";
 
 interface DessertCardProps {
   name: string;
@@ -243,18 +242,23 @@ const EnhancedDessertCard: React.FC<DessertCardProps> = ({
             }}
             transition={{ duration: 0.3, delay: 0.1 }}
           >
-            <Button
-              variant="primary"
-              size="sm"
-              fullWidth
-              rounded="organic"
+            <motion.button
+              className="w-full bg-dusty-rose text-cream py-3 rounded-full text-sm font-medium shadow-gentle hover:shadow-soft transition-all duration-300 relative overflow-hidden"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={(e) => {
                 e.stopPropagation();
                 // Handle order action
               }}
             >
-              Personalizar Pedido
-            </Button>
+              <span className="relative z-10">Personalizar Pedido</span>
+              <motion.div
+                className="absolute inset-0 bg-mocha"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "0%" }}
+                transition={{ duration: 0.3 }}
+              />
+            </motion.button>
           </motion.div>
         </div>
 

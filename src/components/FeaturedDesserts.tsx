@@ -7,7 +7,6 @@ import {
   formatPriceFromWithQuantity,
 } from "../utils/currency";
 import { useCart } from "../contexts/CartContext";
-import Button from "./Button";
 
 const FeaturedDesserts = () => {
   const { addItem } = useCart();
@@ -186,28 +185,21 @@ const FeaturedDesserts = () => {
 
                 {/* Action Buttons */}
                 <div className="flex space-x-3">
-                  <Link to={`/product/${dessert.id}`} className="flex-1">
-                    <Button
-                      variant="secondary"
-                      size="md"
-                      fullWidth
-                      rounded="organic"
-                      className="font-medium"
-                    >
-                      Ver Detalles
-                    </Button>
-                  </Link>
-                  <Button
-                    variant="primary"
-                    size="md"
-                    icon={ShoppingBag}
-                    iconPosition="left"
-                    onClick={() => handleAddToCart(dessert)}
-                    rounded="organic"
-                    className="px-6"
+                  <Link
+                    to={`/product/${dessert.id}`}
+                    className="flex-1 text-center bg-gradient-to-r from-cream-100 to-warm-ivory text-mocha py-3 px-5 rounded-2xl font-karla font-semibold hover:from-dusty-rose-100 hover:to-warm-blush-100 hover:text-dusty-rose-700 transition-all duration-300 text-base shadow-gentle hover:shadow-warm border border-dusty-rose-100/30"
                   >
-                    Agregar
-                  </Button>
+                    Ver Detalles
+                  </Link>
+                  <motion.button
+                    whileTap={{ scale: 0.95 }}
+                    whileHover={{ scale: 1.02 }}
+                    onClick={() => handleAddToCart(dessert)}
+                    className="bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 hover:from-dusty-rose-600 hover:to-dusty-rose-700 text-white py-3 px-6 rounded-2xl font-karla font-semibold transition-all duration-300 flex items-center space-x-2 text-base shadow-warm hover:shadow-glow"
+                  >
+                    <ShoppingBag className="w-5 h-5" />
+                    <span>Agregar</span>
+                  </motion.button>
                 </div>
               </div>
             </motion.div>

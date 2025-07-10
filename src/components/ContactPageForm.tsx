@@ -11,7 +11,6 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { EmailTemplateData } from "../services/emailService";
-import Button from "./Button";
 
 interface FormData {
   name: string;
@@ -461,20 +460,27 @@ const ContactPageForm: React.FC = () => {
         </div>
 
         {/* Submit Button */}
-        <Button
+        <button
           type="submit"
-          variant="primary"
-          size="lg"
-          fullWidth
-          rounded="organic"
           disabled={isSubmitting}
-          loading={isSubmitting}
-          icon={Send}
-          iconPosition="left"
-          className="font-medium"
+          className={`w-full bg-dusty-rose text-white py-3 px-6 rounded-lg font-karla font-medium transition-all transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-dusty-rose/20 ${
+            isSubmitting
+              ? "opacity-50 cursor-not-allowed"
+              : "hover:bg-dusty-rose/90"
+          }`}
         >
-          {isSubmitting ? "Enviando..." : "Enviar Mensaje"}
-        </Button>
+          {isSubmitting ? (
+            <span className="flex items-center justify-center">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+              Enviando...
+            </span>
+          ) : (
+            <span className="flex items-center justify-center">
+              <Send className="h-5 w-5 mr-2" />
+              Enviar Mensaje
+            </span>
+          )}
+        </button>
       </form>
 
       {/* Additional Info */}
