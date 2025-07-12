@@ -122,7 +122,7 @@
   },
   "protocol_handlers": [
     {
-      "protocol": "whatsapp",
+      "protocol": "web+whatsapp",
       "url": "/contact?whatsapp=%s"
     },
     {

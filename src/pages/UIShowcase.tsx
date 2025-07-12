@@ -14,10 +14,8 @@ import { ImageLightbox, useLightbox } from "../components/ui/ImageLightbox";
 import { OrderTracker } from "../components/ui/OrderTracker";
 import { SeasonalMenu } from "../components/ui/SeasonalMenu";
 import { SmartSearch } from "../components/ui/SmartSearch";
-import {
-  CustomerPhotoShowcase,
-  useCustomerPhotoShowcase,
-} from "../components/ui/CustomerPhotoShowcase";
+import { CustomerPhotoShowcase } from "../components/ui/CustomerPhotoShowcase";
+import { useCustomerPhotoShowcase } from "../hooks/photo/useCustomerPhotoShowcase";
 import { FloatingActionButton } from "../components/ui/FloatingActionButton";
 import {
   NotificationSystem,
