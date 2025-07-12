@@ -14,27 +14,10 @@ import {
   Star,
   Flag,
 } from "lucide-react";
-
-interface CustomerPhoto {
-  id: string;
-  imageUrl: string;
-  thumbnailUrl: string;
-  customerName: string;
-  customerAvatar?: string;
-  customerLocation?: string;
-  caption: string;
-  likes: number;
-  comments: number;
-  shares: number;
-  timestamp: Date;
-  dessertTags: string[];
-  rating?: number;
-  isVerified: boolean;
-  socialPlatform?: "instagram" | "facebook" | "twitter" | "tiktok";
-  socialHandle?: string;
-  eventType?: string;
-  orderNumber?: string;
-}
+import {
+  CustomerPhoto,
+  useCustomerPhotoShowcase,
+} from "../../hooks/photo/useCustomerPhotoShowcase";
 
 interface CustomerPhotoShowcaseProps {
   photos: CustomerPhoto[];
@@ -44,9 +27,11 @@ interface CustomerPhotoShowcaseProps {
   columnsTablet?: number;
   columnsMobile?: number;
   maxPhotosToShow?: number;
+  enableInfiniteScroll?: boolean;
   showSocialHandles?: boolean;
   allowReporting?: boolean;
   onPhotoSelect?: (photo: CustomerPhoto) => void;
+  onLoadMore?: () => void;
 }
 
 interface PhotoFilters {
@@ -351,7 +336,11 @@ export const CustomerPhotoShowcase: React.FC<CustomerPhotoShowcaseProps> = ({
                   onChange={(e) =>
                     setFilters((prev) => ({
                       ...prev,
-                      sortBy: e.target.value as any,
+                      sortBy: e.target.value as
+                        | "recent"
+                        | "popular"
+                        | "rating"
+                        | "comments",
                     }))
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-dusty-rose focus:border-dusty-rose"
@@ -372,7 +361,11 @@ export const CustomerPhotoShowcase: React.FC<CustomerPhotoShowcaseProps> = ({
                   onChange={(e) =>
                     setFilters((prev) => ({
                       ...prev,
-                      timeRange: e.target.value as any,
+                      timeRange: e.target.value as
+                        | "all"
+                        | "week"
+                        | "month"
+                        | "year",
                     }))
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-dusty-rose focus:border-dusty-rose"
@@ -391,7 +384,7 @@ export const CustomerPhotoShowcase: React.FC<CustomerPhotoShowcaseProps> = ({
       {/* Photo Grid */}
       <div
         className={`grid gap-4 ${Object.entries(getGridColumns())
-          .filter(([_, active]) => active)
+          .filter(([, active]) => active)
           .map(([cls]) => cls)
           .join(" ")}`}
       >
@@ -780,75 +773,4 @@ export const CustomerPhotoShowcase: React.FC<CustomerPhotoShowcaseProps> = ({
       )}
     </div>
   );
-};
-
-// Hook for customer photo showcase
-export const useCustomerPhotoShowcase = () => {
-  const [photos, setPhotos] = useState<CustomerPhoto[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-
-  const loadPhotos = async (limit: number = 20) => {
-    setLoading(true);
-    try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Mock data would be replaced with actual API call
-      const mockPhotos: CustomerPhoto[] = Array.from(
-        { length: limit },
-        (_, i) => ({
-          id: `photo-${i}`,
-          imageUrl: `/api/placeholder/400/400`,
-          thumbnailUrl: `/api/placeholder/200/200`,
-          customerName: `Cliente ${i + 1}`,
-          customerAvatar: `/api/placeholder/50/50`,
-          customerLocation: "Ciudad de México",
-          caption: `¡Increíble ${["tarta", "macaron", "cupcake"][i % 3]}! Perfecto para mi celebración especial.`,
-          likes: Math.floor(Math.random() * 100),
-          comments: Math.floor(Math.random() * 20),
-          shares: Math.floor(Math.random() * 10),
-          timestamp: new Date(
-            Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000,
-          ),
-          dessertTags: [
-            ["tarta", "chocolate"],
-            ["macaron", "vainilla"],
-            ["cupcake", "fresa"],
-          ][i % 3],
-          rating: Math.floor(Math.random() * 2) + 4,
-          isVerified: Math.random() > 0.8,
-          socialPlatform: ["instagram", "facebook", "twitter"][i % 3] as any,
-          socialHandle: `user${i + 1}`,
-          eventType: ["Cumpleaños", "Boda", "Aniversario"][i % 3],
-          orderNumber: `ORD-${1000 + i}`,
-        }),
-      );
-
-      setPhotos((prev) => [...prev, ...mockPhotos]);
-      setHasMore(mockPhotos.length === limit);
-    } catch (error) {
-      console.error("Error loading photos:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const submitPhoto = async (_photo: FormData) => {
-    try {
-      // Simulate API call to submit user photo
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      return { success: true, message: "Foto enviada exitosamente" };
-    } catch (error) {
-      return { success: false, message: "Error al enviar la foto" };
-    }
-  };
-
-  return {
-    photos,
-    loading,
-    hasMore,
-    loadPhotos,
-    submitPhoto,
-  };
 };

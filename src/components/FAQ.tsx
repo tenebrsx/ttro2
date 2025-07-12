@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { ChevronDown, ChevronUp, Search } from "lucide-react";
+import { useState } from "react";
+import { ChevronDown, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Button from "./Button";
 

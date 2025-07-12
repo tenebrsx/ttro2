@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChefHat, Cake, Heart, Star, Clock, Users, X } from "lucide-react";
 import { formatPrice } from "../utils/currency";
@@ -49,239 +49,245 @@ const DessertCustomizer: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
 
-  const customizationSteps: CustomizationStep[] = [
-    {
-      id: "base",
-      title: "Tipo de Postre",
-      description: "Elige la base de tu creación",
-      icon: <Cake className="w-6 h-6" />,
-      required: true,
-      options: [
-        {
-          id: "torta",
-          name: "Torta Clásica",
-          description: "Perfecta para celebraciones especiales",
-          price: 45,
-          image:
-            "https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=300",
-          popular: true,
-        },
-        {
-          id: "cupcakes",
-          name: "Cupcakes",
-          description: "Ideales para compartir",
-          price: 30,
-          image:
-            "https://images.pexels.com/photos/1055272/pexels-photo-1055272.jpeg?auto=compress&cs=tinysrgb&w=300",
-        },
-        {
-          id: "macarons",
-          name: "Macarons",
-          description: "Elegancia francesa en cada bocado",
-          price: 40,
-          image:
-            "https://images.pexels.com/photos/1028704/pexels-photo-1028704.jpeg?auto=compress&cs=tinysrgb&w=300",
-        },
-        {
-          id: "tartaletas",
-          name: "Tartaletas",
-          description: "Delicadas y sofisticadas",
-          price: 35,
-          image:
-            "https://images.pexels.com/photos/1998634/pexels-photo-1998634.jpeg?auto=compress&cs=tinysrgb&w=300",
-        },
-      ],
-    },
-    {
-      id: "size",
-      title: "Tamaño",
-      description: "Selecciona el tamaño perfecto",
-      icon: <Users className="w-6 h-6" />,
-      required: true,
-      options: [
-        {
-          id: "small",
-          name: "Pequeño (6-8 personas)",
-          description: "Perfecto para reuniones íntimas",
-          price: 0,
-          image: "",
-        },
-        {
-          id: "medium",
-          name: "Mediano (10-12 personas)",
-          description: "Ideal para fiestas familiares",
-          price: 15,
-          image: "",
-          popular: true,
-        },
-        {
-          id: "large",
-          name: "Grande (15-20 personas)",
-          description: "Para grandes celebraciones",
-          price: 30,
-          image: "",
-        },
-        {
-          id: "xlarge",
-          name: "Extra Grande (25+ personas)",
-          description: "Para eventos especiales",
-          price: 50,
-          image: "",
-        },
-      ],
-    },
-    {
-      id: "flavor",
-      title: "Sabor Principal",
-      description: "El alma de tu postre",
-      icon: <Heart className="w-6 h-6" />,
-      required: true,
-      options: [
-        {
-          id: "vanilla",
-          name: "Vainilla Madagascar",
-          description: "Clásica y aromática",
-          price: 0,
-          image: "",
-          popular: true,
-        },
-        {
-          id: "chocolate",
-          name: "Chocolate Belga",
-          description: "Rico y profundo",
-          price: 5,
-          image: "",
-        },
-        {
-          id: "strawberry",
-          name: "Fresa Natural",
-          description: "Fresca y delicada",
-          price: 5,
-          image: "",
-        },
-        {
-          id: "lemon",
-          name: "Limón Meyer",
-          description: "Cítrica y refrescante",
-          price: 5,
-          image: "",
-        },
-        {
-          id: "earl-grey",
-          name: "Earl Grey",
-          description: "Sofisticada y aromática",
-          price: 10,
-          image: "",
-        },
-        {
-          id: "red-velvet",
-          name: "Red Velvet",
-          description: "Terciopelo rojo clásico",
-          price: 8,
-          image: "",
-        },
-      ],
-    },
-    {
-      id: "filling",
-      title: "Relleno",
-      description: "La sorpresa en cada capa",
-      icon: <Star className="w-6 h-6" />,
-      required: false,
-      options: [
-        {
-          id: "none",
-          name: "Sin Relleno",
-          description: "Simpleza perfecta",
-          price: 0,
-          image: "",
-        },
-        {
-          id: "cream-cheese",
-          name: "Crema de Queso",
-          description: "Suave y cremosa",
-          price: 8,
-          image: "",
-          popular: true,
-        },
-        {
-          id: "fruit-compote",
-          name: "Compota de Frutas",
-          description: "Frutas de temporada",
-          price: 10,
-          image: "",
-        },
-        {
-          id: "chocolate-ganache",
-          name: "Ganache de Chocolate",
-          description: "Intenso y sedoso",
-          price: 12,
-          image: "",
-        },
-        {
-          id: "dulce-leche",
-          name: "Dulce de Leche",
-          description: "Caramelo artesanal",
-          price: 10,
-          image: "",
-        },
-      ],
-    },
-    {
-      id: "decoration",
-      title: "Decoración",
-      description: "El toque final artístico",
-      icon: <ChefHat className="w-6 h-6" />,
-      required: true,
-      options: [
-        {
-          id: "classic",
-          name: "Clásica",
-          description: "Elegante y atemporal",
-          price: 0,
-          image: "",
-          popular: true,
-        },
-        {
-          id: "floral",
-          name: "Flores Comestibles",
-          description: "Naturaleza en tu postre",
-          price: 20,
-          image: "",
-        },
-        {
-          id: "artistic",
-          name: "Diseño Artístico",
-          description: "Obra de arte comestible",
-          price: 35,
-          image: "",
-        },
-        {
-          id: "minimalist",
-          name: "Minimalista",
-          description: "Menos es más",
-          price: 15,
-          image: "",
-        },
-        {
-          id: "themed",
-          name: "Temática Personalizada",
-          description: "Tu imaginación hecha realidad",
-          price: 50,
-          image: "",
-        },
-      ],
-    },
-  ];
+  const customizationSteps: CustomizationStep[] = useMemo(
+    () => [
+      {
+        id: "base",
+        title: "Tipo de Postre",
+        description: "Elige la base de tu creación",
+        icon: <Cake className="w-6 h-6" />,
+        required: true,
+        options: [
+          {
+            id: "torta",
+            name: "Torta Clásica",
+            description: "Perfecta para celebraciones especiales",
+            price: 45,
+            image:
+              "https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=300",
+            popular: true,
+          },
+          {
+            id: "cupcakes",
+            name: "Cupcakes",
+            description: "Ideales para compartir",
+            price: 30,
+            image:
+              "https://images.pexels.com/photos/1055272/pexels-photo-1055272.jpeg?auto=compress&cs=tinysrgb&w=300",
+          },
+          {
+            id: "macarons",
+            name: "Macarons",
+            description: "Elegancia francesa en cada bocado",
+            price: 40,
+            image:
+              "https://images.pexels.com/photos/1028704/pexels-photo-1028704.jpeg?auto=compress&cs=tinysrgb&w=300",
+          },
+          {
+            id: "tartaletas",
+            name: "Tartaletas",
+            description: "Delicadas y sofisticadas",
+            price: 35,
+            image:
+              "https://images.pexels.com/photos/1998634/pexels-photo-1998634.jpeg?auto=compress&cs=tinysrgb&w=300",
+          },
+        ],
+      },
+      {
+        id: "size",
+        title: "Tamaño",
+        description: "Selecciona el tamaño perfecto",
+        icon: <Users className="w-6 h-6" />,
+        required: true,
+        options: [
+          {
+            id: "small",
+            name: "Pequeño (6-8 personas)",
+            description: "Perfecto para reuniones íntimas",
+            price: 0,
+            image: "",
+          },
+          {
+            id: "medium",
+            name: "Mediano (10-12 personas)",
+            description: "Ideal para fiestas familiares",
+            price: 15,
+            image: "",
+            popular: true,
+          },
+          {
+            id: "large",
+            name: "Grande (15-20 personas)",
+            description: "Para grandes celebraciones",
+            price: 30,
+            image: "",
+          },
+          {
+            id: "xlarge",
+            name: "Extra Grande (25+ personas)",
+            description: "Para eventos especiales",
+            price: 50,
+            image: "",
+          },
+        ],
+      },
+      {
+        id: "flavor",
+        title: "Sabor Principal",
+        description: "El alma de tu postre",
+        icon: <Heart className="w-6 h-6" />,
+        required: true,
+        options: [
+          {
+            id: "vanilla",
+            name: "Vainilla Madagascar",
+            description: "Clásica y aromática",
+            price: 0,
+            image: "",
+            popular: true,
+          },
+          {
+            id: "chocolate",
+            name: "Chocolate Belga",
+            description: "Rico y profundo",
+            price: 5,
+            image: "",
+          },
+          {
+            id: "strawberry",
+            name: "Fresa Natural",
+            description: "Fresca y delicada",
+            price: 5,
+            image: "",
+          },
+          {
+            id: "lemon",
+            name: "Limón Meyer",
+            description: "Cítrica y refrescante",
+            price: 5,
+            image: "",
+          },
+          {
+            id: "earl-grey",
+            name: "Earl Grey",
+            description: "Sofisticada y aromática",
+            price: 10,
+            image: "",
+          },
+          {
+            id: "red-velvet",
+            name: "Red Velvet",
+            description: "Terciopelo rojo clásico",
+            price: 8,
+            image: "",
+          },
+        ],
+      },
+      {
+        id: "filling",
+        title: "Relleno",
+        description: "La sorpresa en cada capa",
+        icon: <Star className="w-6 h-6" />,
+        required: false,
+        options: [
+          {
+            id: "none",
+            name: "Sin Relleno",
+            description: "Simpleza perfecta",
+            price: 0,
+            image: "",
+          },
+          {
+            id: "cream-cheese",
+            name: "Crema de Queso",
+            description: "Suave y cremosa",
+            price: 8,
+            image: "",
+            popular: true,
+          },
+          {
+            id: "fruit-compote",
+            name: "Compota de Frutas",
+            description: "Frutas de temporada",
+            price: 10,
+            image: "",
+          },
+          {
+            id: "chocolate-ganache",
+            name: "Ganache de Chocolate",
+            description: "Intenso y sedoso",
+            price: 12,
+            image: "",
+          },
+          {
+            id: "dulce-leche",
+            name: "Dulce de Leche",
+            description: "Caramelo artesanal",
+            price: 10,
+            image: "",
+          },
+        ],
+      },
+      {
+        id: "decoration",
+        title: "Decoración",
+        description: "El toque final artístico",
+        icon: <ChefHat className="w-6 h-6" />,
+        required: true,
+        options: [
+          {
+            id: "classic",
+            name: "Clásica",
+            description: "Elegante y atemporal",
+            price: 0,
+            image: "",
+            popular: true,
+          },
+          {
+            id: "floral",
+            name: "Flores Comestibles",
+            description: "Naturaleza en tu postre",
+            price: 20,
+            image: "",
+          },
+          {
+            id: "artistic",
+            name: "Diseño Artístico",
+            description: "Obra de arte comestible",
+            price: 35,
+            image: "",
+          },
+          {
+            id: "minimalist",
+            name: "Minimalista",
+            description: "Menos es más",
+            price: 15,
+            image: "",
+          },
+          {
+            id: "themed",
+            name: "Temática Personalizada",
+            description: "Tu imaginación hecha realidad",
+            price: 50,
+            image: "",
+          },
+        ],
+      },
+    ],
+    [],
+  );
 
-  const extras = [
-    { id: "vegan", name: "Opción Vegana", price: 15 },
-    { id: "gluten-free", name: "Sin Gluten", price: 12 },
-    { id: "sugar-free", name: "Sin Azúcar", price: 10 },
-    { id: "organic", name: "Ingredientes Orgánicos", price: 18 },
-    { id: "gift-box", name: "Caja de Regalo", price: 8 },
-    { id: "candles", name: "Velas Especiales", price: 5 },
-  ];
+  const extras = useMemo(
+    () => [
+      { id: "vegan", name: "Opción Vegana", price: 15 },
+      { id: "gluten-free", name: "Sin Gluten", price: 12 },
+      { id: "sugar-free", name: "Sin Azúcar", price: 10 },
+      { id: "organic", name: "Ingredientes Orgánicos", price: 18 },
+      { id: "gift-box", name: "Caja de Regalo", price: 8 },
+      { id: "candles", name: "Velas Especiales", price: 5 },
+    ],
+    [],
+  );
 
   const calculateTotalPrice = useCallback(() => {
     let total = 0;

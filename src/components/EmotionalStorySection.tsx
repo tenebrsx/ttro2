@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { FadeInUp } from "./animations/AnimationComponents";
-import { GrainTexture } from "./animations/TextureComponents";
+import * as TextureComponents from "./animations/TextureComponents";
 import { scrollToTop } from "../hooks/useScrollToTop";
 import Button from "./Button";
 
@@ -20,7 +20,7 @@ const EmotionalStorySection = () => {
   return (
     <section className="relative py-20 bg-gradient-to-br from-cream-400 to-cream-500 overflow-hidden">
       {/* Background texture */}
-      <GrainTexture />
+      <TextureComponents.GrainTexture />
 
       {/* Background image with parallax effect */}
       <div className="absolute inset-0">
@@ -49,10 +49,13 @@ const EmotionalStorySection = () => {
               transition={{ duration: 0.4, delay: 0.2 }}
               className="mb-8"
             >
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-playfair text-mocha leading-tight">
-                <span className="text-black font-bold">Hecho con Amor</span>,
-                <span className="block text-dusty-rose italic mt-2 font-light">
-                  De Mi Cocina a la Tuya
+              <h2 className="text-5xl sm:text-6xl md:text-7xl font-playfair mb-8 font-bold leading-tight">
+                <span className="block text-black-bold text-shadow-elegant">
+                  Cada Dulce Nace
+                </span>
+                <span className="block text-dusty-rose-elegant italic mt-2 relative">
+                  de una Emoción
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-dusty-rose-300 to-warm-blush-300 rounded-full"></div>
                 </span>
               </h2>
             </motion.div>
@@ -67,7 +70,7 @@ const EmotionalStorySection = () => {
               className="mb-12"
             >
               <p className="text-lg sm:text-xl text-mocha/80 font-source-serif font-light leading-relaxed max-w-2xl mx-auto">
-                <span className="text-dusty-rose font-semibold underline decoration-dusty-rose/40 decoration-1 underline-offset-2">
+                <span className="text-dusty-rose font-semibold">
                   Postres artesanales
                 </span>{" "}
                 hechos a mano con{" "}

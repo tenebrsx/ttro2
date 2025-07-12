@@ -5,10 +5,7 @@ import {
   StaggerChildren,
   StaggerChild,
 } from "./animations/AnimationComponents";
-import {
-  HandDrawnDivider,
-  HandwrittenAccent,
-} from "./animations/TextureComponents";
+import { HandDrawnDivider } from "./animations/TextureComponents";
 
 const TestimonialsPreview = () => {
   const testimonials = [

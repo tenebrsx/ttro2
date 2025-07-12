@@ -1,87 +1,63 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import { ShoppingBag } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
-import {
-  formatPriceFrom,
-  formatPriceFromWithQuantity,
-} from "../utils/currency";
-import { useCart } from "../contexts/CartContext";
+import { formatPriceFrom } from "../utils/currency";
+import { useFeaturedProducts } from "../contexts/FirebaseProductsContext";
 
 const FeaturedDesserts = () => {
-  const { addItem } = useCart();
+  const { featuredProducts, loading } = useFeaturedProducts();
 
-  const featuredDesserts = [
-    {
-      id: "triple-chocolate-mousse",
-      name: "Triple Chocolate Mousse",
-      description:
-        "Decadent layers of dark, milk, and white chocolate mousse with rich ganache and delicate chocolate shavings.",
-      image:
-        "https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
-      price: 14.99,
-      priceDisplay: formatPriceFrom(14.99),
-      story: "A chocolate lover's dream come true",
-      rating: 5,
-      preparationTime: "2-3 días",
-      tags: ["Premium", "Chocolate"],
-      popularity: "bestseller" as const,
-    },
-    {
-      id: "key-lime-pie",
-      name: "Key Lime Pie",
-      description:
-        "Tangy key lime filling in a graham cracker crust with whipped cream and lime zest garnish.",
-      image:
-        "https://images.pexels.com/photos/1055272/pexels-photo-1055272.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
-      price: 11.99,
-      priceDisplay: formatPriceFrom(11.99),
-      story: "A refreshing citrus escape in every bite",
-      rating: 5,
-      preparationTime: "1-2 días",
-      tags: ["Citrus", "Classic"],
-      popularity: "trending" as const,
-    },
-    {
-      id: "dark-chocolate-truffle-cake",
-      name: "Dark Chocolate Truffle Cake",
-      description:
-        "Rich chocolate cake layered with velvety truffle ganache and finished with dark chocolate glaze.",
-      image:
-        "https://images.pexels.com/photos/1028704/pexels-photo-1028704.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
-      price: 16.99,
-      priceDisplay: formatPriceFrom(16.99),
-      story: "An indulgent masterpiece for special occasions",
-      rating: 5,
-      preparationTime: "2-3 días",
-      tags: ["Premium", "Truffle"],
-      popularity: "bestseller" as const,
-    },
-    {
-      id: "chocolate-hazelnut-mousse",
-      name: "Chocolate Hazelnut Mousse",
-      description:
-        "Silky smooth chocolate mousse infused with roasted hazelnuts and topped with candied hazelnut pieces.",
-      image:
-        "https://images.pexels.com/photos/1126728/pexels-photo-1126728.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
-      price: 13.99,
-      priceDisplay: formatPriceFrom(13.99),
-      story: "A nutty twist on the classic chocolate mousse",
-      rating: 4.8,
-      preparationTime: "1 día",
-      tags: ["Chocolate", "Hazelnut"],
-      popularity: "classic" as const,
-    },
-  ];
+  const featuredDesserts = featuredProducts.slice(0, 4).map((product) => ({
+    id: product.id,
+    name: product.name,
+    description: product.description,
+    image:
+      product.thumbnailImage ||
+      product.images[0] ||
+      "https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+    price: product.price,
+    priceDisplay: formatPriceFrom(product.price),
+    story: product.shortDescription,
+    rating: product.rating,
+    preparationTime: product.preparationTime,
+    tags: product.tags,
+    popularity: "bestseller" as const,
+  }));
 
-  const handleAddToCart = (dessert: (typeof featuredDesserts)[0]) => {
-    addItem({
-      id: dessert.id,
-      name: dessert.name,
-      price: dessert.price,
-      image: dessert.image,
-    });
+  const handleWhatsAppOrder = (dessert: (typeof featuredDesserts)[0]) => {
+    const message = `Hola! Me interesa ordenar: ${dessert.name} - ${dessert.priceDisplay}`;
+    const whatsappUrl = `https://api.whatsapp.com/send/?phone=18096581245&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
+    window.open(whatsappUrl, "_blank");
   };
+
+  // Show loading state
+  if (loading) {
+    return (
+      <section className="py-24 bg-gradient-to-br from-cream-400 via-cream-500 to-cream-400 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+          <div className="text-center">
+            <div className="animate-pulse">
+              <div className="h-8 bg-dusty-rose-200 rounded w-64 mx-auto mb-4"></div>
+              <div className="h-4 bg-dusty-rose-100 rounded w-96 mx-auto mb-8"></div>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+              {[1, 2, 3, 4].map((i) => (
+                <div
+                  key={i}
+                  className="bg-white/90 rounded-3xl p-6 animate-pulse"
+                >
+                  <div className="h-56 bg-gray-200 rounded-t-3xl mb-4"></div>
+                  <div className="h-6 bg-gray-200 rounded mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded mb-4"></div>
+                  <div className="h-10 bg-gray-200 rounded"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-24 bg-gradient-to-br from-cream-400 via-cream-500 to-cream-400 relative overflow-hidden">
@@ -194,11 +170,11 @@ const FeaturedDesserts = () => {
                   <motion.button
                     whileTap={{ scale: 0.95 }}
                     whileHover={{ scale: 1.02 }}
-                    onClick={() => handleAddToCart(dessert)}
-                    className="bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 hover:from-dusty-rose-600 hover:to-dusty-rose-700 text-white py-3 px-6 rounded-2xl font-karla font-semibold transition-all duration-300 flex items-center space-x-2 text-base shadow-warm hover:shadow-glow"
+                    onClick={() => handleWhatsAppOrder(dessert)}
+                    className="bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 hover:from-dusty-rose-600 hover:to-dusty-rose-700 text-white py-3 px-4 rounded-2xl font-karla font-semibold transition-all duration-300 flex items-center space-x-2 text-sm shadow-warm hover:shadow-glow"
                   >
-                    <ShoppingBag className="w-5 h-5" />
-                    <span>Agregar</span>
+                    <MessageCircle className="w-4 h-4" />
+                    <span>Ordenar</span>
                   </motion.button>
                 </div>
               </div>

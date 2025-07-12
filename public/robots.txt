@@ -1,0 +1,57 @@
+# Robots.txt for Cucinanostrard - Postres Artesanales Santo Domingo
+# Optimized for maximum SEO visibility in Dominican Republic
+
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Disallow sensitive areas (if any exist)
+Disallow: /admin/
+Disallow: /private/
+Disallow: /test/
+Disallow: /temp/
+Disallow: /*.json$
+Disallow: /api/
+
+# Allow specific important directories
+Allow: /images/
+Allow: /css/
+Allow: /js/
+Allow: /fonts/
+Allow: /assets/
+
+# Google-specific rules
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Bing-specific rules
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+# Yandex-specific rules
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 3
+
+# Social media crawlers
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+# Sitemap location
+Sitemap: https://cucinanostrard.com/sitemap.xml
+
+# Additional sitemaps (if they exist)
+Sitemap: https://cucinanostrard.com/sitemap-products.xml
+Sitemap: https://cucinanostrard.com/sitemap-blog.xml
+Sitemap: https://cucinanostrard.com/sitemap-images.xml

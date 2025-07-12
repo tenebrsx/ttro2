@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
-import { Heart, Clock, ChefHat } from "lucide-react";
+import { Clock, ChefHat } from "lucide-react";
 
 interface DessertCardProps {
   name: string;
@@ -26,7 +26,7 @@ const EnhancedDessertCard: React.FC<DessertCardProps> = ({
   onClick,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
+
   const cardRef = useRef<HTMLDivElement>(null);
 
   // Mouse position tracking for parallax effect
@@ -82,25 +82,6 @@ const EnhancedDessertCard: React.FC<DessertCardProps> = ({
         }}
         transition={{ duration: 0.2 }}
       >
-        {/* Like Button */}
-        <motion.button
-          className="absolute top-4 right-4 z-20 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-gentle hover:shadow-soft transition-all duration-300"
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsLiked(!isLiked);
-          }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <Heart
-            className={`w-5 h-5 transition-all duration-300 ${
-              isLiked
-                ? "fill-red-500 text-red-500 scale-110"
-                : "text-mocha/60 hover:text-red-400"
-            }`}
-          />
-        </motion.button>
-
         {/* Image Container */}
         <div className="relative overflow-hidden h-48">
           <motion.img

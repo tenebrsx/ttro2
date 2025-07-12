@@ -1,7 +1,4 @@
-import React from "react";
-import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { ChevronDown } from "lucide-react";
 import Logo from "./Logo";
 import Button from "./Button";
 
@@ -75,14 +72,12 @@ const Hero = () => {
         {/* Main Heading */}
         <h1 className="font-playfair text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-mocha mb-8 leading-tight animate-fade-in-up">
           <span className="sr-only">Cucinanostrard - </span>
-          <span className="block mb-2 text-shadow-sm text-black font-bold">
-            Hecho con amor,
+          <span className="block text-black-bold text-shadow-elegant">
+            Hecho con Amor,
           </span>
-          <span className="text-dusty-rose-600 block relative">
-            <span className="relative z-10 italic font-light">
-              servicio con dulzura
-            </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-dusty-rose-100/30 to-warm-blush-100/30 blur-2xl transform scale-110"></div>
+          <span className="block text-dusty-rose-elegant italic mt-2 relative">
+            De Mi Cocina a la Tuya
+            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-dusty-rose-300 to-warm-blush-300 rounded-full"></div>
           </span>
         </h1>
 

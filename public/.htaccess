@@ -1,0 +1,294 @@
+# .htaccess for Cucinanostrard - Postres Artesanales Santo Domingo
+# Comprehensive SEO and Performance Optimization
+
+# ================================================
+# REDIRECT RULES FOR SEO
+# ================================================
+
+# Force HTTPS (SSL) for all pages
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Redirect www to non-www (canonical URL)
+RewriteCond %{HTTP_HOST} ^www\.cucinanostrard\.com [NC]
+RewriteRule ^(.*)$ https://cucinanostrard.com/$1 [L,R=301]
+
+# Redirect old URLs to new SEO-friendly URLs
+Redirect 301 /home https://cucinanostrard.com/
+Redirect 301 /index.html https://cucinanostrard.com/
+Redirect 301 /index.php https://cucinanostrard.com/
+Redirect 301 /productos https://cucinanostrard.com/menu
+Redirect 301 /postres https://cucinanostrard.com/menu
+Redirect 301 /contacto https://cucinanostrard.com/contact
+Redirect 301 /galeria https://cucinanostrard.com/gallery
+Redirect 301 /nosotros https://cucinanostrard.com/about
+
+# SEO-friendly product redirects
+Redirect 301 /tartas https://cucinanostrard.com/menu/tartas-personalizadas
+Redirect 301 /cupcakes https://cucinanostrard.com/menu/cupcakes-gourmet
+Redirect 301 /macarons https://cucinanostrard.com/menu/macarons-franceses
+Redirect 301 /dulces https://cucinanostrard.com/menu/postres-tradicionales
+
+# Location-based redirects
+Redirect 301 /santo-domingo https://cucinanostrard.com/zonas/santo-domingo
+Redirect 301 /piantini https://cucinanostrard.com/zonas/piantini
+Redirect 301 /zona-colonial https://cucinanostrard.com/zonas/zona-colonial
+
+# ================================================
+# COMPRESSION FOR BETTER PERFORMANCE
+# ================================================
+
+# Enable Gzip compression
+<IfModule mod_deflate.c>
+    # Compress HTML, CSS, JavaScript, Text, XML and fonts
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+    AddOutputFilterByType DEFLATE application/x-font
+    AddOutputFilterByType DEFLATE application/x-font-opentype
+    AddOutputFilterByType DEFLATE application/x-font-otf
+    AddOutputFilterByType DEFLATE application/x-font-truetype
+    AddOutputFilterByType DEFLATE application/x-font-ttf
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE font/opentype
+    AddOutputFilterByType DEFLATE font/otf
+    AddOutputFilterByType DEFLATE font/ttf
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE image/x-icon
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE application/ld+json
+</IfModule>
+
+# ================================================
+# BROWSER CACHING FOR PERFORMANCE
+# ================================================
+
+<IfModule mod_expires.c>
+    ExpiresActive on
+
+    # Images
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+
+    # CSS and JavaScript
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType application/x-javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+
+    # Fonts
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+
+    # HTML and XML
+    ExpiresByType text/html "access plus 1 day"
+    ExpiresByType text/xml "access plus 1 day"
+    ExpiresByType application/xml "access plus 1 day"
+    ExpiresByType application/rss+xml "access plus 1 day"
+
+    # Default
+    ExpiresDefault "access plus 1 month"
+</IfModule>
+
+# ================================================
+# SECURITY HEADERS FOR SEO AND PROTECTION
+# ================================================
+
+<IfModule mod_headers.c>
+    # Security headers
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+
+    # HSTS (HTTP Strict Transport Security)
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+    # Cache control for specific file types
+    <FilesMatch "\.(css|js|png|jpg|jpeg|gif|webp|svg|ico|woff|woff2|ttf|otf)$">
+        Header set Cache-Control "public, max-age=31536000"
+    </FilesMatch>
+
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "public, max-age=86400"
+    </FilesMatch>
+
+    # Remove server signature for security
+    Header unset Server
+    Header unset X-Powered-By
+</IfModule>
+
+# ================================================
+# CUSTOM ERROR PAGES FOR SEO
+# ================================================
+
+ErrorDocument 404 /404.html
+ErrorDocument 500 /500.html
+ErrorDocument 403 /403.html
+
+# ================================================
+# MIME TYPES FOR BETTER COMPATIBILITY
+# ================================================
+
+<IfModule mod_mime.c>
+    # Web fonts
+    AddType application/font-woff2 .woff2
+    AddType application/font-woff .woff
+    AddType application/x-font-ttf .ttf
+    AddType application/vnd.ms-fontobject .eot
+
+    # Web app manifest
+    AddType application/manifest+json .webmanifest
+    AddType application/x-web-app-manifest+json .webapp
+
+    # Media files
+    AddType image/webp .webp
+    AddType image/svg+xml .svg
+    AddType video/mp4 .mp4
+    AddType video/webm .webm
+
+    # Text files
+    AddType text/plain .txt
+    AddType text/markdown .md
+
+    # JSON
+    AddType application/json .json
+    AddType application/ld+json .jsonld
+</IfModule>
+
+# ================================================
+# MOBILE OPTIMIZATION
+# ================================================
+
+# Add Vary: User-Agent for mobile optimization
+<IfModule mod_headers.c>
+    Header append Vary User-Agent
+</IfModule>
+
+# ================================================
+# SEO-FRIENDLY URL REWRITING
+# ================================================
+
+# Remove trailing slashes for SEO (except directories)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{THE_REQUEST} /+([^?\s]+?)\s
+RewriteRule ^(.*)$ /$1 [R=301,L]
+
+# Remove .html extension from URLs
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^.]+)$ $1.html [NC,L]
+
+# Redirect .html to clean URLs
+RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
+RewriteRule ^ /%1 [NC,L,R=301]
+
+# ================================================
+# SPECIFIC REDIRECTS FOR CUCINANOSTRARD
+# ================================================
+
+# Product-specific redirects
+RewriteRule ^tres-leches/?$ /producto/tarta-tres-leches-gourmet [R=301,L]
+RewriteRule ^red-velvet/?$ /producto/cupcakes-red-velvet [R=301,L]
+RewriteRule ^macarons-tropicales/?$ /producto/macarons-sabores-tropicales [R=301,L]
+RewriteRule ^quesillo/?$ /producto/quesillo-premium [R=301,L]
+RewriteRule ^cheesecake/?$ /producto/cheesecake-mango [R=301,L]
+
+# Service-specific redirects
+RewriteRule ^bodas/?$ /servicios/postres-bodas [R=301,L]
+RewriteRule ^eventos/?$ /servicios/eventos-corporativos [R=301,L]
+RewriteRule ^cumpleanos/?$ /servicios/cumpleanos-personalizados [R=301,L]
+RewriteRule ^delivery/?$ /servicios/entrega-domicilio [R=301,L]
+
+# Location-specific redirects
+RewriteRule ^naco/?$ /zonas/naco [R=301,L]
+RewriteRule ^bella-vista/?$ /zonas/bella-vista [R=301,L]
+RewriteRule ^cacicazgos/?$ /zonas/los-cacicazgos [R=301,L]
+RewriteRule ^gazcue/?$ /zonas/gazcue [R=301,L]
+RewriteRule ^santiago/?$ /zonas/santiago [R=301,L]
+
+# ================================================
+# HOTLINK PROTECTION
+# ================================================
+
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?cucinanostrard\.com [NC]
+RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?instagram\.com [NC]
+RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?facebook\.com [NC]
+RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?google\.com [NC]
+RewriteRule \.(jpg|jpeg|png|gif|webp|svg)$ - [F,L]
+
+# ================================================
+# BLOCK MALICIOUS BOTS
+# ================================================
+
+<IfModule mod_rewrite.c>
+    RewriteCond %{HTTP_USER_AGENT} (alexibot|majestic|mj12bot|dotbot|seokicks) [NC]
+    RewriteRule ^.* - [F,L]
+</IfModule>
+
+# ================================================
+# PERFORMANCE OPTIMIZATION
+# ================================================
+
+# Enable KeepAlive for better performance
+<IfModule mod_headers.c>
+    Header set Connection keep-alive
+</IfModule>
+
+# Disable ETags for better caching
+<IfModule mod_headers.c>
+    Header unset ETag
+</IfModule>
+FileETag None
+
+# ================================================
+# REDIRECT SOCIAL MEDIA TRAFFIC
+# ================================================
+
+# WhatsApp button redirects
+RewriteRule ^whatsapp/?$ https://wa.me/18095551234?text=Hola%21%20Me%20interesa%20conocer%20m%C3%A1s%20sobre%20sus%20postres%20artesanales [R=301,L]
+
+# Instagram redirect
+RewriteRule ^instagram/?$ https://instagram.com/cucinanostrard [R=301,L]
+
+# Facebook redirect
+RewriteRule ^facebook/?$ https://facebook.com/cucinanostrard [R=301,L]
+
+# ================================================
+# CANONICAL REDIRECTS
+# ================================================
+
+# Ensure canonical URLs for all pages
+RewriteCond %{REQUEST_URI} ^/(.+)/$
+RewriteRule ^(.*)/$ /$1 [R=301,L]
+
+# ================================================
+# SITEMAP AND ROBOTS OPTIMIZATION
+# ================================================
+
+# Ensure sitemap.xml is accessible
+RewriteRule ^sitemap\.xml$ /sitemap.xml [L]
+RewriteRule ^robots\.txt$ /robots.txt [L]
+
+# ================================================
+# END OF CUCINANOSTRARD SEO OPTIMIZATION
+# ================================================

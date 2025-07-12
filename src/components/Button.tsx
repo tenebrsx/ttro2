@@ -18,6 +18,10 @@ interface ButtonProps {
   fullWidth?: boolean;
   rounded?: "full" | "lg" | "md" | "sm" | "none";
   animateOnHover?: boolean;
+  as?: keyof JSX.IntrinsicElements;
+  href?: string;
+  target?: string;
+  rel?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -35,6 +39,10 @@ const Button: React.FC<ButtonProps> = ({
   fullWidth = false,
   rounded = "full",
   animateOnHover = true,
+  as = "button",
+  href,
+  target,
+  rel,
 }) => {
   // Base classes that apply to all buttons
   const baseClasses =
@@ -60,7 +68,7 @@ const Button: React.FC<ButtonProps> = ({
   // Variant specific styling
   const variantClasses = {
     primary:
-      "bg-dusty-rose-500 hover:bg-dusty-rose-600 text-white shadow-warm hover:shadow-elegant border border-dusty-rose-400/20 relative overflow-hidden group",
+      "bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 hover:from-dusty-rose-600 hover:to-dusty-rose-700 text-white shadow-warm hover:shadow-elegant border border-dusty-rose-400/20 relative overflow-hidden group",
     secondary:
       "bg-white text-dusty-rose-600 hover:bg-dusty-rose-50 border-2 border-dusty-rose-300 hover:border-dusty-rose-400 shadow-gentle hover:shadow-warm relative overflow-hidden group",
     outline:
@@ -68,7 +76,7 @@ const Button: React.FC<ButtonProps> = ({
     ghost:
       "text-dusty-rose-600 hover:bg-dusty-rose-100 hover:text-dusty-rose-700 relative overflow-hidden group",
     gradient:
-      "bg-dusty-rose-500 hover:bg-dusty-rose-600 text-white shadow-warm hover:shadow-elegant border border-dusty-rose-400/20 relative overflow-hidden group",
+      "bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 hover:from-dusty-rose-600 hover:to-dusty-rose-700 text-white shadow-warm hover:shadow-elegant border border-dusty-rose-400/20 relative overflow-hidden group",
     text: "text-dusty-rose-600 hover:text-dusty-rose-700 hover:underline hover:underline-offset-4 decoration-dusty-rose-400/50 relative group",
   };
 
@@ -121,57 +129,100 @@ const Button: React.FC<ButtonProps> = ({
     },
   };
 
-  return (
-    <motion.button
-      type={type}
-      onClick={onClick}
-      disabled={disabled || loading}
-      className={`
-        ${baseClasses}
-        ${variantClasses[variant]}
-        ${sizeClasses[size]}
-        ${roundedClasses[rounded]}
-        ${widthClasses}
-        ${!animateOnHover ? hoverAnimationClasses : ""}
-        ${className}
-      `}
-      whileHover={animateOnHover ? "hover" : undefined}
-      whileTap={animateOnHover ? "tap" : undefined}
-      variants={buttonVariants}
-    >
-      {/* Subtle hover effect for all variants */}
-      {(variant === "primary" ||
-        variant === "secondary" ||
-        variant === "gradient" ||
-        variant === "outline") && (
-        <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-      )}
+  const commonProps = {
+    onClick,
+    disabled: disabled || loading,
+    className: `
+      ${baseClasses}
+      ${variantClasses[variant]}
+      ${sizeClasses[size]}
+      ${roundedClasses[rounded]}
+      ${widthClasses}
+      ${!animateOnHover ? hoverAnimationClasses : ""}
+      ${className}
+    `,
+    whileHover: animateOnHover ? "hover" : undefined,
+    whileTap: animateOnHover ? "tap" : undefined,
+    variants: buttonVariants,
+  };
 
-      {loading ? (
-        <LoadingSpinner
-          size={spinnerSizeMap[size]}
-          variant={loadingVariant}
-          color={spinnerColorMap[variant]}
-          className="mr-2 relative z-10"
-        />
-      ) : (
-        Icon &&
-        iconPosition === "left" && (
-          <Icon className={`${iconSizeClasses[size]} mr-2 relative z-10`} />
-        )
-      )}
+  const renderButton = () => {
+    if (as === "a") {
+      return (
+        <motion.a {...commonProps} href={href} target={target} rel={rel}>
+          {/* Subtle hover effect for all variants */}
+          {(variant === "primary" ||
+            variant === "secondary" ||
+            variant === "gradient" ||
+            variant === "outline") && (
+            <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          )}
 
-      <span
-        className={`${loading ? "opacity-90" : ""} relative z-10 tracking-wide`}
-      >
-        {children}
-      </span>
+          {loading ? (
+            <LoadingSpinner
+              size={spinnerSizeMap[size]}
+              variant={loadingVariant}
+              color={spinnerColorMap[variant]}
+              className="mr-2 relative z-10"
+            />
+          ) : (
+            Icon &&
+            iconPosition === "left" && (
+              <Icon className={`${iconSizeClasses[size]} mr-2 relative z-10`} />
+            )
+          )}
 
-      {!loading && Icon && iconPosition === "right" && (
-        <Icon className={`${iconSizeClasses[size]} ml-2 relative z-10`} />
-      )}
-    </motion.button>
-  );
+          <span
+            className={`${loading ? "opacity-90" : ""} relative z-10 tracking-wide`}
+          >
+            {children}
+          </span>
+
+          {!loading && Icon && iconPosition === "right" && (
+            <Icon className={`${iconSizeClasses[size]} ml-2 relative z-10`} />
+          )}
+        </motion.a>
+      );
+    }
+
+    return (
+      <motion.button {...commonProps} type={type}>
+        {/* Subtle hover effect for all variants */}
+        {(variant === "primary" ||
+          variant === "secondary" ||
+          variant === "gradient" ||
+          variant === "outline") && (
+          <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        )}
+
+        {loading ? (
+          <LoadingSpinner
+            size={spinnerSizeMap[size]}
+            variant={loadingVariant}
+            color={spinnerColorMap[variant]}
+            className="mr-2 relative z-10"
+          />
+        ) : (
+          Icon &&
+          iconPosition === "left" && (
+            <Icon className={`${iconSizeClasses[size]} mr-2 relative z-10`} />
+          )
+        )}
+
+        <span
+          className={`${loading ? "opacity-90" : ""} relative z-10 tracking-wide`}
+        >
+          {children}
+        </span>
+
+        {!loading && Icon && iconPosition === "right" && (
+          <Icon className={`${iconSizeClasses[size]} ml-2 relative z-10`} />
+        )}
+      </motion.button>
+    );
+  };
+
+  return renderButton();
 };
 
 export default Button;

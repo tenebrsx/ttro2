@@ -1,25 +1,13 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, ShoppingBag } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { Menu, X, MessageCircle, Instagram } from "lucide-react";
 import Logo from "./Logo";
 import { motion, AnimatePresence } from "framer-motion";
-import { useCart } from "../contexts/CartContext";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
-
-  // Safe cart context usage with fallback
-  let itemCount = 0;
-
-  try {
-    const cartContext = useCart();
-    itemCount = cartContext.itemCount;
-  } catch (error) {
-    console.warn("Cart context not available:", error);
-  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,12 +27,12 @@ const Navigation = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-gradient-to-r from-cream/95 via-white/95 to-cream/95 backdrop-blur-sm shadow-gentle border-b border-dusty-rose/10"
-          : "bg-gradient-to-r from-white/85 via-cream/70 to-white/85 backdrop-blur-sm"
+          ? "bg-white shadow-lg border-b border-dusty-rose/30"
+          : "bg-gradient-to-r from-cream-100 via-white to-cream-100 shadow-md border-b border-dusty-rose/20"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-18">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 group">
             <Logo
@@ -54,85 +42,81 @@ const Navigation = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden md:flex items-center space-x-2">
             <Link
               to="/"
-              className={`font-playfair font-medium px-4 py-3 rounded-full transition-all duration-300 text-shadow-soft ${
+              className={`font-playfair font-semibold px-5 py-3 rounded-full transition-all duration-300 ${
                 isActive("/")
-                  ? "text-dusty-rose bg-dusty-rose/10 shadow-gentle"
-                  : "text-mocha hover:text-dusty-rose hover:bg-dusty-rose/5"
+                  ? "text-dusty-rose-600 bg-dusty-rose-50 shadow-gentle"
+                  : "text-mocha-600 hover:text-dusty-rose-600 hover:bg-dusty-rose-50/70"
               }`}
             >
               Inicio
             </Link>
-            <div className="flex items-center justify-center px-3">
-              <div className="w-1 h-1 bg-dusty-rose/50 rounded-full shadow-sm"></div>
+            <div className="flex items-center justify-center px-2">
+              <div className="w-1.5 h-1.5 bg-dusty-rose-400 rounded-full"></div>
             </div>
             <Link
               to="/about"
-              className={`font-playfair font-medium px-4 py-3 rounded-full transition-all duration-300 text-shadow-soft ${
+              className={`font-playfair font-semibold px-5 py-3 rounded-full transition-all duration-300 ${
                 isActive("/about")
-                  ? "text-dusty-rose bg-dusty-rose/10 shadow-gentle"
-                  : "text-mocha hover:text-dusty-rose hover:bg-dusty-rose/5"
+                  ? "text-dusty-rose-600 bg-dusty-rose-50 shadow-gentle"
+                  : "text-mocha-600 hover:text-dusty-rose-600 hover:bg-dusty-rose-50/70"
               }`}
             >
               Acerca de
             </Link>
-            <div className="flex items-center justify-center px-3">
-              <div className="w-1 h-1 bg-dusty-rose/50 rounded-full shadow-sm"></div>
+            <div className="flex items-center justify-center px-2">
+              <div className="w-1.5 h-1.5 bg-dusty-rose-400 rounded-full"></div>
             </div>
             <Link
               to="/menu"
-              className={`font-playfair font-medium px-4 py-3 rounded-full transition-all duration-300 text-shadow-soft ${
+              className={`font-playfair font-semibold px-5 py-3 rounded-full transition-all duration-300 ${
                 isActive("/menu")
-                  ? "text-dusty-rose bg-dusty-rose/10 shadow-gentle"
-                  : "text-mocha hover:text-dusty-rose hover:bg-dusty-rose/5"
+                  ? "text-dusty-rose-600 bg-dusty-rose-50 shadow-gentle"
+                  : "text-mocha-600 hover:text-dusty-rose-600 hover:bg-dusty-rose-50/70"
               }`}
             >
               Menú
             </Link>
-            <div className="flex items-center justify-center px-3">
-              <div className="w-1 h-1 bg-dusty-rose/50 rounded-full shadow-sm"></div>
+            <div className="flex items-center justify-center px-2">
+              <div className="w-1.5 h-1.5 bg-dusty-rose-400 rounded-full"></div>
             </div>
-            <Link
-              to="/gallery"
-              className={`font-playfair font-medium px-4 py-3 rounded-full transition-all duration-300 text-shadow-soft ${
-                isActive("/gallery")
-                  ? "text-dusty-rose bg-dusty-rose/10 shadow-gentle"
-                  : "text-mocha hover:text-dusty-rose hover:bg-dusty-rose/5"
-              }`}
+            <a
+              href="https://www.instagram.com/cucinanostrard/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-playfair font-semibold px-5 py-3 rounded-full transition-all duration-300 text-mocha-600 hover:text-dusty-rose-600 hover:bg-dusty-rose-50/70 flex items-center space-x-2"
             >
-              Galería
-            </Link>
-            <div className="flex items-center justify-center px-4">
-              <div className="w-12 h-px bg-gradient-to-r from-dusty-rose/30 via-dusty-rose/60 to-dusty-rose/30"></div>
-            </div>
+              <Instagram className="h-4 w-4" />
+              <span>Instagram</span>
+            </a>
+
+            {/* Desktop WhatsApp Button */}
+            <a
+              href="https://api.whatsapp.com/send/?phone=18096581245&text&type=phone_number&app_absent=0"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-2 px-4 py-3 text-mocha-600 hover:text-dusty-rose-600 transition-all duration-300 rounded-full hover:bg-dusty-rose-50 hover:shadow-gentle ml-2 font-playfair font-semibold"
+            >
+              <MessageCircle className="h-5 w-5" />
+              <span>WhatsApp</span>
+            </a>
+
+            {/* Prominent Pink Button */}
             <Link
               to="/contact"
-              className="bg-gradient-to-r from-dusty-rose to-dusty-rose/90 text-white px-8 py-3 rounded-full hover:from-dusty-rose/90 hover:to-dusty-rose hover:shadow-gentle transition-all duration-300 transform hover:scale-105 font-playfair font-medium tracking-wide"
+              className="bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 text-white px-6 py-3 rounded-full hover:from-dusty-rose-600 hover:to-dusty-rose-700 hover:shadow-warm transition-all duration-300 transform hover:scale-105 font-playfair font-bold tracking-wide shadow-md ml-4"
             >
-              Pedidos Personalizados
+              Crea tu pedido personalizado
             </Link>
-
-            {/* Desktop Cart Button */}
-            <button
-              onClick={() => navigate("/cart")}
-              className="relative p-3 text-mocha hover:text-dusty-rose transition-all duration-300 rounded-full hover:bg-dusty-rose/10 hover:shadow-gentle ml-3"
-            >
-              <ShoppingBag className="h-5 w-5" />
-              {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-dusty-rose text-white text-xs font-playfair font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-gentle">
-                  {itemCount > 9 ? "9+" : itemCount}
-                </span>
-              )}
-            </button>
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 text-mocha hover:text-dusty-rose transition-all duration-300 rounded-full hover:bg-dusty-rose/10"
+              className="p-3 text-mocha-600 hover:text-dusty-rose-600 transition-all duration-300 rounded-full hover:bg-dusty-rose-50 border border-dusty-rose-200"
             >
               {isMenuOpen ? (
                 <X className="h-6 w-6" />
@@ -151,70 +135,70 @@ const Navigation = () => {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="md:hidden bg-gradient-to-b from-cream/95 to-white/95 backdrop-blur-sm border-t border-dusty-rose/20 rounded-b-2xl shadow-lg overflow-hidden"
+              className="md:hidden bg-white border-t border-dusty-rose-200 rounded-b-2xl shadow-xl overflow-hidden"
             >
-              <div className="px-3 pt-3 pb-4 space-y-2">
+              <div className="px-4 pt-4 pb-6 space-y-3">
                 <Link
                   to="/"
-                  className={`block w-full text-left px-5 py-3 rounded-full font-playfair font-medium transition-all duration-300 ${
+                  className={`block w-full text-left px-6 py-4 rounded-full font-playfair font-semibold transition-all duration-300 ${
                     isActive("/")
-                      ? "text-dusty-rose bg-dusty-rose/10 shadow-gentle"
-                      : "text-mocha hover:text-dusty-rose hover:bg-dusty-rose/5"
+                      ? "text-dusty-rose-600 bg-dusty-rose-50 shadow-gentle"
+                      : "text-mocha-600 hover:text-dusty-rose-600 hover:bg-dusty-rose-50/70"
                   }`}
                 >
                   Inicio
                 </Link>
                 <Link
                   to="/about"
-                  className={`block w-full text-left px-5 py-3 rounded-full font-playfair font-medium transition-all duration-300 ${
+                  className={`block w-full text-left px-6 py-4 rounded-full font-playfair font-semibold transition-all duration-300 ${
                     isActive("/about")
-                      ? "text-dusty-rose bg-dusty-rose/10 shadow-gentle"
-                      : "text-mocha hover:text-dusty-rose hover:bg-dusty-rose/5"
+                      ? "text-dusty-rose-600 bg-dusty-rose-50 shadow-gentle"
+                      : "text-mocha-600 hover:text-dusty-rose-600 hover:bg-dusty-rose-50/70"
                   }`}
                 >
                   Acerca de
                 </Link>
                 <Link
                   to="/menu"
-                  className={`block w-full text-left px-5 py-3 rounded-full font-playfair font-medium transition-all duration-300 ${
+                  className={`block w-full text-left px-6 py-4 rounded-full font-playfair font-semibold transition-all duration-300 ${
                     isActive("/menu")
-                      ? "text-dusty-rose bg-dusty-rose/10 shadow-gentle"
-                      : "text-mocha hover:text-dusty-rose hover:bg-dusty-rose/5"
+                      ? "text-dusty-rose-600 bg-dusty-rose-50 shadow-gentle"
+                      : "text-mocha-600 hover:text-dusty-rose-600 hover:bg-dusty-rose-50/70"
                   }`}
                 >
                   Menú
                 </Link>
-                <Link
-                  to="/gallery"
-                  className={`block w-full text-left px-5 py-3 rounded-full font-playfair font-medium transition-all duration-300 ${
-                    isActive("/gallery")
-                      ? "text-dusty-rose bg-dusty-rose/10 shadow-gentle"
-                      : "text-mocha hover:text-dusty-rose hover:bg-dusty-rose/5"
-                  }`}
+                <a
+                  href="https://www.instagram.com/cucinanostrard/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full text-left px-6 py-4 rounded-full font-playfair font-semibold transition-all duration-300 text-mocha-600 hover:text-dusty-rose-600 hover:bg-dusty-rose-50/70 flex items-center space-x-3"
                 >
-                  Galería
-                </Link>
-                <div className="w-full h-px bg-gradient-to-r from-dusty-rose/30 via-dusty-rose/60 to-dusty-rose/30 my-3"></div>
+                  <Instagram className="h-5 w-5" />
+                  <span>Instagram</span>
+                </a>
+
+                {/* Separator */}
+                <div className="w-full h-px bg-gradient-to-r from-dusty-rose-200 via-dusty-rose-400 to-dusty-rose-200 my-4"></div>
+
+                {/* Mobile WhatsApp Button */}
+                <a
+                  href="https://api.whatsapp.com/send/?phone=18096581245&text&type=phone_number&app_absent=0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center space-x-3 px-6 py-4 text-mocha-600 hover:text-dusty-rose-600 hover:bg-dusty-rose-50/70 transition-all duration-300 font-playfair font-semibold rounded-full border border-dusty-rose-200 hover:border-dusty-rose-300"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  <span>WhatsApp</span>
+                </a>
+
+                {/* Mobile Custom Order Button - Prominent Pink Bubble */}
                 <Link
                   to="/contact"
-                  className="block w-full text-center px-5 py-3 bg-gradient-to-r from-dusty-rose to-dusty-rose/90 text-white rounded-full hover:from-dusty-rose/90 hover:to-dusty-rose hover:shadow-gentle transition-all duration-300 font-playfair font-medium mt-3"
+                  className="block w-full text-center px-6 py-5 bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 text-white rounded-full hover:from-dusty-rose-600 hover:to-dusty-rose-700 hover:shadow-warm transition-all duration-300 font-playfair font-bold text-lg mt-6 shadow-lg transform hover:scale-105 border-2 border-dusty-rose-400 hover:border-dusty-rose-500"
                 >
-                  Pedidos Personalizados
+                  ✨ Crea tu pedido personalizado
                 </Link>
-
-                {/* Mobile Cart Button */}
-                <button
-                  onClick={() => navigate("/cart")}
-                  className="w-full flex items-center justify-center space-x-2 px-5 py-3 text-mocha hover:text-dusty-rose hover:bg-dusty-rose/5 transition-all duration-300 font-playfair font-medium mt-2 rounded-full border border-dusty-rose/20 hover:border-dusty-rose/40"
-                >
-                  <ShoppingBag className="w-4 h-4" />
-                  <span>Mi Carrito</span>
-                  {itemCount > 0 && (
-                    <span className="bg-dusty-rose text-white text-xs px-2 py-1 rounded-full shadow-gentle">
-                      {itemCount}
-                    </span>
-                  )}
-                </button>
               </div>
             </motion.div>
           )}

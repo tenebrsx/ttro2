@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import { Instagram } from "lucide-react";
 import PageTransition from "../components/PageTransition";
 import { ImageLightbox, useLightbox } from "../components/ui/ImageLightbox";
-import {
-  CustomerPhotoShowcase,
-  useCustomerPhotoShowcase,
-} from "../components/ui/CustomerPhotoShowcase";
+import { CustomerPhotoShowcase } from "../components/ui/CustomerPhotoShowcase";
+import { useCustomerPhotoShowcase } from "../hooks/photo/useCustomerPhotoShowcase";
 
 const Gallery = () => {
   const [activeCategory, setActiveCategory] = useState("all");

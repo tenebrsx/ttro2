@@ -209,7 +209,7 @@ const ContactPageForm: React.FC = () => {
         <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <Heart className="h-8 w-8 text-green-600" />
         </div>
-        <h3 className="text-2xl font-cormorant text-mocha mb-4">
+        <h3 className="text-2xl font-playfair text-black-bold text-shadow-elegant mb-4">
           ¡Mensaje Enviado!
         </h3>
         <p className="text-mocha/70 font-karla mb-4">
@@ -233,7 +233,7 @@ const ContactPageForm: React.FC = () => {
   return (
     <div className="bg-white rounded-2xl shadow-lg p-8">
       <div className="text-center mb-8">
-        <h3 className="text-2xl font-cormorant text-mocha mb-2">
+        <h3 className="text-2xl font-playfair text-black-bold text-shadow-elegant mb-2">
           Cuéntame Tu Idea
         </h3>
         <p className="text-mocha/70 font-karla">

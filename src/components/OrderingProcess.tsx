@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import {
   MessageCircle,
@@ -163,7 +162,7 @@ const OrderingProcess = () => {
             href="https://wa.me/18095551234?text=Hola! Me interesa hacer un pedido personalizado"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center space-x-2 bg-gradient-to-r from-dusty-rose to-warm-blush text-white px-8 py-4 rounded-full text-lg font-karla font-medium shadow-lg hover:shadow-xl transition-all duration-300"
+            className="inline-flex items-center space-x-2 bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 text-white px-8 py-4 rounded-full text-lg font-playfair font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:from-dusty-rose-600 hover:to-dusty-rose-700"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >

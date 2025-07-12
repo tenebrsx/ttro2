@@ -1,5 +1,3 @@
-import React from "react";
-
 const About = () => {
   return (
     <section
@@ -31,10 +29,13 @@ const About = () => {
               <div className="w-12 h-px bg-dusty-rose/40"></div>
             </div>
 
-            <h2 className="text-4xl sm:text-5xl font-cormorant text-mocha mb-8 text-shadow-soft">
-              Hello, I&apos;m the <span className="text-dusty-rose font-bold">heart</span>
-              <span className="block text-dusty-rose italic mt-2 font-bold">
+            <h2 className="text-4xl sm:text-5xl font-playfair mb-8 font-bold leading-tight">
+              <span className="block text-black-bold text-shadow-elegant">
+                Hello, I&apos;m the heart
+              </span>
+              <span className="block text-dusty-rose-elegant italic mt-2 relative">
                 behind Cucinanostrard
+                <div className="absolute -bottom-2 left-0 w-32 h-1 bg-gradient-to-r from-dusty-rose-300 to-warm-blush-300 rounded-full"></div>
               </span>
             </h2>
 

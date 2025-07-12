@@ -54,10 +54,13 @@ const Contact = () => {
             <div className="w-16 h-px bg-sage/40"></div>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl font-cormorant text-mocha mb-6 text-shadow-soft">
-            <span className="text-dusty-rose font-bold">Convirtamos</span> Tu Sueño en
-            <span className="block text-dusty-rose italic mt-2 font-bold">
+          <h2 className="text-4xl sm:text-5xl font-playfair mb-6 font-bold leading-tight">
+            <span className="block text-black-bold text-shadow-elegant">
+              Convirtamos Tu Sueño en
+            </span>
+            <span className="block text-dusty-rose-elegant italic mt-2 relative">
               Realidad
+              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-dusty-rose-300 to-warm-blush-300 rounded-full"></div>
             </span>
           </h2>
 
@@ -76,8 +79,11 @@ const Contact = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div className="space-y-8">
             <div>
-              <h3 className="text-2xl font-cormorant mb-6 text-shadow-soft">
-                Conectemos Nuestros <span className="text-dusty-rose font-bold">Corazones</span>
+              <h3 className="text-2xl font-playfair text-black-bold text-shadow-elegant mb-6">
+                Conectemos Nuestros{" "}
+                <span className="text-dusty-rose-elegant font-bold">
+                  Corazones
+                </span>
               </h3>
               <div className="space-y-6">
                 <div className="flex items-center space-x-4 group">
@@ -123,8 +129,10 @@ const Contact = () => {
             <div className="bg-sage/10 p-6 rounded-lg shadow-gentle">
               <div className="flex items-center mb-4">
                 <Heart className="h-5 w-5 text-sage mr-2" />
-                <h4 className="text-lg font-cormorant">
-                  <span className="text-dusty-rose font-bold">Una Promesa Personal</span>
+                <h4 className="text-lg font-playfair text-black-bold text-shadow-elegant">
+                  <span className="text-dusty-rose-elegant font-bold">
+                    Una Promesa Personal
+                  </span>
                 </h4>
               </div>
               <p className="text-mocha/70 font-karla font-light leading-relaxed">
@@ -136,8 +144,11 @@ const Contact = () => {
           </div>
 
           <div className="bg-white p-8 rounded-lg shadow-gentle">
-            <h3 className="text-2xl font-cormorant mb-6 text-shadow-soft">
-              <span className="text-dusty-rose font-bold">Cuéntame</span> Tu Historia
+            <h3 className="text-2xl font-playfair text-black-bold text-shadow-elegant mb-6">
+              <span className="text-dusty-rose-elegant font-bold">
+                Cuéntame
+              </span>{" "}
+              Tu Historia
             </h3>
 
             <form onSubmit={handleSubmit} className="space-y-6">

@@ -10,11 +10,20 @@
     "preview": "vite preview",
     "serve": "node serve.js",
     "serve:py": "python serve.py",
-    "preview:build": "npm run build && npm run serve"
+    "preview:build": "npm run build && npm run serve",
+    "firebase:emulators": "firebase emulators:start",
+    "firebase:deploy": "npm run build && firebase deploy",
+    "firebase:deploy:hosting": "npm run build && firebase deploy --only hosting",
+    "firebase:deploy:firestore": "firebase deploy --only firestore",
+    "firebase:deploy:rules": "firebase deploy --only firestore:rules",
+    "firebase:serve": "npm run build && firebase serve",
+    "firebase:init": "firebase init",
+    "deploy": "npm run firebase:deploy"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",
     "emailjs-com": "^3.2.0",
+    "firebase": "^11.10.0",
     "framer-motion": "^12.23.0",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",

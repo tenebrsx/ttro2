@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { Mail, MessageCircle, MapPin, Instagram } from "lucide-react";
 import Logo from "./Logo";
@@ -65,20 +64,34 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/gallery"
-                  className="text-cream/80 hover:text-dusty-rose transition-colors duration-200 font-karla"
+                <a
+                  href="https://www.instagram.com/cucinanostrard/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-cream/80 hover:text-dusty-rose transition-colors duration-200 font-karla flex items-center space-x-2"
                 >
-                  Galería
-                </Link>
+                  <Instagram className="h-4 w-4" />
+                  <span>Instagram</span>
+                </a>
               </li>
               <li>
                 <Link
                   to="/contact"
                   className="text-cream/80 hover:text-dusty-rose transition-colors duration-200 font-karla"
                 >
-                  Pedidos Personalizados
+                  Crea tu pedido personalizado
                 </Link>
+              </li>
+              <li>
+                <a
+                  href="https://api.whatsapp.com/send/?phone=18096581245&text&type=phone_number&app_absent=0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-cream/80 hover:text-dusty-rose transition-colors duration-200 font-karla flex items-center space-x-2"
+                >
+                  <MessageCircle className="h-4 w-4" />
+                  <span>WhatsApp</span>
+                </a>
               </li>
             </ul>
           </div>

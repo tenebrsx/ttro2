@@ -110,7 +110,7 @@ const ContactForm: React.FC = () => {
         <div className="w-16 h-16 bg-sage/20 rounded-full flex items-center justify-center mx-auto mb-4">
           <Heart className="w-8 h-8 text-sage" />
         </div>
-        <h3 className="text-2xl font-cormorant text-mocha mb-4">
+        <h3 className="text-2xl font-playfair text-black-bold text-shadow-elegant mb-4">
           ¡Gracias por tu mensaje!
         </h3>
         <p className="text-mocha/70 font-karla">

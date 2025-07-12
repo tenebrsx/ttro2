@@ -1,0 +1,76 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Products collection - public read, admin write
+    match /products/{productId} {
+      // Allow public read access for website visitors
+      allow read: if true;
+
+      // Allow write access for admin operations
+      // For now, allowing write from any authenticated source
+      // TODO: Implement proper admin authentication
+      allow write: if true;
+
+      // Validate product data structure on write
+      allow create, update: if validateProductData(resource.data);
+    }
+
+    // Categories collection - public read, admin write
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if true; // Admin operations
+    }
+
+    // Orders collection - restricted access
+    match /orders/{orderId} {
+      // Allow users to read their own orders
+      allow read: if true; // For now, allow all reads
+
+      // Allow creating new orders
+      allow create: if validateOrderData(request.resource.data);
+
+      // Allow admin to update order status
+      allow update: if true; // Admin operations
+
+      // Prevent deletion of orders
+      allow delete: if false;
+    }
+
+    // Settings collection - admin only
+    match /settings/{settingId} {
+      allow read: if true; // Some settings might need to be public
+      allow write: if true; // Admin operations only
+    }
+
+    // Analytics and logs collection - admin only
+    match /analytics/{analyticsId} {
+      allow read, write: if true; // Admin operations
+    }
+
+    // Default deny rule for any other documents
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+
+  // Validation functions
+  function validateProductData(data) {
+    return data.keys().hasAll(['name', 'description', 'price', 'category', 'images', 'available']) &&
+           data.name is string &&
+           data.description is string &&
+           data.price is number &&
+           data.category is string &&
+           data.images is list &&
+           data.available is bool;
+  }
+
+  function validateOrderData(data) {
+    return data.keys().hasAll(['customerInfo', 'items', 'total', 'status']) &&
+           data.customerInfo is map &&
+           data.items is list &&
+           data.total is number &&
+           data.status is string;
+  }
+}
