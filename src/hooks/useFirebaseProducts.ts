@@ -230,45 +230,61 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
 
   // Set up real-time listeners
   useEffect(() => {
+    setLoading(true);
+    setError(null);
+
     let unsubscribeProducts: (() => void) | null = null;
     let unsubscribeFeatured: (() => void) | null = null;
 
-    const setupRealtimeListeners = async () => {
+    const initialize = async () => {
       try {
-        // Check if we can connect to Firestore
-        const testProducts = await ProductService.getAllProducts();
+        // Fetch initial data first to unblock the UI
+        const initialProducts = await ProductService.getAllProducts();
+        const initialFeatured = await ProductService.getFeaturedProducts();
 
-        if (testProducts.length > 0) {
-          // Set up real-time listeners only if Firestore has data
-          unsubscribeProducts = ProductService.subscribeToProducts((updatedProducts) => {
-            setProducts(updatedProducts);
-            calculateStats(updatedProducts);
-          });
-
-          unsubscribeFeatured = ProductService.subscribeToFeaturedProducts((updatedFeatured) => {
-            setFeaturedProducts(updatedFeatured);
-          });
+        if (initialProducts.length === 0) {
+          console.log("No products in Firestore, using local fallback.");
+          setProducts(localProducts);
+          calculateStats(localProducts);
+          setFeaturedProducts(localProducts.filter(p => p.featured && p.available).slice(0, 6));
         } else {
-          // If no Firestore data, load initial products
-          await loadProducts();
-          await loadFeaturedProducts();
+          setProducts(initialProducts);
+          calculateStats(initialProducts);
+          setFeaturedProducts(initialFeatured);
         }
+
+        // With initial data loaded, stop the loading state
+        setLoading(false);
+
+        // Now, subscribe to real-time updates for subsequent changes
+        unsubscribeProducts = ProductService.subscribeToProducts((updatedProducts) => {
+          setProducts(updatedProducts);
+          calculateStats(updatedProducts);
+        });
+
+        unsubscribeFeatured = ProductService.subscribeToFeaturedProducts((updatedFeatured) => {
+          setFeaturedProducts(updatedFeatured);
+        });
+
       } catch (err) {
-        console.error('Error setting up real-time listeners:', err);
-        // Fallback to initial load
-        await loadProducts();
-        await loadFeaturedProducts();
+        console.error("Failed to initialize Firebase products:", err);
+        setError(handleFirestoreError(err));
+        // Fallback to local data on any initialization error
+        setProducts(localProducts);
+        calculateStats(localProducts);
+        setFeaturedProducts(localProducts.filter(p => p.featured && p.available).slice(0, 6));
+        setLoading(false);
       }
     };
 
-    setupRealtimeListeners();
+    initialize();
 
     // Cleanup listeners on unmount
     return () => {
       if (unsubscribeProducts) unsubscribeProducts();
       if (unsubscribeFeatured) unsubscribeFeatured();
     };
-  }, [loadProducts, loadFeaturedProducts, calculateStats]);
+  }, [calculateStats]); // Effect only needs to re-run if calculateStats changes
 
   return {
     products,

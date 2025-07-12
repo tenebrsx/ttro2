@@ -13,6 +13,7 @@ import OrderTracking from "./pages/OrderTracking";
 import UIShowcase from "./pages/UIShowcase";
 import Admin from "./pages/Admin";
 import Product from "./pages/Product";
+import FirebaseTest from "./pages/FirebaseTest";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { FirebaseProductsProvider } from "./contexts/FirebaseProductsContext";
 function App() {
@@ -37,6 +38,7 @@ function App() {
                   />
                   <Route path="/ui-showcase" element={<UIShowcase />} />
                   <Route path="/admin" element={<Admin />} />
+                  <Route path="/firebase-test" element={<FirebaseTest />} />
                   <Route path="/product/:id" element={<Product />} />
                 </Routes>
               </ErrorBoundary>
