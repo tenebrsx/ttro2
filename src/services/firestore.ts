@@ -12,6 +12,7 @@ import {
   limit,
   onSnapshot,
   writeBatch,
+  setDoc,
   serverTimestamp,
   Timestamp,
   DocumentSnapshot,
@@ -180,15 +181,41 @@ export class ProductService {
     productData: Omit<Product, "id" | "createdAt" | "updatedAt">,
   ): Promise<string> {
     try {
+      console.log("🔥 FIREBASE: Creating product with data:", productData);
+
+      // Validate required fields
+      if (!productData.name || !productData.description || !productData.price) {
+        throw new Error("Missing required fields: name, description, or price");
+      }
+
       const firestoreData = convertProductToFirestore(productData);
-      const docRef = await addDoc(
-        collection(db, COLLECTIONS.PRODUCTS),
-        firestoreData,
-      );
+      console.log("🔥 FIREBASE: Converted to Firestore format:", firestoreData);
+
+      // Test Firebase connection first
+      console.log("🔥 FIREBASE: Testing connection...");
+      const testRef = collection(db, COLLECTIONS.PRODUCTS);
+      console.log("🔥 FIREBASE: Collection reference created:", testRef);
+
+      console.log("🔥 FIREBASE: Attempting to add document...");
+      const docRef = await addDoc(testRef, firestoreData);
+
+      console.log("🔥 FIREBASE: Product created successfully with ID:", docRef.id);
       return docRef.id;
     } catch (error) {
-      console.error("Error creating product:", error);
-      throw new Error("Failed to create product");
+      console.error("🔥 FIREBASE: Detailed error creating product:");
+      console.error("🔥 FIREBASE: - Error message:", error instanceof Error ? error.message : String(error));
+      console.error("🔥 FIREBASE: - Error object:", error);
+      console.error("🔥 FIREBASE: - Error code:", (error as any)?.code);
+      console.error("🔥 FIREBASE: - Error name:", (error as any)?.name);
+      console.error("🔥 FIREBASE: - Full error:", JSON.stringify(error, null, 2));
+      console.error("🔥 FIREBASE: - Product data that failed:", productData);
+
+      // Re-throw with more specific error message
+      if (error instanceof Error) {
+        throw new Error(`Failed to create product: ${error.message}`);
+      } else {
+        throw new Error("Failed to create product: Unknown error");
+      }
     }
   }
 
@@ -232,7 +259,7 @@ export class ProductService {
           createdAt: Timestamp.fromDate(product.createdAt),
           updatedAt: serverTimestamp(),
         };
-        delete (firestoreData as any).id; // Remove id from data
+        delete (firestoreData as Record<string, unknown>).id; // Remove id from data
         batch.set(productRef, firestoreData);
       });
 
@@ -371,9 +398,12 @@ export class MigrationService {
       }
 
       for (const batch of batches) {
-        const promises = batch.map((product) => {
-          const { id: _id, ...productData } = product;
-          return ProductService.createProduct(productData);
+        const promises = batch.map(async (product) => {
+          const { id, ...productData } = product;
+          const firestoreData = convertProductToFirestore(productData);
+          const productRef = doc(db, COLLECTIONS.PRODUCTS, id);
+          await setDoc(productRef, firestoreData);
+          return id;
         });
 
         await Promise.all(promises);

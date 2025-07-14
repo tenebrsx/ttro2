@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+// Updated color scheme - trigger rebuild
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
@@ -32,16 +33,16 @@ export default {
       colors: {
         // Enhanced primary brand colors
         "dusty-rose": {
-          50: "#fdf2f2",
-          100: "#fce7e7",
-          200: "#f9d2d2",
-          300: "#f4b1b1",
-          400: "#ec8585",
-          500: "#D4A5A5",
-          600: "#c18a8a",
-          700: "#a16d6d",
-          800: "#855a5a",
-          900: "#704d4d",
+          50: "#fdf4f4",
+          100: "#fbe9e9",
+          200: "#f6d3d3",
+          300: "#eeb3b3",
+          400: "#e18a8a",
+          500: "#c78787",
+          600: "#b56d6d",
+          700: "#9a5757",
+          800: "#824848",
+          900: "#6e3e3e",
         },
         "warm-blush": {
           50: "#fef7f7",

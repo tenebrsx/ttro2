@@ -13,8 +13,8 @@ const Home = () => {
   return (
     <>
       <SEO
-        title="Cucinanostrard | Postres Artesanales Santo Domingo | Repostería Francesa República Dominicana"
-        description="🍰 Los mejores postres artesanales en Santo Domingo, RD. Macarons franceses auténticos, tartas personalizadas, cupcakes gourmet. Ingredientes premium importados de Francia. Entrega en DN, Santiago, Punta Cana. Pedidos WhatsApp +1-809-XXX-XXXX"
+        title="Cucinanostrard | Repostería Artesanal Santo Domingo | Macarons y Tartas Francesas RD"
+        description="Postres que cuentan historias desde Santo Domingo. Macarons con técnica parisina, tartas que abrazan el alma, cupcakes que hacen sonreír. Ingredientes premium, tradición francesa, corazón dominicano. Pedidos por WhatsApp."
         keywords={[
           "postres artesanales santo domingo",
           "repostería dominicana",

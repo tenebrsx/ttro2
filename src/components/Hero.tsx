@@ -73,10 +73,10 @@ const Hero = () => {
         <h1 className="font-playfair text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-mocha mb-8 leading-tight animate-fade-in-up">
           <span className="sr-only">Cucinanostrard - </span>
           <span className="block text-black-bold text-shadow-elegant">
-            Hecho con Amor,
+            Postres que Cuentan
           </span>
           <span className="block text-dusty-rose-elegant italic mt-2 relative">
-            De Mi Cocina a la Tuya
+            Historias de Sabor
             <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-dusty-rose-300 to-warm-blush-300 rounded-full"></div>
           </span>
         </h1>
@@ -84,11 +84,12 @@ const Hero = () => {
         {/* Subtitle */}
         <div className="relative mb-16">
           <p className="font-source-serif text-xl sm:text-2xl md:text-3xl text-warm-grey-700 max-w-4xl mx-auto leading-relaxed animate-fade-in-up font-medium">
-            Cucinanostrard no es una tienda, es un diario de recetas vivas. Cada
-            dulce es pensado, horneado y decorado
+            Desde mi cocina en Santo Domingo, creo postres que despiertan
+            memorias y celebran momentos únicos. Cada tarta, macaron y cupcake
+            lleva el sabor de
             <span className="text-dusty-rose-600 font-semibold italic underline decoration-dusty-rose-600/40 decoration-1 underline-offset-2">
               {" "}
-              por mí, para ti
+              la auténtica repostería artesanal
             </span>
             .
           </p>
@@ -112,9 +113,9 @@ const Hero = () => {
             variant="outline"
             size="lg"
             className="px-10 py-5 text-xl w-full sm:w-auto"
-            aria-label="Hacer un pedido personalizado"
+            aria-label="Crear tu pedido especial"
           >
-            Haz un pedido personalizado
+            Crea Tu Pedido Especial
           </Button>
         </div>
       </div>

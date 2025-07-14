@@ -57,7 +57,7 @@ interface WhatsAppIntegrationProps {
 }
 
 export const WhatsAppIntegration: React.FC<WhatsAppIntegrationProps> = ({
-  businessPhone = "+1234567890",
+  businessPhone = "18096581245",
   businessName = "Cucinanostrard",
   products = [],
   enableCatalog = true,

@@ -212,7 +212,7 @@ const SEO: React.FC<SEOProps> = ({
     sameAs: [
       "https://instagram.com/cucinanostrard",
       "https://facebook.com/cucinanostrard",
-      "https://wa.me/18095551234",
+      "https://wa.me/18096581245",
     ],
     keywords:
       "postres artesanales, repostería dominicana, tartas personalizadas, macarons, cupcakes, Santo Domingo, República Dominicana",
@@ -363,9 +363,9 @@ const SEO: React.FC<SEOProps> = ({
       <meta name="apple-mobile-web-app-title" content="Cucinanostrard" />
 
       {/* Theme Colors */}
-      <meta name="theme-color" content="#D4A574" />
-      <meta name="msapplication-navbutton-color" content="#D4A574" />
-      <meta name="apple-mobile-web-app-status-bar-style" content="#D4A574" />
+      <meta name="theme-color" content="#c78787" />
+      <meta name="msapplication-navbutton-color" content="#c78787" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="#c78787" />
 
       {/* Multiple Structured Data Types */}
       <script type="application/ld+json">

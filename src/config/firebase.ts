@@ -23,19 +23,41 @@ export const db = getFirestore(app);
 // Initialize Storage for image uploads
 export const storage = getStorage(app);
 
-// Initialize Analytics (only in production)
-export const analytics =
-  typeof window !== "undefined" && window.location.hostname !== "localhost"
-    ? getAnalytics(app)
-    : null;
+// Environment detection
+const isDevelopment =
+  typeof window !== "undefined" &&
+  (window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname.includes("localhost"));
 
-// Connect to Firestore emulator in development
-if (typeof window !== "undefined" && window.location.hostname === "localhost") {
+const isProduction =
+  typeof window !== "undefined" &&
+  (window.location.hostname.includes("web.app") ||
+    window.location.hostname.includes("firebaseapp.com") ||
+    process.env.NODE_ENV === "production");
+
+// Initialize Analytics (only in production and browser environment)
+export const analytics =
+  typeof window !== "undefined" && isProduction ? getAnalytics(app) : null;
+
+// Connect to Firestore emulator only in development
+// TEMPORARILY DISABLED - Using production Firebase
+/*
+let emulatorConnected = false;
+if (isDevelopment && !emulatorConnected) {
   try {
-    connectFirestoreEmulator(db, "localhost", 8080);
-  } catch {
-    console.log("Firestore emulator already connected or not available");
+    // Only connect to emulator if we're in development and haven't connected yet
+    console.log("Attempting to connect to Firestore emulator...");
+    connectFirestoreEmulator(db, "localhost", 8082);
+    emulatorConnected = true;
+    console.log("Successfully connected to Firestore emulator");
+  } catch (error) {
+    // This is expected if emulator is already connected or not running
+    console.log("Firestore emulator connection skipped:", error);
   }
 }
+*/
+
+console.log("Using production Firebase - emulator disabled");
 
 export default app;

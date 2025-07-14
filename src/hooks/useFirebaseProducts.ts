@@ -1,7 +1,20 @@
-import { useState, useEffect, useCallback } from 'react';
-import { ProductService, MigrationService, handleFirestoreError } from '../services/firestore';
-import { products as localProducts } from '../data/products';
-import type { Product } from '../data/products';
+import { useState, useEffect, useCallback } from "react";
+import {
+  ProductService,
+  MigrationService,
+  handleFirestoreError,
+} from "../services/firestore";
+import { products as localProducts } from "../data/products";
+import type { Product } from "../data/products";
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  onSnapshot,
+  limit,
+} from "firebase/firestore";
+import { db } from "../config/firebase";
 
 interface UseFirebaseProductsReturn {
   products: Product[];
@@ -9,8 +22,13 @@ interface UseFirebaseProductsReturn {
   error: string | null;
   featuredProducts: Product[];
   // CRUD operations
-  createProduct: (productData: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) => Promise<string | null>;
-  updateProduct: (id: string, productData: Partial<Omit<Product, 'id' | 'createdAt'>>) => Promise<boolean>;
+  createProduct: (
+    productData: Omit<Product, "id" | "createdAt" | "updatedAt">,
+  ) => Promise<string | null>;
+  updateProduct: (
+    id: string,
+    productData: Partial<Omit<Product, "id" | "createdAt">>,
+  ) => Promise<boolean>;
   deleteProduct: (id: string) => Promise<boolean>;
   // Search and filter
   searchProducts: (term: string) => Promise<Product[]>;
@@ -37,102 +55,237 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
     total: 0,
     featured: 0,
     available: 0,
-    categories: {} as Record<string, number>
+    categories: {} as Record<string, number>,
   });
 
   // Calculate product statistics
   const calculateStats = useCallback((productList: Product[]) => {
     const stats = {
       total: productList.length,
-      featured: productList.filter(p => p.featured).length,
-      available: productList.filter(p => p.available).length,
-      categories: {} as Record<string, number>
+      featured: productList.filter((p) => p.featured).length,
+      available: productList.filter((p) => p.available).length,
+      categories: {} as Record<string, number>,
     };
 
     // Count products by category
-    productList.forEach(product => {
-      stats.categories[product.category] = (stats.categories[product.category] || 0) + 1;
+    productList.forEach((product) => {
+      stats.categories[product.category] =
+        (stats.categories[product.category] || 0) + 1;
+    });
+
+    console.log("📊 Stats recalculated:", {
+      total: stats.total,
+      featured: stats.featured,
+      available: stats.available,
+      categories: Object.keys(stats.categories).length,
     });
 
     setProductStats(stats);
   }, []);
 
   // Load all products
-  const loadProducts = useCallback(async () => {
+  // Set up real-time listener for all products
+  const setupProductsListener = useCallback(() => {
     try {
       setLoading(true);
       setError(null);
 
-      const fetchedProducts = await ProductService.getAllProducts();
+      const productsQuery = query(
+        collection(db, "products"),
+        orderBy("createdAt", "desc"),
+      );
 
-      // If no products in Firestore, try to migrate from local data
-      if (fetchedProducts.length === 0) {
-        console.log('No products found in Firestore, using local data...');
-        setProducts(localProducts);
-        calculateStats(localProducts);
-      } else {
-        setProducts(fetchedProducts);
-        calculateStats(fetchedProducts);
-      }
+      const unsubscribe = onSnapshot(
+        productsQuery,
+        (snapshot) => {
+          console.log(
+            "🔥 Real-time products update received - snapshot size:",
+            snapshot.size,
+          );
+          const updatedProducts: Product[] = [];
+
+          snapshot.forEach((doc) => {
+            const data = doc.data();
+            updatedProducts.push({
+              ...data,
+              id: doc.id,
+              createdAt: data.createdAt?.toDate() || new Date(),
+              updatedAt: data.updatedAt?.toDate() || new Date(),
+            } as Product);
+          });
+
+          console.log("🔥 Products processed:", updatedProducts.length);
+          console.log(
+            "🔥 Product names:",
+            updatedProducts.map((p) => p.name),
+          );
+
+          if (updatedProducts.length === 0) {
+            console.log("No products found in Firestore, using local data...");
+            setProducts(localProducts);
+            calculateStats(localProducts);
+          } else {
+            console.log("🔥 Setting products state with real-time data");
+            setProducts(updatedProducts);
+            calculateStats(updatedProducts);
+          }
+          setLoading(false);
+          console.log(
+            "🔥 Products state updated - will trigger re-renders across the app",
+          );
+          console.log(
+            "📊 Admin panel stats should now be updated in real-time",
+          );
+        },
+        (err) => {
+          console.error("Error in products listener:", err);
+          setError(handleFirestoreError(err));
+          // Fallback to local products
+          setProducts(localProducts);
+          calculateStats(localProducts);
+          setLoading(false);
+        },
+      );
+
+      return unsubscribe;
     } catch (err) {
-      console.error('Error loading products:', err);
+      console.error("Error setting up products listener:", err);
       setError(handleFirestoreError(err));
-      // Fallback to local products
       setProducts(localProducts);
       calculateStats(localProducts);
-    } finally {
       setLoading(false);
+      return () => {}; // Return empty cleanup function
     }
   }, [calculateStats]);
 
-  // Load featured products
-  const loadFeaturedProducts = useCallback(async () => {
+  // Set up real-time listener for featured products
+  const setupFeaturedProductsListener = useCallback(() => {
     try {
-      const featured = await ProductService.getFeaturedProducts();
-      setFeaturedProducts(featured);
+      const featuredQuery = query(
+        collection(db, "products"),
+        where("available", "==", true),
+        where("featured", "==", true),
+        orderBy("popularityScore", "desc"),
+        limit(6),
+      );
+
+      const unsubscribe = onSnapshot(
+        featuredQuery,
+        (snapshot) => {
+          console.log(
+            "🔥 Real-time featured products update received - snapshot size:",
+            snapshot.size,
+          );
+          const featured: Product[] = [];
+
+          snapshot.forEach((doc) => {
+            const data = doc.data();
+            featured.push({
+              ...data,
+              id: doc.id,
+              createdAt: data.createdAt?.toDate() || new Date(),
+              updatedAt: data.updatedAt?.toDate() || new Date(),
+            } as Product);
+          });
+
+          console.log("🔥 Featured products processed:", featured.length);
+          console.log(
+            "🔥 Featured product names:",
+            featured.map((p) => p.name),
+          );
+
+          if (featured.length === 0) {
+            // Fallback to local featured products
+            const localFeatured = localProducts
+              .filter((p) => p.featured && p.available)
+              .slice(0, 6);
+            console.log("🔥 Using local featured products fallback");
+            setFeaturedProducts(localFeatured);
+          } else {
+            console.log(
+              "🔥 Setting featured products state with real-time data",
+            );
+            setFeaturedProducts(featured);
+          }
+          console.log(
+            "🔥 Featured products state updated - will update hero/menu sections",
+          );
+        },
+        (err) => {
+          console.error("Error in featured products listener:", err);
+          // Fallback to local featured products
+          const localFeatured = localProducts
+            .filter((p) => p.featured && p.available)
+            .slice(0, 6);
+          setFeaturedProducts(localFeatured);
+        },
+      );
+
+      return unsubscribe;
     } catch (err) {
-      console.error('Error loading featured products:', err);
-      // Fallback to local featured products
-      const localFeatured = localProducts.filter(p => p.featured && p.available).slice(0, 6);
+      console.error("Error setting up featured products listener:", err);
+      const localFeatured = localProducts
+        .filter((p) => p.featured && p.available)
+        .slice(0, 6);
       setFeaturedProducts(localFeatured);
+      return () => {}; // Return empty cleanup function
     }
   }, []);
 
   // Create new product
-  const createProduct = useCallback(async (productData: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>): Promise<string | null> => {
-    try {
-      setError(null);
-      const productId = await ProductService.createProduct(productData);
+  const createProduct = useCallback(
+    async (
+      productData: Omit<Product, "id" | "createdAt" | "updatedAt">,
+    ): Promise<string | null> => {
+      try {
+        setError(null);
+        const productId = await ProductService.createProduct(productData);
 
-      // Refresh products after creation
-      await loadProducts();
-      await loadFeaturedProducts();
+        // Real-time listeners will automatically update the UI
+        console.log(
+          "✅ Product created with ID:",
+          productId,
+          "- real-time listeners will update UI across all pages",
+        );
+        console.log("📊 Stats will auto-update via real-time listener");
 
-      return productId;
-    } catch (err) {
-      console.error('Error creating product:', err);
-      setError(handleFirestoreError(err));
-      return null;
-    }
-  }, [loadProducts, loadFeaturedProducts]);
+        return productId;
+      } catch (err) {
+        console.error("Error creating product:", err);
+        setError(handleFirestoreError(err));
+        return null;
+      }
+    },
+    [],
+  );
 
   // Update existing product
-  const updateProduct = useCallback(async (id: string, productData: Partial<Omit<Product, 'id' | 'createdAt'>>): Promise<boolean> => {
-    try {
-      setError(null);
-      await ProductService.updateProduct(id, productData);
+  const updateProduct = useCallback(
+    async (
+      id: string,
+      productData: Partial<Omit<Product, "id" | "createdAt">>,
+    ): Promise<boolean> => {
+      try {
+        setError(null);
+        await ProductService.updateProduct(id, productData);
 
-      // Refresh products after update
-      await loadProducts();
-      await loadFeaturedProducts();
+        // Real-time listeners will automatically update the UI
+        console.log(
+          "✅ Product updated with ID:",
+          id,
+          "- real-time listeners will update UI across all pages",
+        );
+        console.log("📊 Stats will auto-update via real-time listener");
 
-      return true;
-    } catch (err) {
-      console.error('Error updating product:', err);
-      setError(handleFirestoreError(err));
-      return false;
-    }
-  }, [loadProducts, loadFeaturedProducts]);
+        return true;
+      } catch (err) {
+        console.error("Error updating product:", err);
+        setError(handleFirestoreError(err));
+        return false;
+      }
+    },
+    [],
+  );
 
   // Delete product
   const deleteProduct = useCallback(async (id: string): Promise<boolean> => {
@@ -140,71 +293,107 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
       setError(null);
       await ProductService.deleteProduct(id);
 
-      // Refresh products after deletion
-      await loadProducts();
-      await loadFeaturedProducts();
+      // Real-time listeners will automatically update the UI
+      console.log(
+        "✅ Product deleted with ID:",
+        id,
+        "- real-time listeners will update UI across all pages",
+      );
+      console.log("📊 Stats will auto-update via real-time listener");
 
       return true;
     } catch (err) {
-      console.error('Error deleting product:', err);
+      console.error("Error deleting product:", err);
       setError(handleFirestoreError(err));
       return false;
     }
-  }, [loadProducts, loadFeaturedProducts]);
+  }, []);
 
   // Search products
-  const searchProducts = useCallback(async (term: string): Promise<Product[]> => {
-    try {
-      setError(null);
-      return await ProductService.searchProducts(term);
-    } catch (err) {
-      console.error('Error searching products:', err);
-      setError(handleFirestoreError(err));
+  const searchProducts = useCallback(
+    async (term: string): Promise<Product[]> => {
+      try {
+        setError(null);
+        return await ProductService.searchProducts(term);
+      } catch (err) {
+        console.error("Error searching products:", err);
+        setError(handleFirestoreError(err));
 
-      // Fallback to local search
-      const searchTermLower = term.toLowerCase();
-      return localProducts.filter(product =>
-        product.name.toLowerCase().includes(searchTermLower) ||
-        product.description.toLowerCase().includes(searchTermLower) ||
-        product.tags.some(tag => tag.toLowerCase().includes(searchTermLower)) ||
-        product.category.toLowerCase().includes(searchTermLower)
-      );
-    }
-  }, []);
+        // Fallback to local search
+        const searchTermLower = term.toLowerCase();
+        return localProducts.filter(
+          (product) =>
+            product.name.toLowerCase().includes(searchTermLower) ||
+            product.description.toLowerCase().includes(searchTermLower) ||
+            product.tags.some((tag) =>
+              tag.toLowerCase().includes(searchTermLower),
+            ) ||
+            product.category.toLowerCase().includes(searchTermLower),
+        );
+      }
+    },
+    [],
+  );
 
   // Get products by category
-  const getProductsByCategory = useCallback(async (category: string): Promise<Product[]> => {
-    try {
-      setError(null);
-      return await ProductService.getProductsByCategory(category);
-    } catch (err) {
-      console.error('Error getting products by category:', err);
-      setError(handleFirestoreError(err));
+  const getProductsByCategory = useCallback(
+    async (category: string): Promise<Product[]> => {
+      try {
+        setError(null);
+        return await ProductService.getProductsByCategory(category);
+      } catch (err) {
+        console.error("Error getting products by category:", err);
+        setError(handleFirestoreError(err));
 
-      // Fallback to local filter
-      return localProducts.filter(product => product.category === category);
-    }
-  }, []);
+        // Fallback to local filter
+        return localProducts.filter((product) => product.category === category);
+      }
+    },
+    [],
+  );
 
   // Get product by ID
-  const getProductById = useCallback(async (id: string): Promise<Product | null> => {
-    try {
-      setError(null);
-      return await ProductService.getProductById(id);
-    } catch (err) {
-      console.error('Error getting product by ID:', err);
-      setError(handleFirestoreError(err));
+  const getProductById = useCallback(
+    async (id: string): Promise<Product | null> => {
+      try {
+        setError(null);
+        const firestoreProduct = await ProductService.getProductById(id);
 
-      // Fallback to local find
-      return localProducts.find(product => product.id === id) || null;
-    }
-  }, []);
+        // If Firebase returns null, check local products as fallback
+        if (firestoreProduct === null) {
+          console.log(
+            `Product ${id} not found in Firebase, checking local products...`,
+          );
+          const localProduct =
+            localProducts.find((product) => product.id === id) || null;
+          if (localProduct) {
+            console.log(`Found product ${id} in local data as fallback`);
+          } else {
+            console.log(`Product ${id} not found in local data either`);
+          }
+          return localProduct;
+        }
 
-  // Refresh products manually
+        return firestoreProduct;
+      } catch (err) {
+        console.error("Error getting product by ID:", err);
+        setError(handleFirestoreError(err));
+
+        // Fallback to local find on error
+        console.log(`Firebase error for product ${id}, using local fallback`);
+        return localProducts.find((product) => product.id === id) || null;
+      }
+    },
+    [],
+  );
+
+  // Refresh products manually (for backwards compatibility)
   const refreshProducts = useCallback(async (): Promise<void> => {
-    await loadProducts();
-    await loadFeaturedProducts();
-  }, [loadProducts, loadFeaturedProducts]);
+    console.log(
+      "Manual refresh triggered - real-time listeners should handle updates automatically",
+    );
+    // Real-time listeners handle updates automatically, but we can force a re-setup if needed
+  }, []);
 
   // Migrate local data to Firestore
   const migrateLocalData = useCallback(async (): Promise<boolean> => {
@@ -214,77 +403,47 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
 
       await MigrationService.migrateLocalProductsToFirestore(localProducts);
 
-      // Refresh products after migration
-      await loadProducts();
-      await loadFeaturedProducts();
+      // Real-time listeners will automatically update after migration
+      console.log("Migration complete - real-time listeners will update UI");
 
       return true;
     } catch (err) {
-      console.error('Error during migration:', err);
+      console.error("Error during migration:", err);
       setError(handleFirestoreError(err));
       return false;
     } finally {
       setLoading(false);
     }
-  }, [loadProducts, loadFeaturedProducts]);
+  }, []);
 
   // Set up real-time listeners
   useEffect(() => {
-    setLoading(true);
-    setError(null);
+    console.log(
+      "🔥 Setting up real-time Firebase listeners for products and featured products",
+    );
+    console.log(
+      "🔥 These listeners will automatically update the admin panel, menu, and entire site",
+    );
 
-    let unsubscribeProducts: (() => void) | null = null;
-    let unsubscribeFeatured: (() => void) | null = null;
+    // Set up real-time listeners
+    const unsubscribeProducts = setupProductsListener();
+    const unsubscribeFeatured = setupFeaturedProductsListener();
 
-    const initialize = async () => {
-      try {
-        // Fetch initial data first to unblock the UI
-        const initialProducts = await ProductService.getAllProducts();
-        const initialFeatured = await ProductService.getFeaturedProducts();
+    console.log(
+      "🔥 Real-time listeners established - the app will now update automatically on any changes",
+    );
 
-        if (initialProducts.length === 0) {
-          console.log("No products in Firestore, using local fallback.");
-          setProducts(localProducts);
-          calculateStats(localProducts);
-          setFeaturedProducts(localProducts.filter(p => p.featured && p.available).slice(0, 6));
-        } else {
-          setProducts(initialProducts);
-          calculateStats(initialProducts);
-          setFeaturedProducts(initialFeatured);
-        }
-
-        // With initial data loaded, stop the loading state
-        setLoading(false);
-
-        // Now, subscribe to real-time updates for subsequent changes
-        unsubscribeProducts = ProductService.subscribeToProducts((updatedProducts) => {
-          setProducts(updatedProducts);
-          calculateStats(updatedProducts);
-        });
-
-        unsubscribeFeatured = ProductService.subscribeToFeaturedProducts((updatedFeatured) => {
-          setFeaturedProducts(updatedFeatured);
-        });
-
-      } catch (err) {
-        console.error("Failed to initialize Firebase products:", err);
-        setError(handleFirestoreError(err));
-        // Fallback to local data on any initialization error
-        setProducts(localProducts);
-        calculateStats(localProducts);
-        setFeaturedProducts(localProducts.filter(p => p.featured && p.available).slice(0, 6));
-        setLoading(false);
+    // Cleanup function
+    return () => {
+      console.log("🔥 Cleaning up Firebase listeners");
+      if (typeof unsubscribeProducts === "function") {
+        unsubscribeProducts();
+      }
+      if (typeof unsubscribeFeatured === "function") {
+        unsubscribeFeatured();
       }
     };
-
-    initialize();
-
-    // Cleanup listeners on unmount
-    return () => {
-      if (unsubscribeProducts) unsubscribeProducts();
-      if (unsubscribeFeatured) unsubscribeFeatured();
-    };
-  }, [calculateStats]); // Effect only needs to re-run if calculateStats changes
+  }, [setupProductsListener, setupFeaturedProductsListener]);
 
   return {
     products,
@@ -299,7 +458,7 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
     getProductById,
     refreshProducts,
     migrateLocalData,
-    productStats
+    productStats,
   };
 };
 

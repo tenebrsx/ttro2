@@ -197,7 +197,7 @@ const Navigation = () => {
                   to="/contact"
                   className="block w-full text-center px-6 py-5 bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 text-white rounded-full hover:from-dusty-rose-600 hover:to-dusty-rose-700 hover:shadow-warm transition-all duration-300 font-playfair font-bold text-lg mt-6 shadow-lg transform hover:scale-105 border-2 border-dusty-rose-400 hover:border-dusty-rose-500"
                 >
-                  ✨ Crea tu pedido personalizado
+                  Crea tu pedido personalizado
                 </Link>
               </div>
             </motion.div>

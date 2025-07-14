@@ -5,14 +5,7 @@ export interface Product {
   shortDescription: string;
   price: number;
   originalPrice?: number;
-  category:
-    | "tartas"
-    | "macarons"
-    | "cupcakes"
-    | "galletas"
-    | "postres-especiales"
-    | "temporada"
-    | "otro";
+  category: string;
   subcategory?: string;
   images: string[];
   thumbnailImage: string;
@@ -65,10 +58,10 @@ export const productCategories: ProductCategory[] = [
     name: "Tartas Artesanales",
     slug: "tartas",
     description:
-      "Tartas elaboradas con ingredientes premium y técnicas tradicionales",
+      "Cada tarta cuenta una historia única, desde el primer bocado hasta el último",
     image: "/images/placeholder-dessert.jpg",
     icon: "",
-    color: "#8B5A5A",
+    color: "#c78787",
     featured: true,
     sortOrder: 1,
   },
@@ -76,10 +69,10 @@ export const productCategories: ProductCategory[] = [
     id: "macarons",
     name: "Macarons Franceses",
     slug: "macarons",
-    description: "Auténticos macarons franceses con sabores únicos",
+    description: "Técnica parisina auténtica que aprendí en las mejores pastelerías de Francia",
     image: "/images/placeholder-dessert.jpg",
     icon: "🥐",
-    color: "#D4A574",
+    color: "#c78787",
     featured: true,
     sortOrder: 2,
   },
@@ -87,10 +80,10 @@ export const productCategories: ProductCategory[] = [
     id: "cupcakes",
     name: "Cupcakes Temáticos",
     slug: "cupcakes",
-    description: "Cupcakes personalizados para todas las ocasiones",
+    description: "Pequeñas obras de arte comestibles que hacen sonreír a grandes y chicos",
     image: "/images/placeholder-dessert.jpg",
     icon: "🧁",
-    color: "#B8A082",
+    color: "#c78787",
     featured: true,
     sortOrder: 3,
   },
@@ -98,7 +91,7 @@ export const productCategories: ProductCategory[] = [
     id: "galletas",
     name: "Galletas Decoradas",
     slug: "galletas",
-    description: "Galletas artesanales con diseños únicos",
+    description: "Cada galleta es un lienzo donde pinto con royal icing y mucho cariño",
     image: "/images/placeholder-dessert.jpg",
     icon: "",
     color: "#8D7053",
@@ -109,7 +102,7 @@ export const productCategories: ProductCategory[] = [
     id: "postres-especiales",
     name: "Postres Especiales",
     slug: "postres-especiales",
-    description: "Creaciones únicas para momentos especiales",
+    description: "Para esos momentos que merecen algo completamente único y memorable",
     image: "/images/placeholder-dessert.jpg",
     icon: "",
     color: "#A67B5B",
@@ -120,7 +113,7 @@ export const productCategories: ProductCategory[] = [
     id: "temporada",
     name: "Temporada",
     slug: "temporada",
-    description: "Sabores y diseños de temporada",
+    description: "Sabores estacionales que capturan la esencia de cada época del año",
     image: "/images/placeholder-dessert.jpg",
     icon: "",
     color: "#9D6E47",
@@ -135,8 +128,8 @@ export const products: Product[] = [
     id: "tarta-chocolate-premium",
     name: "Tarta de Chocolate Premium",
     description:
-      "Exquisita tarta de chocolate belga con capas de ganache sedoso, crema de vainilla Madagascar y decoración de frutos rojos frescos. Una experiencia gourmet que combina la intensidad del cacao con la delicadeza de ingredientes premium.",
-    shortDescription: "Tarta de chocolate belga con ganache y frutos rojos",
+      "Mi tarta más pedida para celebraciones especiales. Tres capas de bizcocho de chocolate húmedo, rellenas con ganache de chocolate belga que derrito yo misma, y crema de vainilla auténtica de Madagascar. La termino con frutos rojos frescos que selecciono cada mañana. Es el tipo de chocolate que te hace cerrar los ojos en el primer bocado.",
+    shortDescription: "La favorita: chocolate belga con frutos rojos del día",
     price: 45.0,
     originalPrice: 50.0,
     category: "tartas",
@@ -200,8 +193,8 @@ export const products: Product[] = [
     id: "macarons-franceses-clasicos",
     name: "Macarons Franceses Clásicos",
     description:
-      "Caja de 12 macarons auténticos franceses elaborados con técnica tradicional. Incluye sabores clásicos: vainilla, chocolate, fresa, limón, pistacho y lavanda. Perfectos para regalar o disfrutar en una ocasión especial.",
-    shortDescription: "Caja de 12 macarons artesanales sabores variados",
+      "Los hago exactamente como aprendí en París: con harina de almendra francesa, macaronage a mano hasta conseguir esa textura perfecta, y 24 horas de reposo para que cada uno encuentre su equilibrio. Esta caja de 12 incluye vainilla Bourbon, chocolate 70%, fresa natural, limón siciliano, pistacho de verdad, y mi favorito personal: lavanda de Provenza. Cada uno lleva tres días de proceso.",
+    shortDescription: "12 macarons hechos con técnica parisina auténtica",
     price: 24.0,
     category: "macarons",
     subcategory: "clasicos",
@@ -264,8 +257,8 @@ export const products: Product[] = [
     id: "cupcakes-tematicos-cumpleanos",
     name: "Cupcakes Temáticos de Cumpleaños",
     description:
-      "Set de 6 cupcakes personalizados para celebraciones de cumpleaños. Incluye decoración temática, colores personalizados y toppers únicos. Base de vainilla esponjosa con buttercream suave y decoraciones comestibles.",
-    shortDescription: "Set de 6 cupcakes personalizados para cumpleaños",
+      "Estos cupcakes son pura alegría en formato individual. Los hago con mi receta secreta de vainilla que queda súper esponjosa, y el buttercream lo bato a mano hasta conseguir esa textura cremosa perfecta. Lo divertido viene después: trabajo contigo para crear el tema que quieras, desde unicornios hasta superhéroes, siempre con decoraciones comestibles hechas en casa. Es ver la cara del cumpleañero lo que más me emociona.",
+    shortDescription: "6 cupcakes personalizados que hacen sonreír",
     price: 18.0,
     category: "cupcakes",
     subcategory: "cumpleanos",
@@ -400,8 +393,8 @@ export const products: Product[] = [
     id: "tiramisu-individual-premium",
     name: "Tiramisú Individual Premium",
     description:
-      "Auténtico tiramisú italiano servido en elegantes copas individuales. Elaborado con mascarpone italiano, café espresso dominicano, ladyfingers artesanales y cacao importado. Una experiencia gourmet que transporta directamente a Italia.",
-    shortDescription: "Tiramisú auténtico en presentación individual",
+      "Mi versión del tiramisú clásico que aprendí de una nonna italiana en Roma. Uso mascarpone importado, café espresso de la mejor cafetería de Santo Domingo, y ladyfingers que hago yo misma porque la textura tiene que ser perfecta. Lo sirvo en copas de cristal porque este postre se disfruta primero con los ojos. El secreto está en dejarlo reposar 24 horas para que todos los sabores se casen.",
+    shortDescription: "Tiramisú como en Roma, servido en copa de cristal",
     price: 12.0,
     category: "postres-especiales",
     subcategory: "italiano",

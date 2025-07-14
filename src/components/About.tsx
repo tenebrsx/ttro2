@@ -31,42 +31,33 @@ const About = () => {
 
             <h2 className="text-4xl sm:text-5xl font-playfair mb-8 font-bold leading-tight">
               <span className="block text-black-bold text-shadow-elegant">
-                Hello, I&apos;m the heart
+                Detrás de Cada Postre
               </span>
               <span className="block text-dusty-rose-elegant italic mt-2 relative">
-                behind Cucinanostrard
+                Hay una Historia
                 <div className="absolute -bottom-2 left-0 w-32 h-1 bg-gradient-to-r from-dusty-rose-300 to-warm-blush-300 rounded-full"></div>
               </span>
             </h2>
 
             <div className="space-y-6 text-mocha/80 text-lg leading-relaxed font-karla font-light">
               <p>
-                What started as Sunday afternoon baking sessions has grown into
-                something beautiful—creating sweet moments that become cherished
-                memories. I believe every celebration deserves desserts made
-                with intention and love.
+                Todo comenzó con tardes de domingo experimentando en mi cocina. Lo que empezó como un hobby se transformó en mi pasión: crear postres que no solo se ven hermosos, sino que cuentan historias y crean memorias especiales en cada bocado.
               </p>
 
               <p>
-                In my kitchen, I work with seasonal ingredients and time-honored
-                techniques, crafting each dessert by hand. No shortcuts, no
-                artificial flavors—just pure ingredients transformed into
-                something magical through patience and care.
+                En Cucinanostrard no usamos mezclas comerciales ni atajos. Cada ganache se templa a mano, cada macaron se forma con la técnica francesa tradicional, y cada decoración se piensa específicamente para quien lo va a disfrutar.
               </p>
 
               <p>
-                Cada pedido es personal para mí. Ya sea un pastel de cumpleaños
-                que provoque sonrisas o elegantes petit fours para una reunión
-                íntima, pongo mi corazón en crear postres que sepan a hogar,
-                pero elevados.
+                Trabajo con ingredientes importados de Francia para los macarons, chocolates belgas para las ganaches, y frutas frescas dominicanas para darle ese toque local que nos hace únicos. Porque los mejores postres nacen cuando la técnica se encuentra con la pasión.
               </p>
             </div>
 
             <div className="mt-10 p-6 bg-white/40 backdrop-blur-sm rounded-2xl border border-dusty-rose/10">
               <blockquote className="text-2xl font-cormorant text-dusty-rose italic text-center">
-                &quot;I don&apos;t just bake—
+                &quot;No solo hornéo postres—
                 <span className="block mt-1">
-                  I create little edible moments.&quot;
+                  creo momentos que se saborean para siempre.&quot;
                 </span>
               </blockquote>
             </div>

@@ -40,7 +40,7 @@ interface VirtualConsultationProps {
 }
 
 export const VirtualConsultation: React.FC<VirtualConsultationProps> = ({
-  businessPhone = "+1234567890",
+  businessPhone = "18096581245",
   businessEmail = "contact@cucinanostrard.com",
   availableTypes,
 }) => {
@@ -259,7 +259,7 @@ export const VirtualConsultation: React.FC<VirtualConsultationProps> = ({
 
     if (selectedType.price > 0) {
       message += `*Costo de consulta:* RD$${selectedType.price} DOP\n`;
-    message += `*Pago:* Se realiza después de confirmar la cita\n\n`;
+      message += `*Pago:* Se realiza después de confirmar la cita\n\n`;
     }
 
     message += `¡Esperamos tu confirmación!`;

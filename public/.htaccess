@@ -265,7 +265,7 @@ FileETag None
 # ================================================
 
 # WhatsApp button redirects
-RewriteRule ^whatsapp/?$ https://wa.me/18095551234?text=Hola%21%20Me%20interesa%20conocer%20m%C3%A1s%20sobre%20sus%20postres%20artesanales [R=301,L]
+RewriteRule ^whatsapp/?$ https://wa.me/18096581245?text=Hola%21%20Me%20interesa%20conocer%20m%C3%A1s%20sobre%20sus%20postres%20artesanales [R=301,L]
 
 # Instagram redirect
 RewriteRule ^instagram/?$ https://instagram.com/cucinanostrard [R=301,L]

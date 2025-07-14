@@ -111,7 +111,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
     name: "",
     description: "",
     shortDescription: "",
-    price: 0,
+    price: "",
     originalPrice: 0,
     category: "tartas" as
       | "tartas"
@@ -153,32 +153,32 @@ const Admin: React.FC<AdminPanelProps> = () => {
       name: "",
       description: "",
       shortDescription: "",
-      price: 0,
+      price: "",
       originalPrice: 0,
       category: "tartas",
       subcategory: "",
       customCategory: "",
       images: [""],
       thumbnailImage: "",
-      preparationTime: "",
-      serves: "",
+      preparationTime: "2-3 días",
+      serves: "8-10 personas",
       difficulty: "Fácil",
-      customizations: [""],
-      allergens: [""],
-      dietaryOptions: [""],
-      ingredients: [""],
-      tags: [""],
+      customizations: [],
+      allergens: [],
+      dietaryOptions: [],
+      ingredients: [],
+      tags: [],
       featured: false,
       available: true,
       seasonal: false,
-      popularityScore: 0,
-      rating: 0,
+      popularityScore: 50,
+      rating: 5,
       reviewsCount: 0,
 
       seo: {
         metaTitle: "",
         metaDescription: "",
-        keywords: [""],
+        keywords: [],
       },
     });
     setIsEditing(false);
@@ -203,7 +203,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
     } else if (type === "number") {
       setFormData((prev) => ({
         ...prev,
-        [name]: parseFloat(value) || 0,
+        [name]: value === "" ? 0 : parseFloat(value) || 0,
       }));
     } else {
       setFormData((prev) => ({
@@ -250,44 +250,178 @@ const Admin: React.FC<AdminPanelProps> = () => {
 
   // Save dessert
   const saveDessert = async () => {
-    if (!formData.name || !formData.description || formData.price <= 0) {
-      alert("Por favor completa todos los campos obligatorios");
+    // Enhanced validation
+    if (
+      !formData.name ||
+      !formData.description ||
+      !formData.price ||
+      parseFloat(formData.price.toString()) <= 0
+    ) {
+      alert(
+        "Por favor completa todos los campos obligatorios: nombre, descripción y precio",
+      );
+      return;
+    }
+
+    // Validate custom category when "otro" is selected
+    if (formData.category === "otro" && !formData.customCategory.trim()) {
+      alert("Por favor ingresa una categoría personalizada");
+      return;
+    }
+
+    // Validate that at least thumbnail image or one image is provided
+    const hasImages =
+      formData.images.some((img) => img.trim() !== "") ||
+      formData.thumbnailImage.trim() !== "";
+    if (!hasImages) {
+      alert(
+        "Por favor agrega al menos una imagen del producto (imagen principal o imágenes adicionales)",
+      );
+      return;
+    }
+
+    console.log("🍰 Form validation passed, proceeding with save...");
+
+    if (!formData.shortDescription) {
+      alert("Por favor agrega una descripción corta");
+      return;
+    }
+
+    // Helper function to remove undefined values from object
+    const removeUndefinedValues = (obj: any): any => {
+      const cleaned: any = {};
+      for (const [key, value] of Object.entries(obj)) {
+        if (value !== undefined) {
+          if (
+            typeof value === "object" &&
+            value !== null &&
+            !Array.isArray(value)
+          ) {
+            cleaned[key] = removeUndefinedValues(value);
+          } else {
+            cleaned[key] = value;
+          }
+        }
+      }
+      return cleaned;
+    };
+
+    if (!formData.preparationTime || !formData.serves) {
+      alert("Por favor completa el tiempo de preparación y las porciones");
       return;
     }
 
     setIsOperationLoading(true);
 
     try {
-      const dessertData = {
-        name: formData.name,
-        description: formData.description,
-        shortDescription: formData.shortDescription,
-        price: formData.price,
-        originalPrice: formData.originalPrice || undefined,
-        category: formData.category,
-        subcategory: formData.subcategory || undefined,
-        images: formData.images.filter((img) => img.trim() !== ""),
-        thumbnailImage: formData.thumbnailImage || formData.images[0] || "",
-        preparationTime: formData.preparationTime,
-        serves: formData.serves,
-        difficulty: formData.difficulty,
-        customizations: formData.customizations.filter((c) => c.trim() !== ""),
-        allergens: formData.allergens.filter((a) => a.trim() !== ""),
-        dietaryOptions: formData.dietaryOptions.filter((d) => d.trim() !== ""),
-        ingredients: formData.ingredients.filter((i) => i.trim() !== ""),
-        tags: formData.tags.filter((t) => t.trim() !== ""),
-        featured: formData.featured,
-        available: formData.available,
-        seasonal: formData.seasonal,
-        popularityScore: formData.popularityScore,
-        rating: formData.rating,
-        reviewsCount: formData.reviewsCount,
-        seo: formData.seo || {
-          metaTitle: "",
-          metaDescription: "",
-          keywords: [],
-        },
+      // Filter and prepare arrays
+      const filteredImages = formData.images.filter((img) => img.trim() !== "");
+      const filteredCustomizations = formData.customizations.filter(
+        (c) => c.trim() !== "",
+      );
+      const filteredAllergens = formData.allergens.filter(
+        (a) => a.trim() !== "",
+      );
+      const filteredDietaryOptions = formData.dietaryOptions.filter(
+        (d) => d.trim() !== "",
+      );
+      const filteredIngredients = formData.ingredients.filter(
+        (i) => i.trim() !== "",
+      );
+      const filteredTags = formData.tags.filter((t) => t.trim() !== "");
+      const filteredKeywords =
+        formData.seo?.keywords?.filter((k) => k.trim() !== "") || [];
+
+      // Ensure we have at least one image
+      // Allow empty images array - no automatic placeholder addition
+
+      // Ensure we have default values for optional fields
+      const defaultSeo = {
+        metaTitle: formData.seo?.metaTitle?.trim() || formData.name,
+        metaDescription:
+          formData.seo?.metaDescription?.trim() || formData.shortDescription,
+        keywords:
+          filteredKeywords.length > 0
+            ? filteredKeywords
+            : [
+                formData.name,
+                formData.category === "otro" && formData.customCategory.trim()
+                  ? formData.customCategory.trim()
+                  : formData.category,
+              ].filter(Boolean),
       };
+
+      const dessertData = {
+        name: formData.name.trim(),
+        description: formData.description.trim(),
+        shortDescription: formData.shortDescription.trim(),
+        price: Number(formData.price),
+        originalPrice:
+          formData.originalPrice > 0 ? Number(formData.originalPrice) : 0,
+        category:
+          formData.category === "otro"
+            ? formData.customCategory.trim()
+            : (formData.category as Product["category"]),
+        subcategory: formData.subcategory.trim() || "",
+        images: filteredImages,
+        thumbnailImage: formData.thumbnailImage || filteredImages[0] || "",
+        preparationTime: formData.preparationTime.trim(),
+        serves: formData.serves.trim(),
+        difficulty: formData.difficulty as Product["difficulty"],
+        customizations: filteredCustomizations,
+        allergens: filteredAllergens,
+        dietaryOptions: filteredDietaryOptions,
+        ingredients: filteredIngredients,
+        tags: filteredTags,
+        featured: Boolean(formData.featured),
+        available: Boolean(formData.available),
+        seasonal: Boolean(formData.seasonal),
+        popularityScore: Number(formData.popularityScore) || 0,
+        rating: Number(formData.rating) || 0,
+        reviewsCount: Number(formData.reviewsCount) || 0,
+        seo: defaultSeo,
+      };
+
+      // Remove undefined values to prevent Firebase errors
+      const cleanedDessertData = removeUndefinedValues(dessertData);
+
+      console.log("Prepared dessert data for submission:", dessertData);
+      console.log("Cleaned dessert data (no undefined):", cleanedDessertData);
+      console.log("🔍 DEBUGGING - Form data vs dessert data comparison:");
+      console.log("🔍 Form data:", formData);
+      console.log("🔍 Dessert data:", dessertData);
+      console.log("🔍 Debug details:", {
+        formCategory: formData.category,
+        customCategory: formData.customCategory,
+        finalCategory: dessertData.category,
+        isOtro: formData.category === "otro",
+      });
+      console.log("🍰 Prepared dessert data for submission:", dessertData);
+      console.log("🍰 Form data before conversion:", {
+        name: formData.name,
+        price: formData.price,
+        category: formData.category,
+        customCategory: formData.customCategory,
+        images: formData.images,
+        thumbnailImage: formData.thumbnailImage,
+      });
+
+      // Check for potential problematic fields
+      console.log("🔍 Checking for problematic fields:");
+      console.log("  - Empty arrays check:", {
+        customizations: dessertData.customizations,
+        allergens: dessertData.allergens,
+        dietaryOptions: dessertData.dietaryOptions,
+        ingredients: dessertData.ingredients,
+        tags: dessertData.tags,
+      });
+      console.log("  - SEO object:", dessertData.seo);
+      console.log("  - Images array:", dessertData.images);
+      console.log(
+        "  - Price type and value:",
+        typeof dessertData.price,
+        dessertData.price,
+      );
 
       let success = false;
 
@@ -299,12 +433,39 @@ const Admin: React.FC<AdminPanelProps> = () => {
           alert("Error al actualizar el producto. Intenta de nuevo.");
         }
       } else {
-        const productId = await createProduct(dessertData);
+        console.log("🍰 Creating new product with data:", dessertData);
+        console.log("🍰 Required fields check:", {
+          name: !!dessertData.name,
+          description: !!dessertData.description,
+          shortDescription: !!dessertData.shortDescription,
+          price: !!dessertData.price,
+          category: !!dessertData.category,
+          preparationTime: !!dessertData.preparationTime,
+          serves: !!dessertData.serves,
+        });
+
+        console.log("🍰 About to call createProduct with data:", dessertData);
+        console.log("🍰 Validation checks passed:");
+        console.log("  - Name:", !!dessertData.name);
+        console.log("  - Description:", !!dessertData.description);
+        console.log("  - Price:", dessertData.price);
+        console.log("  - Images:", dessertData.images);
+        console.log("  - Category:", dessertData.category);
+
+        const productId = await createProduct(cleanedDessertData);
+        console.log("🍰 CreateProduct returned:", productId);
+
         if (productId) {
           success = true;
+          console.log("✅ Product created successfully with ID:", productId);
           alert("Producto creado exitosamente");
         } else {
-          alert("Error al crear el producto. Intenta de nuevo.");
+          console.error("❌ CreateProduct failed - returned null/undefined");
+          console.error("❌ Dessert data that failed:", dessertData);
+          console.error("❌ Form data:", formData);
+          alert(
+            "Error al crear el producto. Verifica la conexión y los datos ingresados. Revisa la consola para más detalles.",
+          );
         }
       }
 
@@ -312,8 +473,45 @@ const Admin: React.FC<AdminPanelProps> = () => {
         resetForm();
       }
     } catch (error) {
-      console.error("Error saving product:", error);
-      alert("Error inesperado. Por favor intenta de nuevo.");
+      console.error("Detailed error saving product:");
+      console.error("- Error object:", error);
+      console.error("- Form data:", formData);
+      console.error("- Product data: Unable to display (construction failed)");
+
+      let errorMessage = "Error inesperado. Por favor intenta de nuevo.";
+
+      if (error instanceof Error) {
+        console.error("- Error message:", error.message);
+
+        // Provide more specific error messages based on the error
+        if (error.message.includes("Failed to create product")) {
+          errorMessage = `Error al crear el producto: ${error.message.replace("Failed to create product: ", "")}`;
+        } else if (error.message.includes("Failed to update product")) {
+          errorMessage = `Error al actualizar el producto: ${error.message.replace("Failed to update product: ", "")}`;
+        } else if (error.message.includes("Missing required fields")) {
+          errorMessage =
+            "Error: Faltan campos obligatorios. Verifica que hayas completado nombre, descripción y precio.";
+        } else if (error.message.includes("permission")) {
+          errorMessage =
+            "Error de permisos. Verifica la configuración de Firebase.";
+        } else if (
+          error.message.includes("network") ||
+          error.message.includes("Failed to fetch")
+        ) {
+          errorMessage =
+            "Error de conexión. Verifica tu conexión a internet y que Firebase esté configurado correctamente.";
+        } else if (
+          error.message.includes("quota") ||
+          error.message.includes("billing")
+        ) {
+          errorMessage =
+            "Error: Se ha alcanzado el límite de Firebase. Contacta al administrador.";
+        } else {
+          errorMessage = `Error detallado: ${error.message}. Si el problema persiste, contacta al soporte técnico.`;
+        }
+      }
+
+      alert(errorMessage);
     } finally {
       setIsOperationLoading(false);
     }
@@ -340,6 +538,263 @@ const Admin: React.FC<AdminPanelProps> = () => {
     }
   };
 
+  // Test function to create a simple product
+  const testFirebaseConnection = async () => {
+    try {
+      setIsOperationLoading(true);
+      console.log("🔥 Testing Firebase connection...");
+
+      // Test 1: Import Firebase modules
+      const { db } = await import("../config/firebase");
+      const { collection, addDoc, doc, getDoc, deleteDoc } = await import(
+        "firebase/firestore"
+      );
+      console.log("✅ Firebase modules imported successfully");
+
+      // Test 2: Test connection with a simple write
+      console.log("🔥 Testing Firestore write operation...");
+      const testRef = collection(db, "connection-test");
+      const testData = {
+        timestamp: new Date(),
+        test: "connection-test",
+        message: "Testing Firebase connection",
+      };
+
+      const docRef = await addDoc(testRef, testData);
+      console.log("✅ Test document created with ID:", docRef.id);
+
+      // Test 3: Test read operation
+      console.log("🔥 Testing Firestore read operation...");
+      const docSnap = await getDoc(doc(db, "connection-test", docRef.id));
+      if (docSnap.exists()) {
+        console.log("✅ Test document read successfully:", docSnap.data());
+      } else {
+        throw new Error("Test document not found after creation");
+      }
+
+      // Test 4: Clean up - delete test document
+      await deleteDoc(doc(db, "connection-test", docRef.id));
+      console.log("✅ Test document deleted successfully");
+
+      alert("✅ Firebase connection test passed! All operations successful.");
+    } catch (error) {
+      console.error("🚨 Firebase connection test failed:", error);
+      alert(
+        `❌ Firebase connection failed: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    } finally {
+      setIsOperationLoading(false);
+    }
+  };
+
+  const testSimpleProduct = async () => {
+    try {
+      setIsOperationLoading(true);
+
+      const testProduct = {
+        name: "Test Product",
+        description: "Test Description",
+        shortDescription: "Test short description",
+        price: 19.99,
+        category: "tartas" as const,
+        images: [""],
+        thumbnailImage: "",
+        preparationTime: "2-3 días",
+        serves: "8-10 personas",
+        difficulty: "Fácil" as const,
+        customizations: [""],
+        allergens: [""],
+        dietaryOptions: [""],
+        ingredients: [""],
+        tags: [""],
+        featured: false,
+        available: true,
+        seasonal: false,
+        popularityScore: 0,
+        rating: 0,
+        reviewsCount: 0,
+        seo: {
+          metaTitle: "Test Product",
+          metaDescription: "Test short description",
+          keywords: ["test", "tartas"],
+        },
+      };
+
+      console.log("🧪 Testing simple product creation...");
+      const productId = await createProduct(testProduct);
+
+      if (productId) {
+        alert("✅ Test product created successfully!");
+        console.log("✅ Test product created with ID:", productId);
+        await refreshProducts();
+      } else {
+        alert("❌ Test failed - no product ID returned");
+        console.error("❌ Test failed - createProduct returned null");
+      }
+    } catch (error) {
+      console.error("🚨 Test product creation failed:", error);
+      alert(
+        `❌ Test failed: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    } finally {
+      setIsOperationLoading(false);
+    }
+  };
+
+  // Test function that mimics the form submission process exactly
+  const testFormDataStructure = async () => {
+    try {
+      setIsOperationLoading(true);
+      console.log("🧪 Testing form data structure with minimal values...");
+
+      // Create a minimal form data object that mimics the actual form
+      const minimalFormData = {
+        name: "Test Form Product",
+        description: "Test Description from Form",
+        shortDescription: "Test Short Description",
+        price: "25.50", // String like the form
+        originalPrice: 0,
+        category: "tartas",
+        subcategory: "",
+        customCategory: "",
+        images: [""],
+        thumbnailImage: "",
+        preparationTime: "2-3 días",
+        serves: "8-10 personas",
+        difficulty: "Fácil" as const,
+        customizations: [""],
+        allergens: [""],
+        dietaryOptions: [""],
+        ingredients: [""],
+        tags: [""],
+        featured: false,
+        available: true,
+        seasonal: false,
+        popularityScore: 0,
+        rating: 0,
+        reviewsCount: 0,
+        seo: {
+          metaTitle: "",
+          metaDescription: "",
+          keywords: [""],
+        },
+      };
+
+      console.log("🧪 Minimal form data:", minimalFormData);
+
+      // Process it exactly like the form does
+      const filteredImages = minimalFormData.images.filter(
+        (img) => img.trim() !== "",
+      );
+      const filteredCustomizations = minimalFormData.customizations.filter(
+        (c) => c.trim() !== "",
+      );
+      const filteredAllergens = minimalFormData.allergens.filter(
+        (a) => a.trim() !== "",
+      );
+      const filteredDietaryOptions = minimalFormData.dietaryOptions.filter(
+        (d) => d.trim() !== "",
+      );
+      const filteredIngredients = minimalFormData.ingredients.filter(
+        (i) => i.trim() !== "",
+      );
+      const filteredTags = minimalFormData.tags.filter((t) => t.trim() !== "");
+      const filteredKeywords =
+        minimalFormData.seo?.keywords?.filter((k) => k.trim() !== "") || [];
+
+      const defaultSeo = {
+        metaTitle:
+          minimalFormData.seo?.metaTitle?.trim() || minimalFormData.name,
+        metaDescription:
+          minimalFormData.seo?.metaDescription?.trim() ||
+          minimalFormData.shortDescription,
+        keywords:
+          filteredKeywords.length > 0
+            ? filteredKeywords
+            : [minimalFormData.name, minimalFormData.category],
+      };
+
+      const processedData = {
+        name: minimalFormData.name.trim(),
+        description: minimalFormData.description.trim(),
+        shortDescription: minimalFormData.shortDescription.trim(),
+        price: Number(minimalFormData.price),
+        originalPrice:
+          minimalFormData.originalPrice > 0
+            ? Number(minimalFormData.originalPrice)
+            : 0,
+        category: minimalFormData.category,
+        subcategory: minimalFormData.subcategory.trim() || "",
+        images: filteredImages,
+        thumbnailImage:
+          minimalFormData.thumbnailImage || filteredImages[0] || "",
+        preparationTime: minimalFormData.preparationTime.trim(),
+        serves: minimalFormData.serves.trim(),
+        difficulty: minimalFormData.difficulty,
+        customizations: filteredCustomizations,
+        allergens: filteredAllergens,
+        dietaryOptions: filteredDietaryOptions,
+        ingredients: filteredIngredients,
+        tags: filteredTags,
+        featured: Boolean(minimalFormData.featured),
+        available: Boolean(minimalFormData.available),
+        seasonal: Boolean(minimalFormData.seasonal),
+        popularityScore: Number(minimalFormData.popularityScore) || 0,
+        rating: Number(minimalFormData.rating) || 0,
+        reviewsCount: Number(minimalFormData.reviewsCount) || 0,
+        seo: defaultSeo,
+      };
+
+      // Remove undefined values for form test too
+      const removeUndefinedValues = (obj: any): any => {
+        const cleaned: any = {};
+        for (const [key, value] of Object.entries(obj)) {
+          if (value !== undefined) {
+            if (
+              typeof value === "object" &&
+              value !== null &&
+              !Array.isArray(value)
+            ) {
+              cleaned[key] = removeUndefinedValues(value);
+            } else {
+              cleaned[key] = value;
+            }
+          }
+        }
+        return cleaned;
+      };
+
+      const cleanedProcessedData = removeUndefinedValues(processedData);
+
+      console.log("🧪 Processed form-like data:", processedData);
+      console.log("🧪 Cleaned form-like data:", cleanedProcessedData);
+      console.log("🧪 Comparison with working test product:");
+      console.log("  - Arrays in form test:", {
+        customizations: processedData.customizations,
+        allergens: processedData.allergens,
+        images: processedData.images,
+      });
+
+      const productId = await createProduct(cleanedProcessedData);
+
+      if (productId) {
+        alert("✅ Form data structure test successful!");
+        console.log("✅ Form-like test product created with ID:", productId);
+        await refreshProducts();
+      } else {
+        alert("❌ Form data structure test failed - no product ID returned");
+        console.error("❌ Form test failed - createProduct returned null");
+      }
+    } catch (error) {
+      console.error("🚨 Form data structure test failed:", error);
+      alert(
+        `❌ Form test failed: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    } finally {
+      setIsOperationLoading(false);
+    }
+  };
+
   // Filter and sort desserts
   const filteredDesserts = desserts
     .filter((dessert) => {
@@ -356,8 +811,6 @@ const Admin: React.FC<AdminPanelProps> = () => {
           return a.name.localeCompare(b.name);
         case "price":
           return a.price - b.price;
-        case "rating":
-          return b.rating - a.rating;
         default:
           return 0;
       }
@@ -440,10 +893,10 @@ const Admin: React.FC<AdminPanelProps> = () => {
                 <Package className="w-6 h-6 sm:w-8 sm:h-8 text-dusty-rose-600" />
               </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl font-playfair text-mocha-700 font-bold">
+                <h1 className="text-3xl sm:text-4xl font-sans text-mocha-700 font-bold">
                   Panel de Administración
                 </h1>
-                <p className="text-mocha-600 font-source-serif text-sm sm:text-base">
+                <p className="text-mocha-600 font-sans text-lg sm:text-xl">
                   Gestiona tus postres • {desserts.length} productos
                 </p>
               </div>
@@ -456,11 +909,12 @@ const Admin: React.FC<AdminPanelProps> = () => {
                   resetForm();
                   setShowAddForm(true);
                 }}
-                className="bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 text-white px-6 py-3 rounded-full hover:from-dusty-rose-600 hover:to-dusty-rose-700 transition-all duration-300 flex items-center space-x-2 font-playfair font-bold shadow-lg hover:shadow-xl transform hover:scale-105"
+                className="bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 text-white px-8 py-4 rounded-full hover:from-dusty-rose-600 hover:to-dusty-rose-700 transition-all duration-300 flex items-center space-x-3 font-sans font-bold shadow-lg hover:shadow-xl transform hover:scale-105 text-lg"
               >
-                <Plus className="w-5 h-5" />
+                <Plus className="w-6 h-6" />
                 <span>Agregar Postre</span>
               </motion.button>
+
               <button
                 onClick={handleLogout}
                 className="text-mocha-600 hover:text-dusty-rose-600 transition-colors p-2 rounded-xl hover:bg-dusty-rose-50 border border-dusty-rose-200 sm:border-0"
@@ -471,61 +925,86 @@ const Admin: React.FC<AdminPanelProps> = () => {
           </div>
         </motion.div>
 
-        {/* Firebase Status & Controls */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-gentle p-4 sm:p-6 mb-6 sm:mb-8 border border-dusty-rose-200"
-        >
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0">
-            <div className="flex items-center space-x-3">
-              <div
-                className={`w-3 h-3 rounded-full ${isLoading ? "bg-yellow-500" : firebaseError ? "bg-red-500" : "bg-green-500"}`}
-              ></div>
-              <div>
-                <h3 className="text-lg font-playfair font-bold text-mocha-700">
-                  Estado de Firebase
-                </h3>
-                <p className="text-sm text-mocha-600 font-source-serif">
-                  {isLoading
-                    ? "Conectando..."
-                    : firebaseError
-                      ? "Error de conexión"
-                      : "Conectado exitosamente"}
-                </p>
-                {firebaseError && (
-                  <p className="text-xs text-red-600 mt-1">{firebaseError}</p>
-                )}
+        {/* Firebase Status & Controls - Hidden for user-friendly interface */}
+        {false && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-gentle p-4 sm:p-6 mb-6 sm:mb-8 border border-dusty-rose-200"
+          >
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0">
+              <div className="flex items-center space-x-3">
+                <div
+                  className={`w-3 h-3 rounded-full ${isLoading ? "bg-yellow-500" : firebaseError ? "bg-red-500" : "bg-green-500"}`}
+                ></div>
+                <div>
+                  <h3 className="text-xl font-sans font-bold text-mocha-700">
+                    Estado de Firebase
+                  </h3>
+                  <p className="text-lg text-mocha-600 font-sans">
+                    {isLoading
+                      ? "Conectando..."
+                      : firebaseError
+                        ? "Error de conexión"
+                        : "Conectado exitosamente"}
+                  </p>
+                  {firebaseError && (
+                    <p className="text-base text-red-600 mt-2 font-sans font-medium">
+                      {firebaseError}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setShowMigrationDialog(true)}
+                  className="bg-dusty-rose-500 text-white px-6 py-3 rounded-lg hover:bg-dusty-rose-600 transition-colors font-sans font-medium shadow-gentle hover:shadow-elegant text-base"
+                >
+                  Migrar Datos
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={refreshProducts}
+                  disabled={isLoading}
+                  className="bg-warm-ivory text-mocha-700 px-6 py-3 rounded-lg hover:bg-cream-200 transition-colors font-sans font-medium shadow-gentle hover:shadow-elegant text-base border border-dusty-rose-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Actualizar
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={testFirebaseConnection}
+                  disabled={isOperationLoading}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors font-source-serif font-medium shadow-gentle hover:shadow-elegant text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Test Firebase
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={testSimpleProduct}
+                  disabled={isOperationLoading}
+                  className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors font-source-serif font-medium shadow-gentle hover:shadow-elegant text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Test Product
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={testFormDataStructure}
+                  disabled={isOperationLoading}
+                  className="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors font-source-serif font-medium shadow-gentle hover:shadow-elegant text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Test Form Structure
+                </motion.button>
               </div>
             </div>
-            <div className="flex items-center space-x-2">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setShowMigrationDialog(true)}
-                className="bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 transition-colors flex items-center space-x-2 font-source-serif"
-              >
-                <Database className="w-4 h-4" />
-                <span>Migrar Datos</span>
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={refreshProducts}
-                disabled={isLoading}
-                className="bg-gray-500 text-white px-4 py-2 rounded-xl hover:bg-gray-600 transition-colors flex items-center space-x-2 font-source-serif disabled:opacity-50"
-              >
-                {isLoading ? (
-                  <Wifi className="w-4 h-4 animate-spin" />
-                ) : (
-                  <WifiOff className="w-4 h-4" />
-                )}
-                <span>Actualizar</span>
-              </motion.button>
-            </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        )}
 
         {/* Migration Dialog */}
         <AnimatePresence>
@@ -602,24 +1081,24 @@ const Admin: React.FC<AdminPanelProps> = () => {
         </AnimatePresence>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-dusty-rose-200 shadow-gentle"
+            className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-dusty-rose-200 shadow-gentle"
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs sm:text-sm text-mocha-600 font-source-serif">
+                <p className="text-lg sm:text-xl text-mocha-600 font-sans font-medium">
                   Destacados
                 </p>
-                <p className="text-2xl sm:text-3xl font-playfair font-bold text-mocha-700">
+                <p className="text-4xl sm:text-5xl font-sans font-bold text-mocha-700">
                   {productStats.featured}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-yellow-400/10 rounded-full flex items-center justify-center">
-                <Star className="w-6 h-6 text-yellow-500" />
+              <div className="w-16 h-16 bg-yellow-400/10 rounded-full flex items-center justify-center">
+                <Star className="w-8 h-8 text-yellow-500" />
               </div>
             </div>
           </motion.div>
@@ -628,19 +1107,19 @@ const Admin: React.FC<AdminPanelProps> = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-dusty-rose-200 shadow-gentle"
+            className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-dusty-rose-200 shadow-gentle"
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs sm:text-sm text-mocha-600 font-source-serif">
+                <p className="text-lg sm:text-xl text-mocha-600 font-sans font-medium">
                   Disponibles
                 </p>
-                <p className="text-2xl sm:text-3xl font-playfair font-bold text-mocha-700">
+                <p className="text-4xl sm:text-5xl font-sans font-bold text-mocha-700">
                   {productStats.available}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-green-400/10 rounded-full flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-green-500" />
+              <div className="w-16 h-16 bg-green-400/10 rounded-full flex items-center justify-center">
+                <TrendingUp className="w-8 h-8 text-green-500" />
               </div>
             </div>
           </motion.div>
@@ -649,19 +1128,19 @@ const Admin: React.FC<AdminPanelProps> = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-dusty-rose-200 shadow-gentle"
+            className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-dusty-rose-200 shadow-gentle"
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs sm:text-sm text-mocha-600 font-source-serif">
+                <p className="text-lg sm:text-xl text-mocha-600 font-sans font-medium">
                   Total Postres
                 </p>
-                <p className="text-2xl sm:text-3xl font-playfair font-bold text-mocha-700">
+                <p className="text-4xl sm:text-5xl font-sans font-bold text-mocha-700">
                   {productStats.total}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-dusty-rose/10 rounded-full flex items-center justify-center">
-                <Package className="w-6 h-6 text-dusty-rose" />
+              <div className="w-16 h-16 bg-dusty-rose/10 rounded-full flex items-center justify-center">
+                <Package className="w-8 h-8 text-dusty-rose" />
               </div>
             </div>
           </motion.div>
@@ -676,29 +1155,29 @@ const Admin: React.FC<AdminPanelProps> = () => {
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-mocha/80 mb-2 font-source-serif">
+              <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
                 Buscar
               </label>
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-mocha/40 w-5 h-5" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-mocha/40 w-6 h-6" />
                 <input
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-source-serif"
+                  className="w-full pl-12 pr-6 py-4 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-sans text-lg"
                   placeholder="Buscar postres..."
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-mocha/80 mb-2 font-source-serif">
+              <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
                 Categoría
               </label>
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-source-serif"
+                className="w-full px-6 py-4 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-sans text-lg"
               >
                 <option value="all">Todas las categorías</option>
                 <option value="tartas">Tartas</option>
@@ -711,24 +1190,23 @@ const Admin: React.FC<AdminPanelProps> = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-mocha/80 mb-2 font-source-serif">
+              <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
                 Ordenar por
               </label>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-source-serif"
+                className="w-full px-6 py-4 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-sans text-lg"
               >
                 <option value="name">Nombre</option>
                 <option value="price">Precio</option>
-                <option value="rating">Rating</option>
               </select>
             </div>
           </div>
         </motion.div>
 
         {/* Desserts Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
           {filteredDesserts.map((dessert, index) => (
             <motion.div
               key={dessert.id}
@@ -758,50 +1236,48 @@ const Admin: React.FC<AdminPanelProps> = () => {
               </div>
 
               <div className="p-6">
-                <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-lg font-playfair font-bold text-mocha">
+                <div className="flex items-start justify-between mb-4">
+                  <h3 className="text-xl font-sans font-bold text-mocha leading-tight">
                     {dessert.name}
                   </h3>
-                  <span className="text-xl font-playfair font-bold text-dusty-rose">
+                  <span className="text-2xl font-sans font-bold text-dusty-rose">
                     {formatPrice(dessert.price)}
                   </span>
                 </div>
 
-                <p className="text-mocha/70 text-sm mb-4 line-clamp-2 font-source-serif">
+                <p className="text-mocha/70 text-base mb-6 line-clamp-2 font-sans leading-relaxed">
                   {dessert.shortDescription}
                 </p>
 
-                <div className="flex items-center justify-between text-xs text-mocha/60 mb-4">
-                  <div className="flex items-center space-x-1">
-                    <Clock className="w-4 h-4" />
-                    <span>{dessert.preparationTime}</span>
+                <div className="flex items-center justify-between text-base text-mocha/60 mb-6">
+                  <div className="flex items-center space-x-2">
+                    <Clock className="w-5 h-5" />
+                    <span className="font-medium">
+                      {dessert.preparationTime}
+                    </span>
                   </div>
-                  <div className="flex items-center space-x-1">
-                    <Users className="w-4 h-4" />
-                    <span>{dessert.serves}</span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <Star className="w-4 h-4 text-yellow-500" />
-                    <span>{dessert.rating}</span>
+                  <div className="flex items-center space-x-2">
+                    <Users className="w-5 h-5" />
+                    <span className="font-medium">{dessert.serves}</span>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-xs bg-dusty-rose/10 text-dusty-rose px-3 py-1 rounded-full font-source-serif">
+                  <span className="text-base bg-dusty-rose/10 text-dusty-rose px-4 py-2 rounded-full font-sans font-medium">
                     {dessert.category}
                   </span>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-3">
                     <button
                       onClick={() => editDessert(dessert)}
-                      className="text-dusty-rose hover:text-dusty-rose/70 transition-colors p-2 rounded-lg hover:bg-dusty-rose/10"
+                      className="text-dusty-rose hover:text-dusty-rose/70 transition-colors p-3 rounded-lg hover:bg-dusty-rose/10"
                     >
-                      <Edit className="w-4 h-4" />
+                      <Edit className="w-5 h-5" />
                     </button>
                     <button
                       onClick={() => setShowDeleteConfirm(dessert.id)}
-                      className="text-red-500 hover:text-red-700 transition-colors p-2 rounded-lg hover:bg-red-50"
+                      className="text-red-500 hover:text-red-700 transition-colors p-3 rounded-lg hover:bg-red-50"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-5 h-5" />
                     </button>
                   </div>
                 </div>
@@ -827,7 +1303,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
               >
                 <div className="p-6 border-b border-dusty-rose/10">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-2xl font-playfair text-mocha font-bold">
+                    <h2 className="text-3xl font-sans text-mocha font-bold">
                       {isEditing ? "Editar Postre" : "Agregar Nuevo Postre"}
                     </h2>
                     <button
@@ -842,12 +1318,12 @@ const Admin: React.FC<AdminPanelProps> = () => {
                 <div className="p-6 space-y-8">
                   {/* Basic Information */}
                   <div>
-                    <h3 className="text-lg font-playfair font-bold text-mocha mb-4">
+                    <h3 className="text-xl font-sans font-bold text-mocha mb-6">
                       Información Básica
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-mocha/80 mb-2 font-source-serif">
+                        <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
                           Nombre del postre *
                         </label>
                         <input
@@ -855,14 +1331,14 @@ const Admin: React.FC<AdminPanelProps> = () => {
                           name="name"
                           value={formData.name}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-source-serif"
+                          className="w-full px-6 py-4 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-sans text-lg"
                           placeholder="Nombre del postre"
                           required
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-mocha/80 mb-2 font-source-serif">
+                        <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
                           Precio *
                         </label>
                         <input
@@ -871,21 +1347,21 @@ const Admin: React.FC<AdminPanelProps> = () => {
                           name="price"
                           value={formData.price}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-source-serif"
-                          placeholder="0.00"
+                          className="w-full px-6 py-4 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-sans text-lg"
+                          placeholder="Ingresa el precio"
                           required
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-mocha/80 mb-2 font-source-serif">
+                        <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
                           Categoría *
                         </label>
                         <select
                           name="category"
                           value={formData.category}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-source-serif"
+                          className="w-full px-6 py-4 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-sans text-lg"
                           required
                         >
                           <option value="tartas">Tartas</option>
@@ -896,11 +1372,30 @@ const Admin: React.FC<AdminPanelProps> = () => {
                             Postres Especiales
                           </option>
                           <option value="temporada">Temporada</option>
+                          <option value="otro">Otro</option>
                         </select>
                       </div>
 
+                      {/* Custom Category Input - Only show when "otro" is selected */}
+                      {formData.category === "otro" && (
+                        <div>
+                          <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
+                            Categoría Personalizada *
+                          </label>
+                          <input
+                            type="text"
+                            name="customCategory"
+                            value={formData.customCategory}
+                            onChange={handleInputChange}
+                            className="w-full px-6 py-4 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-sans text-lg"
+                            placeholder="Ingresa la categoría personalizada"
+                            required
+                          />
+                        </div>
+                      )}
+
                       <div>
-                        <label className="block text-sm font-medium text-mocha/80 mb-2 font-source-serif">
+                        <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
                           Tiempo de preparación *
                         </label>
                         <input
@@ -908,14 +1403,14 @@ const Admin: React.FC<AdminPanelProps> = () => {
                           name="preparationTime"
                           value={formData.preparationTime}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-source-serif"
+                          className="w-full px-6 py-4 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-sans text-lg"
                           placeholder="2-3 días"
                           required
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-mocha/80 mb-2 font-source-serif">
+                        <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
                           Porciones *
                         </label>
                         <input
@@ -923,7 +1418,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
                           name="serves"
                           value={formData.serves}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-source-serif"
+                          className="w-full px-6 py-4 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-sans text-lg"
                           placeholder="8-10 personas"
                           required
                         />
@@ -933,12 +1428,13 @@ const Admin: React.FC<AdminPanelProps> = () => {
 
                   {/* Images */}
                   <div>
-                    <h3 className="text-lg font-playfair font-bold text-mocha-700 mb-4">
+                    <h3 className="text-xl font-sans font-bold text-mocha mb-6">
                       Imágenes del Producto
                     </h3>
-                    <div className="space-y-6">
+
+                    <div className="space-y-8">
                       <div>
-                        <label className="block text-sm font-medium text-mocha-600 mb-3 font-playfair">
+                        <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
                           Imagen Principal *
                         </label>
                         <div className="border-2 border-dashed border-dusty-rose-300 rounded-xl p-6 text-center hover:border-dusty-rose-500 transition-colors">
@@ -990,7 +1486,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-mocha-600 mb-3 font-playfair">
+                        <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
                           Imágenes Adicionales (opcional)
                         </label>
                         <div className="border-2 border-dashed border-dusty-rose-300 rounded-xl p-6 text-center hover:border-dusty-rose-500 transition-colors">
@@ -1068,36 +1564,36 @@ const Admin: React.FC<AdminPanelProps> = () => {
 
                   {/* Descriptions */}
                   <div>
-                    <h3 className="text-lg font-playfair font-bold text-mocha mb-4">
+                    <h3 className="text-xl font-sans font-bold text-mocha mb-6">
                       Descripciones
                     </h3>
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       <div>
-                        <label className="block text-sm font-medium text-mocha/80 mb-2 font-source-serif">
+                        <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
                           Descripción corta *
                         </label>
-                        <input
-                          type="text"
+                        <textarea
                           name="shortDescription"
                           value={formData.shortDescription}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-source-serif"
-                          placeholder="Una línea descriptiva para mostrar en tarjetas"
+                          rows={3}
+                          className="w-full px-6 py-4 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none resize-none font-sans text-lg"
+                          placeholder="Descripción breve para mostrar en tarjetas"
                           required
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-mocha/80 mb-2 font-source-serif">
+                        <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
                           Descripción completa *
                         </label>
                         <textarea
                           name="description"
                           value={formData.description}
                           onChange={handleInputChange}
-                          rows={4}
-                          className="w-full px-4 py-3 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-source-serif resize-none"
-                          placeholder="Descripción detallada del postre, ingredientes especiales, historia, etc."
+                          rows={5}
+                          className="w-full px-6 py-4 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none resize-none font-sans text-lg"
+                          placeholder="Descripción detallada del postre"
                           required
                         />
                       </div>
@@ -1213,9 +1709,9 @@ const Admin: React.FC<AdminPanelProps> = () => {
                       whileTap={{ scale: 0.95 }}
                       onClick={saveDessert}
                       disabled={isOperationLoading}
-                      className="bg-gradient-to-r from-dusty-rose to-dusty-rose/90 text-white px-6 py-3 rounded-xl hover:from-dusty-rose/90 hover:to-dusty-rose transition-all duration-300 flex items-center space-x-2 font-source-serif font-medium shadow-gentle hover:shadow-elegant disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 text-white px-10 py-5 rounded-full hover:from-dusty-rose-600 hover:to-dusty-rose-700 transition-all duration-300 font-sans font-bold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-3 text-xl"
                     >
-                      <Save className="w-5 h-5" />
+                      <Save className="w-6 h-6" />
                       <span>
                         {isOperationLoading
                           ? "Guardando..."

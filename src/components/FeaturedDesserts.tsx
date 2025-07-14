@@ -70,32 +70,26 @@ const FeaturedDesserts = () => {
           <div className="flex items-center justify-center mb-8">
             <div className="w-20 h-px bg-gradient-to-r from-transparent via-dusty-rose-400 to-transparent"></div>
             <span className="mx-6 text-base font-karla text-dusty-rose-600 uppercase tracking-widest font-medium">
-              Mis Favoritos
+              Los Más Pedidos
             </span>
             <div className="w-20 h-px bg-gradient-to-r from-transparent via-dusty-rose-400 to-transparent"></div>
           </div>
 
           <h2 className="text-5xl sm:text-6xl md:text-7xl font-playfair mb-8 font-bold leading-tight">
             <span className="block text-black-bold text-shadow-elegant">
-              Dulces que Abrazan
+              Sabores que
             </span>
             <span className="block text-dusty-rose-elegant italic mt-2 relative">
-              el Alma
+              Enamoran
               <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-dusty-rose-300 to-warm-blush-300 rounded-full"></div>
             </span>
           </h2>
 
           <p className="text-xl sm:text-2xl body-elegant max-w-3xl mx-auto leading-relaxed font-medium">
-            Cada uno de estos postres nació de un
+            Estos son los postres que mis clientes piden una y otra vez. Los que han acompañado sus celebraciones más importantes y se han convertido en
             <span className="accent-dusty-rose font-semibold italic">
               {" "}
-              momento especial
-            </span>
-            , una emoción, una historia que quería compartir contigo a través
-            del
-            <span className="accent-dusty-rose font-semibold italic">
-              {" "}
-              sabor
+              tradiciones familiares
             </span>
             .
           </p>
@@ -196,7 +190,7 @@ const FeaturedDesserts = () => {
               className="inline-flex items-center gap-3 bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 hover:from-dusty-rose-600 hover:to-dusty-rose-700 text-white px-12 py-5 rounded-3xl text-xl font-karla font-bold shadow-warm hover:shadow-glow transition-all duration-500 relative overflow-hidden group"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <span className="relative z-10">Explorar Todos Mis Dulces</span>
+              <span className="relative z-10">Explorar Todos Mis Postres</span>
             </Link>
           </motion.div>
         </div>

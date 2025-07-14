@@ -36,6 +36,7 @@ const Product: React.FC = () => {
   const [selectedCustomizations, setSelectedCustomizations] = useState<
     string[]
   >([]);
+  const [quantity, setQuantity] = useState(1);
 
   const { products } = useProducts();
   const { getProductById } = useProductSearch();
@@ -43,20 +44,28 @@ const Product: React.FC = () => {
   useEffect(() => {
     const loadProduct = async () => {
       if (id) {
+        console.log("🔍 Product page - Loading product with ID:", id);
         setLoading(true);
         try {
           const productData = await getProductById(id);
+          console.log("📦 Product page - Product data received:", productData);
           if (productData) {
+            console.log("✅ Product page - Product found, setting product");
             setProduct(productData);
           } else {
+            console.log(
+              "❌ Product page - Product not found, redirecting to menu",
+            );
             navigate("/menu");
           }
         } catch (error) {
-          console.error("Error loading product:", error);
+          console.error("💥 Product page - Error loading product:", error);
           navigate("/menu");
         } finally {
           setLoading(false);
         }
+      } else {
+        console.log("⚠️ Product page - No ID provided in URL params");
       }
     };
 

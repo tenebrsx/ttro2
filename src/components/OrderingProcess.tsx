@@ -159,7 +159,7 @@ const OrderingProcess = () => {
             tu próximo evento especial.
           </p>
           <motion.a
-            href="https://wa.me/18095551234?text=Hola! Me interesa hacer un pedido personalizado"
+            href="https://wa.me/18096581245?text=Hola! Me interesa hacer un pedido personalizado"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center space-x-2 bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 text-white px-8 py-4 rounded-full text-lg font-playfair font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:from-dusty-rose-600 hover:to-dusty-rose-700"
