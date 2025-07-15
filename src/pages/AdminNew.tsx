@@ -538,6 +538,19 @@ const Admin: React.FC<AdminPanelProps> = () => {
     }
   };
 
+  // Force refresh products from Firebase
+  const forceRefreshProducts = async () => {
+    console.log(
+      "🔄 FORCE REFRESH: Manually refreshing products from Firebase...",
+    );
+    try {
+      await refreshProducts();
+      console.log("🔄 FORCE REFRESH: Manual refresh completed");
+    } catch (error) {
+      console.error("🔄 FORCE REFRESH ERROR:", error);
+    }
+  };
+
   // Delete dessert
   const deleteDessert = async (id: string) => {
     setIsOperationLoading(true);
@@ -565,22 +578,27 @@ const Admin: React.FC<AdminPanelProps> = () => {
         alert("Producto eliminado exitosamente");
         setShowDeleteConfirm(null);
 
-        // Debug: Check if the product is still in the array after a short delay
-        setTimeout(() => {
+        // Force refresh after 1 second to ensure UI updates
+        setTimeout(async () => {
           const stillExists = desserts.find((d) => d.id === id);
           if (stillExists) {
             console.error(
               "🗑️ ADMIN DELETE ERROR: Product still exists in admin array after deletion!",
             );
-            console.error(
-              "🗑️ ADMIN DELETE ERROR: This indicates real-time updates are not working",
-            );
+            console.error("🗑️ ADMIN DELETE ERROR: Forcing manual refresh...");
+            await forceRefreshProducts();
           } else {
             console.log(
               "✅ ADMIN DELETE SUCCESS: Product successfully removed from admin array",
             );
           }
-        }, 2000);
+        }, 1000);
+
+        // Additional safety refresh after 3 seconds
+        setTimeout(async () => {
+          await forceRefreshProducts();
+          console.log("🔄 ADMIN DELETE: Safety refresh completed");
+        }, 3000);
       } else {
         console.error(
           "🗑️ ADMIN DELETE ERROR: Firebase delete operation failed",
@@ -1038,11 +1056,11 @@ const Admin: React.FC<AdminPanelProps> = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={refreshProducts}
+                  onClick={forceRefreshProducts}
                   disabled={isLoading}
                   className="bg-warm-ivory text-mocha-700 px-6 py-3 rounded-lg hover:bg-cream-200 transition-colors font-sans font-medium shadow-gentle hover:shadow-elegant text-base border border-dusty-rose-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Actualizar
+                  🔄 Forzar Actualización
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
