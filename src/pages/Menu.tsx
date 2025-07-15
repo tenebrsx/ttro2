@@ -5,6 +5,13 @@ import {
   HandDrawnDivider,
   HandwrittenAccent,
 } from "../components/animations/TextureComponents";
+import {
+  CinematicReveal,
+  HolographicShimmer,
+  PremiumReveal,
+  FadeReveal,
+  TextReveal,
+} from "../components/animations/SophisticatedAnimations";
 import * as TextureComponents from "../components/animations/TextureComponents";
 import { MessageCircle } from "lucide-react";
 
@@ -78,6 +85,14 @@ const Menu = () => {
         <PageTransition>
           <div className="pt-16">
             <section className="relative py-20 bg-gradient-to-br from-cream-400 to-cream-500 overflow-hidden">
+              <HolographicShimmer
+                intensity={0.2}
+                color="dusty-rose"
+                direction="diagonal"
+                trigger="visible"
+                speed={4}
+                className="absolute inset-0"
+              />
               <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center">
                   <div className="animate-pulse">
@@ -136,27 +151,41 @@ const Menu = () => {
           <section className="relative py-20 bg-gradient-to-br from-cream-400 to-cream-500 overflow-hidden">
             <TextureComponents.GrainTexture className="opacity-20" />
 
+            <HolographicShimmer
+              intensity={0.3}
+              color="gold"
+              direction="horizontal"
+              trigger="visible"
+              speed={3}
+              className="absolute inset-0"
+            />
             <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-              <FadeInUp>
+              <CinematicReveal direction="curtain" delay={0.2} duration={1.5}>
                 <div className="text-center mb-16">
-                  <div className="flex items-center justify-center mb-6">
-                    <div className="w-16 h-px bg-dusty-rose/40"></div>
-                    <span className="mx-4 text-sm font-source-serif text-dusty-rose/70 uppercase tracking-wider">
-                      Mi Diario de Postres
-                    </span>
-                    <div className="w-16 h-px bg-dusty-rose/40"></div>
-                  </div>
+                  <FadeReveal delay={0.5} duration={0.8} direction="up">
+                    <div className="flex items-center justify-center mb-6">
+                      <div className="w-16 h-px bg-dusty-rose/40"></div>
+                      <span className="mx-4 text-sm font-source-serif text-dusty-rose/70 uppercase tracking-wider">
+                        Mi Diario de Postres
+                      </span>
+                      <div className="w-16 h-px bg-dusty-rose/40"></div>
+                    </div>
+                  </FadeReveal>
 
-                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-playfair text-black-bold text-shadow-elegant mb-6">
-                    Menú de{" "}
-                    <span className="text-dusty-rose-600">
-                      Postres Artesanales
-                    </span>
-                  </h1>
+                  <TextReveal delay={0.8} staggerDelay={0.1}>
+                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-playfair text-black-bold text-shadow-elegant mb-6">
+                      Menú de{" "}
+                      <span className="text-dusty-rose-600">
+                        Postres Artesanales
+                      </span>
+                    </h1>
+                  </TextReveal>
 
-                  <HandDrawnDivider className="mb-8" />
+                  <FadeReveal delay={1.2} duration={0.8} direction="none">
+                    <HandDrawnDivider className="mb-8" />
+                  </FadeReveal>
                 </div>
-              </FadeInUp>
+              </CinematicReveal>
             </div>
           </section>
 
@@ -171,101 +200,104 @@ const Menu = () => {
               <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
                   {menuItems.map((item, index) => (
-                    <motion.div
+                    <PremiumReveal
                       key={index}
-                      initial={{ opacity: 0, y: 40 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.3,
-                        delay: index * 0.1,
-                        ease: "easeOut",
-                      }}
-                      viewport={{ once: true }}
-                      whileHover={{ y: -8, transition: { duration: 0.2 } }}
-                      className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-soft hover:shadow-elegant transition-all duration-300 overflow-hidden group border border-dusty-rose-100/50"
+                      effect={
+                        index % 3 === 0
+                          ? "cinematic-shimmer"
+                          : index % 3 === 1
+                            ? "holographic-reveal"
+                            : "luxury-entrance"
+                      }
+                      delay={index * 0.15}
                     >
-                      <div className="relative overflow-hidden rounded-t-3xl">
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-400 ease-out"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src = "/images/placeholder-dessert.jpg";
-                          }}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <motion.div
+                        whileHover={{ y: -8, transition: { duration: 0.2 } }}
+                        className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-soft hover:shadow-elegant transition-all duration-300 overflow-hidden group border border-dusty-rose-100/50"
+                      >
+                        <div className="relative overflow-hidden rounded-t-3xl">
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-400 ease-out"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.src = "/images/placeholder-dessert.jpg";
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                        {/* Shimmer effect */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500 ease-out"></div>
+                          {/* Shimmer effect */}
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500 ease-out"></div>
 
-                        {/* Price overlay on hover */}
-                        <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm text-dusty-rose-600 px-3 py-2 rounded-xl font-cormorant font-bold text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-gentle">
-                          {item.priceRange}
-                        </div>
-                      </div>
-
-                      <div className="p-8">
-                        <div className="mb-4">
-                          <h3 className="text-2xl font-playfair text-black-bold font-bold leading-tight">
-                            {item.name}
-                          </h3>
-                        </div>
-
-                        <p className="body-elegant text-base mb-6 line-clamp-3 leading-relaxed">
-                          {item.description}
-                        </p>
-
-                        <div className="flex items-center justify-between mb-5">
-                          <p className="text-dusty-rose-elegant font-bold text-2xl font-playfair">
+                          {/* Price overlay on hover */}
+                          <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm text-dusty-rose-600 px-3 py-2 rounded-xl font-cormorant font-bold text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-gentle">
                             {item.priceRange}
-                          </p>
-                          <span className="text-sm text-warm-grey-500 bg-cream-100 px-3 py-2 rounded-xl font-karla font-medium">
-                            {item.preparationTime}
-                          </span>
+                          </div>
                         </div>
 
-                        <div className="bg-elegant-cream p-4 rounded-2xl mb-6 border border-dusty-rose">
-                          <p className="text-sm body-elegant italic leading-relaxed text-shadow-elegant">
-                            {item.story}
-                          </p>
-                        </div>
+                        <div className="p-8">
+                          <div className="mb-4">
+                            <h3 className="text-2xl font-playfair text-black-bold font-bold leading-tight">
+                              {item.name}
+                            </h3>
+                          </div>
 
-                        {/* Action Buttons */}
-                        <div className="flex space-x-3">
-                          <Link
-                            to={`/product/${item.id}`}
-                            onClick={() => {
-                              console.log(
-                                "🔗 Menu page - Clicking Ver Detalles for product:",
-                                item.id,
-                                item.name,
-                              );
-                              console.log(
-                                "🔗 Menu page - Navigating to:",
-                                `/product/${item.id}`,
-                              );
-                            }}
-                            className="flex-1 text-center bg-gradient-to-r from-cream-100 to-warm-ivory text-mocha py-3 px-5 rounded-2xl font-karla font-semibold hover:from-dusty-rose-100 hover:to-warm-blush-100 hover:text-dusty-rose-700 transition-all duration-300 text-base shadow-gentle hover:shadow-warm border border-dusty-rose-100/30"
-                          >
-                            Ver Detalles
-                          </Link>
-                          <motion.button
-                            whileTap={{ scale: 0.95 }}
-                            whileHover={{ scale: 1.02 }}
-                            onClick={() => {
-                              const message = `Hola! Me interesa ordenar: ${item.name} - ${item.priceRange}`;
-                              const whatsappUrl = `https://api.whatsapp.com/send/?phone=18096581245&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
-                              window.open(whatsappUrl, "_blank");
-                            }}
-                            className="bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 hover:from-dusty-rose-600 hover:to-dusty-rose-700 text-white py-3 px-4 rounded-2xl font-karla font-semibold transition-all duration-300 flex items-center space-x-2 text-sm shadow-warm hover:shadow-glow"
-                          >
-                            <MessageCircle className="w-4 h-4" />
-                            <span>Ordenar</span>
-                          </motion.button>
+                          <p className="body-elegant text-base mb-6 line-clamp-3 leading-relaxed">
+                            {item.description}
+                          </p>
+
+                          <div className="flex items-center justify-between mb-5">
+                            <p className="text-dusty-rose-elegant font-bold text-2xl font-playfair">
+                              {item.priceRange}
+                            </p>
+                            <span className="text-sm text-warm-grey-500 bg-cream-100 px-3 py-2 rounded-xl font-karla font-medium">
+                              {item.preparationTime}
+                            </span>
+                          </div>
+
+                          <div className="bg-elegant-cream p-4 rounded-2xl mb-6 border border-dusty-rose">
+                            <p className="text-sm body-elegant italic leading-relaxed text-shadow-elegant">
+                              {item.story}
+                            </p>
+                          </div>
+
+                          {/* Action Buttons */}
+                          <div className="flex space-x-3">
+                            <Link
+                              to={`/product/${item.id}`}
+                              onClick={() => {
+                                console.log(
+                                  "🔗 Menu page - Clicking Ver Detalles for product:",
+                                  item.id,
+                                  item.name,
+                                );
+                                console.log(
+                                  "🔗 Menu page - Navigating to:",
+                                  `/product/${item.id}`,
+                                );
+                              }}
+                              className="flex-1 text-center bg-gradient-to-r from-cream-100 to-warm-ivory text-mocha py-3 px-5 rounded-2xl font-karla font-semibold hover:from-dusty-rose-100 hover:to-warm-blush-100 hover:text-dusty-rose-700 transition-all duration-300 text-base shadow-gentle hover:shadow-warm border border-dusty-rose-100/30"
+                            >
+                              Ver Detalles
+                            </Link>
+                            <motion.button
+                              whileTap={{ scale: 0.95 }}
+                              whileHover={{ scale: 1.02 }}
+                              onClick={() => {
+                                const message = `Hola! Me interesa ordenar: ${item.name} - ${item.priceRange}`;
+                                const whatsappUrl = `https://api.whatsapp.com/send/?phone=18096581245&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
+                                window.open(whatsappUrl, "_blank");
+                              }}
+                              className="bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 hover:from-dusty-rose-600 hover:to-dusty-rose-700 text-white py-3 px-4 rounded-2xl font-karla font-semibold transition-all duration-300 flex items-center space-x-2 text-sm shadow-warm hover:shadow-glow"
+                            >
+                              <MessageCircle className="w-4 h-4" />
+                              <span>Ordenar</span>
+                            </motion.button>
+                          </div>
                         </div>
-                      </div>
-                    </motion.div>
+                      </motion.div>
+                    </PremiumReveal>
                   ))}
                 </div>
               </div>

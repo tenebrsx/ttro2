@@ -242,13 +242,36 @@
     }
 }
 
-/* Mobile-specific media queries */
+/* Mobile-specific media queries with animation optimizations */
 @media (max-width: 768px) {
-    /* Reduce motion for better performance on mobile */
-    .reduce-motion {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
+    /* Enable hardware acceleration for smoother animations */
+    * {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+
+    /* Optimize animations for mobile */
+    .animate-mobile {
+        animation-duration: 0.4s !important;
+        animation-timing-function: ease-out !important;
+    }
+
+    /* Ensure framer-motion works on mobile */
+    [data-framer-motion] {
+        will-change: transform, opacity;
+        transform: translateZ(0);
+    }
+    /* Optimize animations for mobile performance */
+    .mobile-optimized-animations {
+        animation-duration: 0.3s !important;
+        transition-duration: 0.3s !important;
+    }
+
+    /* Enable animations on mobile with performance optimizations */
+    .mobile-animations-enabled {
+        will-change: transform, opacity;
+        transform: translateZ(0);
+        backface-visibility: hidden;
     }
 
     /* Better mobile spacing */
@@ -301,15 +324,104 @@
     }
 }
 
-/* Reduced motion preferences */
+/* Reduced motion preferences - less aggressive for mobile compatibility */
 @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
+    /* Only disable complex animations, keep basic transitions */
+    .complex-animation {
+        animation: none !important;
+    }
+
+    .reduce-motion-enabled {
+        animation-duration: 0.3s !important;
+        transition-duration: 0.3s !important;
+    }
+
+    /* Keep scroll behavior smooth unless explicitly disabled */
+    .no-smooth-scroll {
         scroll-behavior: auto !important;
+    }
+
+    /* Ensure content is visible even without animations */
+    [data-framer-motion] {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* Mobile debugging and fallback styles */
+@media (max-width: 768px) {
+    /* Force content visibility on mobile */
+    .mobile-content-visible {
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: block !important;
+    }
+
+    /* Ensure framer-motion elements are visible */
+    [data-framer-motion] {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Fallback for failed animations */
+    .animation-fallback {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+        transition: none !important;
+    }
+
+    /* Debug mode - uncomment to see all elements */
+    .debug-mobile * {
+        border: 1px solid red !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+}
+
+/* Mobile animation fixes */
+@media (max-width: 640px) {
+    /* Force enable animations on mobile */
+    .force-animations * {
+        animation-play-state: running !important;
+        transition: all 0.3s ease-out !important;
+        opacity: 1 !important;
+    }
+
+    /* Optimize touch interactions */
+    .touch-optimized {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    /* Emergency visibility fixes for mobile */
+    .hero-content,
+    .section-content,
+    .mobile-visible {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+    }
+
+    /* Framer Motion mobile fixes */
+    [data-framer-component] {
+        opacity: 1;
+        transform: none;
+    }
+
+    /* Animation timeout fallback */
+    .animation-timeout {
+        animation: mobile-fadein 0.5s ease-out;
+    }
+
+    @keyframes mobile-fadein {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
     }
 }
 

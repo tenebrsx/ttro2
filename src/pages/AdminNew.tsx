@@ -21,6 +21,11 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { formatPrice } from "../utils/currency";
+import {
+  compressImage,
+  validateImageSize,
+  COMPRESSION_PRESETS,
+} from "../utils/imageCompression";
 
 import type { Product } from "../data/products";
 import { useFirebaseProducts } from "../hooks/useFirebaseProducts";
@@ -43,6 +48,8 @@ const Admin: React.FC<AdminPanelProps> = () => {
   const [isOperationLoading, setIsOperationLoading] = useState(false);
   const [showMigrationDialog, setShowMigrationDialog] = useState(false);
   const [migrationStatus, setMigrationStatus] = useState<string>("");
+  const [isCompressingThumbnail, setIsCompressingThumbnail] = useState(false);
+  const [isCompressingImages, setIsCompressingImages] = useState(false);
 
   // Firebase integration
   const {
@@ -54,28 +61,14 @@ const Admin: React.FC<AdminPanelProps> = () => {
     deleteProduct,
     refreshProducts,
     migrateLocalData,
+    resetProductState,
     productStats,
+    persistenceStatus,
   } = useFirebaseProducts();
 
-  // Debug: Track changes to desserts array
+  // Track changes to desserts array
   useEffect(() => {
-    console.log("🎯 ADMIN DEBUG: Desserts array updated");
-    console.log("🎯 ADMIN DEBUG: Total products count:", desserts.length);
-    console.log(
-      "🎯 ADMIN DEBUG: Available products:",
-      desserts.filter((d) => d.available).length,
-    );
-    console.log(
-      "🎯 ADMIN DEBUG: Product IDs:",
-      desserts.map((d) => d.id).slice(0, 5),
-    );
-    console.log("🎯 ADMIN DEBUG: Loading state:", isLoading);
-    if (desserts.length > 0) {
-      console.log(
-        "🎯 ADMIN DEBUG: Sample product names:",
-        desserts.slice(0, 3).map((d) => d.name),
-      );
-    }
+    // Component state updated
   }, [desserts, isLoading]);
 
   // Session persistence
@@ -240,9 +233,16 @@ const Admin: React.FC<AdminPanelProps> = () => {
       name: dessert.name,
       description: dessert.description,
       shortDescription: dessert.shortDescription,
-      price: dessert.price,
+      price: dessert.price.toString(),
       originalPrice: dessert.originalPrice || 0,
-      category: dessert.category,
+      category: dessert.category as
+        | "tartas"
+        | "macarons"
+        | "cupcakes"
+        | "galletas"
+        | "postres-especiales"
+        | "temporada"
+        | "otro",
       subcategory: dessert.subcategory || "",
       customCategory: "",
       images: dessert.images,
@@ -300,8 +300,6 @@ const Admin: React.FC<AdminPanelProps> = () => {
       );
       return;
     }
-
-    console.log("🍰 Form validation passed, proceeding with save...");
 
     if (!formData.shortDescription) {
       alert("Por favor agrega una descripción corta");
@@ -406,29 +404,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
       // Remove undefined values to prevent Firebase errors
       const cleanedDessertData = removeUndefinedValues(dessertData);
 
-      console.log("Prepared dessert data for submission:", dessertData);
-      console.log("Cleaned dessert data (no undefined):", cleanedDessertData);
-      console.log("🔍 DEBUGGING - Form data vs dessert data comparison:");
-      console.log("🔍 Form data:", formData);
-      console.log("🔍 Dessert data:", dessertData);
-      console.log("🔍 Debug details:", {
-        formCategory: formData.category,
-        customCategory: formData.customCategory,
-        finalCategory: dessertData.category,
-        isOtro: formData.category === "otro",
-      });
-      console.log("🍰 Prepared dessert data for submission:", dessertData);
-      console.log("🍰 Form data before conversion:", {
-        name: formData.name,
-        price: formData.price,
-        category: formData.category,
-        customCategory: formData.customCategory,
-        images: formData.images,
-        thumbnailImage: formData.thumbnailImage,
-      });
-
       // Check for potential problematic fields
-      console.log("🔍 Checking for problematic fields:");
       console.log("  - Empty arrays check:", {
         customizations: dessertData.customizations,
         allergens: dessertData.allergens,
@@ -597,12 +573,10 @@ const Admin: React.FC<AdminPanelProps> = () => {
         // Additional safety refresh after 3 seconds
         setTimeout(async () => {
           await forceRefreshProducts();
-          console.log("🔄 ADMIN DELETE: Safety refresh completed");
+          // Safety refresh completed
         }, 3000);
       } else {
-        console.error(
-          "🗑️ ADMIN DELETE ERROR: Firebase delete operation failed",
-        );
+        console.error("Delete operation failed");
         alert("Error al eliminar el producto. Intenta de nuevo.");
       }
     } catch (error) {
@@ -1044,14 +1018,46 @@ const Admin: React.FC<AdminPanelProps> = () => {
                   )}
                 </div>
               </div>
+
+              {/* Persistence Status Indicator */}
+              <div className="mb-4 p-4 rounded-lg bg-white/50 border border-dusty-rose-100">
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className={`w-3 h-3 rounded-full ${
+                        persistenceStatus.dataSource === "firebase"
+                          ? "bg-green-500 animate-pulse"
+                          : persistenceStatus.dataSource === "migrating"
+                            ? "bg-yellow-500 animate-pulse"
+                            : "bg-red-500"
+                      }`}
+                    />
+                    <span className="font-source-serif text-sm font-medium">
+                      {persistenceStatus.dataSource === "firebase"
+                        ? "🔥 Datos sincronizados con Firebase"
+                        : persistenceStatus.dataSource === "migrating"
+                          ? "🚀 Migrando datos..."
+                          : "⚠️ Usando datos locales (no persistentes)"}
+                    </span>
+                  </div>
+                  {persistenceStatus.lastSync && (
+                    <span className="text-xs text-warm-grey-600 font-source-serif">
+                      Última sync:{" "}
+                      {persistenceStatus.lastSync.toLocaleTimeString()}
+                    </span>
+                  )}
+                </div>
+              </div>
+
               <div className="flex items-center space-x-2">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setShowMigrationDialog(true)}
                   className="bg-dusty-rose-500 text-white px-6 py-3 rounded-lg hover:bg-dusty-rose-600 transition-colors font-sans font-medium shadow-gentle hover:shadow-elegant text-base"
+                  disabled={persistenceStatus.dataSource === "migrating"}
                 >
-                  Migrar Datos
+                  🔄 Migrar Datos Locales
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -1088,6 +1094,16 @@ const Admin: React.FC<AdminPanelProps> = () => {
                   className="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors font-source-serif font-medium shadow-gentle hover:shadow-elegant text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Test Form Structure
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={resetProductState}
+                  disabled={isOperationLoading}
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors font-source-serif font-medium shadow-gentle hover:shadow-elegant text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  title="Clears localStorage and resets migration state - use for testing auto-migration behavior"
+                >
+                  Reset Product State
                 </motion.button>
               </div>
             </div>
@@ -1532,18 +1548,45 @@ const Admin: React.FC<AdminPanelProps> = () => {
                             capture="environment"
                             className="hidden"
                             id="thumbnailImage"
-                            onChange={(e) => {
+                            onChange={async (e) => {
                               const file = e.target.files?.[0];
                               if (file) {
-                                const reader = new FileReader();
-                                reader.onload = (event) => {
-                                  setFormData((prev) => ({
-                                    ...prev,
-                                    thumbnailImage: event.target
-                                      ?.result as string,
-                                  }));
-                                };
-                                reader.readAsDataURL(file);
+                                setIsCompressingThumbnail(true);
+                                try {
+                                  console.log(
+                                    "🖼️ Compressing thumbnail image...",
+                                  );
+                                  const compressedImage = await compressImage(
+                                    file,
+                                    COMPRESSION_PRESETS.large,
+                                  );
+
+                                  const validation =
+                                    validateImageSize(compressedImage);
+                                  if (validation.isValid) {
+                                    setFormData((prev) => ({
+                                      ...prev,
+                                      thumbnailImage: compressedImage,
+                                    }));
+                                    console.log(
+                                      `✅ Thumbnail image compressed successfully: ${validation.sizeKB} KB`,
+                                    );
+                                  } else {
+                                    alert(
+                                      `Error: La imagen es demasiado grande (${validation.sizeKB} KB). El máximo permitido es ${validation.maxSizeKB} KB.`,
+                                    );
+                                  }
+                                } catch (error) {
+                                  console.error(
+                                    "Error compressing thumbnail image:",
+                                    error,
+                                  );
+                                  alert(
+                                    "Error al procesar la imagen. Por favor intenta con una imagen más pequeña.",
+                                  );
+                                } finally {
+                                  setIsCompressingThumbnail(false);
+                                }
                               }
                             }}
                           />
@@ -1552,13 +1595,21 @@ const Admin: React.FC<AdminPanelProps> = () => {
                             className="cursor-pointer flex flex-col items-center space-y-2"
                           >
                             <div className="w-12 h-12 bg-dusty-rose-100 rounded-full flex items-center justify-center">
-                              <Plus className="w-6 h-6 text-dusty-rose-600" />
+                              {isCompressingThumbnail ? (
+                                <div className="w-6 h-6 border-2 border-dusty-rose-600 border-t-transparent rounded-full animate-spin" />
+                              ) : (
+                                <Plus className="w-6 h-6 text-dusty-rose-600" />
+                              )}
                             </div>
                             <span className="text-sm font-playfair text-mocha-600">
-                              Toca para subir imagen desde tu teléfono
+                              {isCompressingThumbnail
+                                ? "Comprimiendo imagen..."
+                                : "Toca para subir imagen desde tu teléfono"}
                             </span>
                             <span className="text-xs text-mocha-400">
-                              PNG, JPG hasta 5MB
+                              {isCompressingThumbnail
+                                ? "Optimizando tamaño para Firebase..."
+                                : "PNG, JPG hasta 5MB (se comprimirá automáticamente)"}
                             </span>
                           </label>
                           {formData.thumbnailImage && (
@@ -1581,25 +1632,57 @@ const Admin: React.FC<AdminPanelProps> = () => {
                           <input
                             type="file"
                             accept="image/*"
-                            capture="environment"
                             multiple
+                            capture="environment"
                             className="hidden"
                             id="additionalImages"
-                            onChange={(e) => {
+                            onChange={async (e) => {
                               const files = Array.from(e.target.files || []);
-                              files.forEach((file) => {
-                                const reader = new FileReader();
-                                reader.onload = (event) => {
-                                  setFormData((prev) => ({
-                                    ...prev,
-                                    images: [
-                                      ...prev.images.filter((img) => img),
-                                      event.target?.result as string,
-                                    ],
-                                  }));
-                                };
-                                reader.readAsDataURL(file);
-                              });
+
+                              if (files.length > 0) {
+                                setIsCompressingImages(true);
+                              }
+
+                              for (const file of files) {
+                                try {
+                                  console.log(
+                                    "🖼️ Compressing additional image...",
+                                  );
+                                  const compressedImage = await compressImage(
+                                    file,
+                                    COMPRESSION_PRESETS.medium,
+                                  );
+
+                                  const validation =
+                                    validateImageSize(compressedImage);
+                                  if (validation.isValid) {
+                                    setFormData((prev) => ({
+                                      ...prev,
+                                      images: [
+                                        ...prev.images.filter((img) => img),
+                                        compressedImage,
+                                      ],
+                                    }));
+                                    console.log(
+                                      `✅ Additional image compressed successfully: ${validation.sizeKB} KB`,
+                                    );
+                                  } else {
+                                    alert(
+                                      `Error: Una de las imágenes es demasiado grande (${validation.sizeKB} KB). El máximo permitido es ${validation.maxSizeKB} KB.`,
+                                    );
+                                  }
+                                } catch (error) {
+                                  console.error(
+                                    "Error compressing additional image:",
+                                    error,
+                                  );
+                                  alert(
+                                    "Error al procesar una de las imágenes. Por favor intenta con imágenes más pequeñas.",
+                                  );
+                                }
+                              }
+
+                              setIsCompressingImages(false);
                             }}
                           />
                           <label
@@ -1607,13 +1690,21 @@ const Admin: React.FC<AdminPanelProps> = () => {
                             className="cursor-pointer flex flex-col items-center space-y-2"
                           >
                             <div className="w-12 h-12 bg-dusty-rose-100 rounded-full flex items-center justify-center">
-                              <Plus className="w-6 h-6 text-dusty-rose-600" />
+                              {isCompressingImages ? (
+                                <div className="w-6 h-6 border-2 border-dusty-rose-600 border-t-transparent rounded-full animate-spin" />
+                              ) : (
+                                <Plus className="w-6 h-6 text-dusty-rose-600" />
+                              )}
                             </div>
                             <span className="text-sm font-playfair text-mocha-600">
-                              Agregar más imágenes
+                              {isCompressingImages
+                                ? "Comprimiendo imágenes..."
+                                : "Agregar más imágenes"}
                             </span>
                             <span className="text-xs text-mocha-400">
-                              Puedes seleccionar múltiples imágenes
+                              {isCompressingImages
+                                ? "Optimizando tamaño para Firebase..."
+                                : "Puedes seleccionar múltiples imágenes (se comprimirán automáticamente)"}
                             </span>
                           </label>
                           {formData.images.filter((img) => img).length > 0 && (

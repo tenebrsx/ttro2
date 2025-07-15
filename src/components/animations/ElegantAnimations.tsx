@@ -1,6 +1,17 @@
 import { motion, useInView } from "framer-motion";
-import { ReactNode, useRef } from "react";
-import { elegantAnimations, viewportSettings } from "../../utils/animations";
+import { ReactNode, useRef, useEffect, useState } from "react";
+import {
+  elegantAnimations,
+  viewportSettings,
+  mobileViewportSettings,
+} from "../../utils/animations";
+import {
+  isMobileDevice,
+  prefersReducedMotion,
+  getAnimationPerformanceLevel,
+  PerformanceLevel,
+  getMobileAnimationSettings,
+} from "../../utils/mobileDetection";
 
 interface AnimationWrapperProps {
   children: ReactNode;
@@ -8,19 +19,53 @@ interface AnimationWrapperProps {
   delay?: number;
 }
 
+// Hook for mobile-optimized animations
+const useMobileOptimizedAnimation = () => {
+  const [animationSettings, setAnimationSettings] = useState(
+    getMobileAnimationSettings(PerformanceLevel.HIGH),
+  );
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const initializeSettings = async () => {
+      const mobile = isMobileDevice();
+      const performanceLevel = await getAnimationPerformanceLevel();
+      const settings = getMobileAnimationSettings(performanceLevel);
+
+      setIsMobile(mobile);
+      setAnimationSettings(settings);
+    };
+
+    initializeSettings();
+  }, []);
+
+  return { animationSettings, isMobile };
+};
+
 // Elegant reveal animation - replaces basic fade-in
-export const ElegantReveal = ({ 
-  children, 
-  className = "", 
-  delay = 0 
+export const ElegantReveal = ({
+  children,
+  className = "",
+  delay = 0,
 }: AnimationWrapperProps) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, viewportSettings);
+  const { animationSettings, isMobile } = useMobileOptimizedAnimation();
+
+  // Use mobile-optimized viewport settings
+  const viewport = isMobile
+    ? { once: true, amount: 0.05 }
+    : { once: true, amount: 0.1 };
+  const isInView = useInView(ref, viewport);
+
+  // Don't animate if settings are disabled
+  if (!animationSettings.enabled) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
     <motion.div
       ref={ref}
-      className={className}
+      className={`${className} ${isMobile ? "mobile-animations-enabled" : ""}`}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       variants={{
@@ -29,7 +74,9 @@ export const ElegantReveal = ({
           ...elegantAnimations.elegantReveal.visible,
           transition: {
             ...elegantAnimations.elegantReveal.visible.transition,
-            delay,
+            duration: animationSettings.duration,
+            delay: delay * (animationSettings.staggerDelay || 0.1),
+            ease: "easeOut",
           },
         },
       }}
@@ -40,20 +87,38 @@ export const ElegantReveal = ({
 };
 
 // Staggered container for multiple elements
-export const StaggerContainer = ({ 
-  children, 
-  className = "" 
+export const StaggerContainer = ({
+  children,
+  className = "",
 }: AnimationWrapperProps) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, viewportSettings);
+  const { animationSettings, isMobile } = useMobileOptimizedAnimation();
+
+  const viewport = isMobile
+    ? { once: true, amount: 0.05 }
+    : { once: true, amount: 0.1 };
+  const isInView = useInView(ref, viewport);
+
+  if (!animationSettings.enabled) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
     <motion.div
       ref={ref}
-      className={className}
+      className={`${className} ${isMobile ? "mobile-animations-enabled" : ""}`}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
-      variants={elegantAnimations.staggerContainer}
+      variants={{
+        ...elegantAnimations.staggerContainer,
+        visible: {
+          ...elegantAnimations.staggerContainer.visible,
+          transition: {
+            ...elegantAnimations.staggerContainer.visible.transition,
+            staggerChildren: animationSettings.staggerDelay || 0.1,
+          },
+        },
+      }}
     >
       {children}
     </motion.div>
@@ -61,28 +126,39 @@ export const StaggerContainer = ({
 };
 
 // Premium card animation
-export const PremiumCard = ({ 
-  children, 
+export const PremiumCard = ({
+  children,
   className = "",
-  delay = 0
+  delay = 0,
 }: AnimationWrapperProps) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, viewportSettings);
+  const { animationSettings, isMobile } = useMobileOptimizedAnimation();
+
+  const viewport = isMobile
+    ? { once: true, amount: 0.05 }
+    : { once: true, amount: 0.1 };
+  const isInView = useInView(ref, viewport);
+
+  if (!animationSettings.enabled) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
     <motion.div
       ref={ref}
-      className={className}
+      className={`${className} ${isMobile ? "mobile-animations-enabled touch-optimized" : ""}`}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
-      whileHover="hover"
+      whileHover={isMobile ? undefined : "hover"}
+      whileTap={isMobile ? "hover" : undefined}
       variants={{
-        ...elegantAnimations.premiumCard,
+        hidden: elegantAnimations.premiumCard.hidden,
         visible: {
           ...elegantAnimations.premiumCard.visible,
           transition: {
-            ...elegantAnimations.premiumCard.visible.transition,
-            delay,
+            duration: animationSettings.duration,
+            delay: delay * (animationSettings.staggerDelay || 0.1),
+            ease: "easeOut",
           },
         },
       }}
@@ -93,18 +169,27 @@ export const PremiumCard = ({
 };
 
 // Sophisticated text reveal
-export const TextReveal = ({ 
-  children, 
+export const TextReveal = ({
+  children,
   className = "",
-  delay = 0
+  delay = 0,
 }: AnimationWrapperProps) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, viewportSettings);
+  const { animationSettings, isMobile } = useMobileOptimizedAnimation();
+
+  const viewport = isMobile
+    ? { once: true, amount: 0.05 }
+    : { once: true, amount: 0.1 };
+  const isInView = useInView(ref, viewport);
+
+  if (!animationSettings.enabled) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
     <motion.div
       ref={ref}
-      className={className}
+      className={`${className} ${isMobile ? "mobile-animations-enabled" : ""}`}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       variants={{
@@ -113,7 +198,9 @@ export const TextReveal = ({
           ...elegantAnimations.textReveal.visible,
           transition: {
             ...elegantAnimations.textReveal.visible.transition,
-            delay,
+            duration: animationSettings.duration,
+            delay: delay * (animationSettings.staggerDelay || 0.1),
+            ease: "easeOut",
           },
         },
       }}
@@ -124,8 +211,8 @@ export const TextReveal = ({
 };
 
 // Elegant button with hover effects
-export const ElegantButton = ({ 
-  children, 
+export const ElegantButton = ({
+  children,
   className = "",
   onClick,
   ...props
@@ -134,10 +221,10 @@ export const ElegantButton = ({
     <motion.button
       className={className}
       onClick={onClick}
-      variants={elegantAnimations.elegantButton}
-      initial="initial"
-      whileHover="hover"
-      whileTap="tap"
+      initial={{ scale: 1 }}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
       {...props}
     >
       {children}
@@ -146,14 +233,22 @@ export const ElegantButton = ({
 };
 
 // Breathing decorative element
-export const BreathingElement = ({ 
-  children, 
-  className = "" 
+export const BreathingElement = ({
+  children,
+  className = "",
 }: AnimationWrapperProps) => {
   return (
     <motion.div
       className={className}
-      animate={elegantAnimations.breathe}
+      animate={{
+        scale: [1, 1.05, 1],
+        opacity: [0.7, 0.9, 0.7],
+      }}
+      transition={{
+        duration: 4,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
     >
       {children}
     </motion.div>
@@ -161,19 +256,28 @@ export const BreathingElement = ({
 };
 
 // Parallax element
-export const ParallaxElement = ({ 
-  children, 
+export const ParallaxElement = ({
+  children,
   className = "",
-  speed = "slow" 
+  speed = "slow",
 }: AnimationWrapperProps & { speed?: "slow" | "medium" }) => {
-  const animation = speed === "slow" 
-    ? elegantAnimations.parallaxSlow 
-    : elegantAnimations.parallaxMedium;
+  const animation =
+    speed === "slow"
+      ? elegantAnimations.parallaxSlow
+      : elegantAnimations.parallaxMedium;
 
   return (
     <motion.div
       className={className}
-      animate={animation}
+      animate={{
+        y: speed === "slow" ? [0, -30] : [0, -50],
+      }}
+      transition={{
+        duration: speed === "slow" ? 20 : 15,
+        repeat: Infinity,
+        repeatType: "reverse",
+        ease: "linear",
+      }}
     >
       {children}
     </motion.div>
@@ -181,18 +285,27 @@ export const ParallaxElement = ({
 };
 
 // Image reveal with sophisticated blur effect
-export const ImageReveal = ({ 
-  children, 
+export const ImageReveal = ({
+  children,
   className = "",
-  delay = 0
+  delay = 0,
 }: AnimationWrapperProps) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, viewportSettings);
+  const { animationSettings, isMobile } = useMobileOptimizedAnimation();
+
+  const viewport = isMobile
+    ? { once: true, amount: 0.05 }
+    : { once: true, amount: 0.1 };
+  const isInView = useInView(ref, viewport);
+
+  if (!animationSettings.enabled) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
     <motion.div
       ref={ref}
-      className={className}
+      className={`${className} ${isMobile ? "mobile-animations-enabled" : ""}`}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       variants={{
@@ -201,7 +314,9 @@ export const ImageReveal = ({
           ...elegantAnimations.imageReveal.visible,
           transition: {
             ...elegantAnimations.imageReveal.visible.transition,
-            delay,
+            duration: animationSettings.duration,
+            delay: delay * (animationSettings.staggerDelay || 0.1),
+            ease: "easeOut",
           },
         },
       }}
@@ -212,14 +327,21 @@ export const ImageReveal = ({
 };
 
 // Magnetic hover effect for interactive elements
-export const MagneticHover = ({ 
-  children, 
-  className = "" 
+export const MagneticHover = ({
+  children,
+  className = "",
 }: AnimationWrapperProps) => {
   return (
     <motion.div
       className={className}
-      whileHover={elegantAnimations.magnetic.hover}
+      whileHover={{
+        scale: 1.1,
+        rotate: [0, -2, 2, 0],
+      }}
+      transition={{
+        duration: 0.4,
+        ease: "easeOut",
+      }}
     >
       {children}
     </motion.div>
@@ -227,18 +349,28 @@ export const MagneticHover = ({
 };
 
 // Scroll-triggered reveal
-export const ScrollReveal = ({ 
-  children, 
+export const ScrollReveal = ({
+  children,
   className = "",
-  delay = 0
+  delay = 0,
 }: AnimationWrapperProps) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const { animationSettings, isMobile } = useMobileOptimizedAnimation();
+
+  // Use mobile-optimized margin for scroll reveal
+  const viewport = isMobile
+    ? { once: true, amount: 0.05 }
+    : { once: true, amount: 0.2 };
+  const isInView = useInView(ref, viewport);
+
+  if (!animationSettings.enabled) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
     <motion.div
       ref={ref}
-      className={className}
+      className={`${className} ${isMobile ? "mobile-animations-enabled force-animations" : ""}`}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       variants={{
@@ -247,7 +379,9 @@ export const ScrollReveal = ({
           ...elegantAnimations.scrollReveal.visible,
           transition: {
             ...elegantAnimations.scrollReveal.visible.transition,
-            delay,
+            duration: animationSettings.duration,
+            delay: delay * (animationSettings.staggerDelay || 0.1),
+            ease: "easeOut",
           },
         },
       }}

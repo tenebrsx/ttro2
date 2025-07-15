@@ -41,15 +41,25 @@ const About = () => {
 
             <div className="space-y-6 text-mocha/80 text-lg leading-relaxed font-karla font-light">
               <p>
-                Todo comenzó con tardes de domingo experimentando en mi cocina. Lo que empezó como un hobby se transformó en mi pasión: crear postres que no solo se ven hermosos, sino que cuentan historias y crean memorias especiales en cada bocado.
+                Todo comenzó con tardes de domingo experimentando en mi cocina.
+                Lo que empezó como un hobby se transformó en mi pasión: crear
+                postres que no solo se ven hermosos, sino que cuentan historias
+                y crean memorias especiales en cada bocado.
               </p>
 
               <p>
-                En Cucinanostrard no usamos mezclas comerciales ni atajos. Cada ganache se templa a mano, cada macaron se forma con la técnica francesa tradicional, y cada decoración se piensa específicamente para quien lo va a disfrutar.
+                En Titirosa no usamos mezclas comerciales ni atajos. Cada
+                ganache se templa a mano, cada macaron se forma con la técnica
+                francesa tradicional, y cada decoración se piensa
+                específicamente para quien lo va a disfrutar.
               </p>
 
               <p>
-                Trabajo con ingredientes importados de Francia para los macarons, chocolates belgas para las ganaches, y frutas frescas dominicanas para darle ese toque local que nos hace únicos. Porque los mejores postres nacen cuando la técnica se encuentra con la pasión.
+                Trabajo con ingredientes importados de Francia para los
+                macarons, chocolates belgas para las ganaches, y frutas frescas
+                dominicanas para darle ese toque local que nos hace únicos.
+                Porque los mejores postres nacen cuando la técnica se encuentra
+                con la pasión.
               </p>
             </div>
 

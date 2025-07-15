@@ -5,6 +5,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import { useEffect } from "react";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import FloatingActionButton from "./components/ui/FloatingActionButton";
@@ -13,19 +14,31 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Menu from "./pages/Menu";
 import Contact from "./pages/Contact";
-import Test from "./pages/Test";
 import OrderTracking from "./pages/OrderTracking";
-import UIShowcase from "./pages/UIShowcase";
-import Admin from "./pages/Admin";
+import Admin from "./pages/AdminNew";
 import Product from "./pages/Product";
-import ProductDebug from "./pages/ProductDebug";
-import FirebaseTest from "./pages/FirebaseTest";
-import FirebaseConnectionTest from "./pages/FirebaseConnectionTest";
+import ImageCompressionTest from "./pages/ImageCompressionTest";
+import MobileAnimationTest from "./pages/MobileAnimationTest";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { FirebaseProductsProvider } from "./contexts/FirebaseProductsContext";
+import { initializeMobileOptimizations } from "./utils/mobileDetection";
 
 function AppContent() {
   const location = useLocation();
+
+  // Initialize mobile optimizations
+  useEffect(() => {
+    const initMobile = async () => {
+      try {
+        await initializeMobileOptimizations();
+        console.log("🎯 Mobile optimizations initialized");
+      } catch (error) {
+        console.warn("⚠️ Mobile optimization initialization failed:", error);
+      }
+    };
+
+    initMobile();
+  }, []);
   const isAdminPage = location.pathname === "/admin";
 
   return (
@@ -35,7 +48,6 @@ function AppContent() {
         <ErrorBoundary>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/test" element={<Test />} />
             <Route path="/about" element={<About />} />
             <Route path="/menu" element={<Menu />} />
             <Route path="/contact" element={<Contact />} />
@@ -43,19 +55,14 @@ function AppContent() {
               path="/order-tracking/:orderId?"
               element={<OrderTracking />}
             />
-            <Route path="/ui-showcase" element={<UIShowcase />} />
             <Route path="/admin" element={<Admin />} />
-            <Route path="/firebase-test" element={<FirebaseTest />} />
-            <Route
-              path="/firebase-connection-test"
-              element={<FirebaseConnectionTest />}
-            />
             <Route path="/product/:id" element={<Product />} />
-            <Route path="/product-debug/:testId?" element={<ProductDebug />} />
+            <Route path="/image-test" element={<ImageCompressionTest />} />
+            <Route path="/mobile-test" element={<MobileAnimationTest />} />
           </Routes>
         </ErrorBoundary>
       </main>
-      <Footer />
+      {!isAdminPage && <Footer />}
       {!isAdminPage && <FloatingActionButton />}
     </div>
   );

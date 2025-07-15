@@ -4,21 +4,19 @@ import { Variants } from "framer-motion";
 export const elegantAnimations = {
   // Elegant reveal - smooth, luxurious entrance
   elegantReveal: {
-    hidden: { 
-      opacity: 0, 
-      y: 60, 
-      filter: "blur(10px)",
-      scale: 0.95 
+    hidden: {
+      opacity: 0,
+      y: 30, // Reduced for mobile performance
+      scale: 0.98, // Less dramatic scale for mobile
     },
     visible: {
       opacity: 1,
       y: 0,
-      filter: "blur(0px)",
       scale: 1,
       transition: {
-        duration: 1.2,
-        ease: [0.25, 0.4, 0.25, 1], // Sophisticated cubic-bezier
-        staggerChildren: 0.15,
+        duration: 0.8, // Faster for mobile
+        ease: [0.25, 0.4, 0.25, 1],
+        staggerChildren: 0.1, // Faster stagger for mobile
       },
     },
   },
@@ -36,28 +34,25 @@ export const elegantAnimations = {
 
   // Premium card entrance
   premiumCard: {
-    hidden: { 
-      opacity: 0, 
-      y: 40, 
-      rotateX: 15,
-      scale: 0.9
+    hidden: {
+      opacity: 0,
+      y: 20, // Reduced movement for mobile
+      scale: 0.95, // Less dramatic scale
     },
     visible: {
       opacity: 1,
       y: 0,
-      rotateX: 0,
       scale: 1,
       transition: {
-        duration: 0.8,
+        duration: 0.6, // Faster for mobile
         ease: [0.22, 1, 0.36, 1],
       },
     },
     hover: {
-      y: -8,
-      scale: 1.02,
-      rotateX: 5,
+      y: -4, // Less movement on mobile
+      scale: 1.01, // Subtle scale for mobile
       transition: {
-        duration: 0.4,
+        duration: 0.3, // Faster response
         ease: [0.25, 0.4, 0.25, 1],
       },
     },
@@ -65,17 +60,15 @@ export const elegantAnimations = {
 
   // Sophisticated text reveal
   textReveal: {
-    hidden: { 
-      opacity: 0, 
-      y: 30,
-      clipPath: "inset(100% 0 0 0)"
+    hidden: {
+      opacity: 0,
+      y: 20, // Simplified for mobile performance
     },
     visible: {
       opacity: 1,
       y: 0,
-      clipPath: "inset(0% 0 0 0)",
       transition: {
-        duration: 1,
+        duration: 0.6, // Faster for mobile
         ease: [0.25, 0.4, 0.25, 1],
       },
     },
@@ -158,26 +151,23 @@ export const elegantAnimations = {
 
   // Elegant page transition
   pageTransition: {
-    initial: { 
-      opacity: 0, 
-      scale: 1.1,
-      filter: "blur(20px)" 
+    initial: {
+      opacity: 0,
+      scale: 1.05, // Removed blur for mobile performance
     },
-    animate: { 
-      opacity: 1, 
+    animate: {
+      opacity: 1,
       scale: 1,
-      filter: "blur(0px)",
       transition: {
-        duration: 0.8,
+        duration: 0.5, // Faster for mobile
         ease: [0.25, 0.4, 0.25, 1],
       },
     },
-    exit: { 
-      opacity: 0, 
-      scale: 0.95,
-      filter: "blur(10px)",
+    exit: {
+      opacity: 0,
+      scale: 0.98,
       transition: {
-        duration: 0.5,
+        duration: 0.3, // Faster exit for mobile
         ease: [0.4, 0, 0.6, 1],
       },
     },
@@ -185,17 +175,15 @@ export const elegantAnimations = {
 
   // Sophisticated image reveal
   imageReveal: {
-    hidden: { 
-      opacity: 0, 
-      scale: 1.1,
-      filter: "brightness(0.8) blur(5px)"
+    hidden: {
+      opacity: 0,
+      scale: 1.05, // Reduced scale, removed blur for mobile performance
     },
     visible: {
       opacity: 1,
       scale: 1,
-      filter: "brightness(1) blur(0px)",
       transition: {
-        duration: 1.2,
+        duration: 0.8, // Faster for mobile
         ease: [0.25, 0.4, 0.25, 1],
       },
     },
@@ -203,8 +191,8 @@ export const elegantAnimations = {
 
   // Elegant scroll reveal
   scrollReveal: {
-    hidden: { 
-      opacity: 0, 
+    hidden: {
+      opacity: 0,
       y: 100,
       scale: 0.8,
     },
@@ -249,9 +237,16 @@ export const animationDurations = {
   luxurious: 1.5,
 };
 
-// Viewport animation settings for sophisticated reveals
+// Viewport animation settings for sophisticated reveals - mobile optimized
 export const viewportSettings = {
   once: true,
-  margin: "-100px",
-  amount: 0.3,
+  margin: "-20px", // Mobile-friendly margin
+  amount: 0.1, // Lower threshold for mobile
+};
+
+// Mobile-specific viewport settings
+export const mobileViewportSettings = {
+  once: true,
+  margin: "0px",
+  amount: 0.05,
 };

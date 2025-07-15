@@ -22,7 +22,7 @@ const AboutPreview = () => {
               <div className="absolute inset-0 bg-gradient-to-br from-dusty-rose-200/30 to-warm-blush-200/30 rounded-3xl transform rotate-3 group-hover:rotate-6 transition-transform duration-300"></div>
               <img
                 src="/images/placeholder-dessert.jpg"
-                alt="Chef and team behind Cucinanostrard"
+                alt="Chef and team behind Titirosa"
                 className="relative w-full h-96 lg:h-[500px] object-cover rounded-3xl shadow-elegant hover:shadow-glow transition-all duration-300 group-hover:scale-105 border-4 border-white/50"
               />
               <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-dusty-rose-200/40 rounded-full blur-2xl animate-pulse-soft"></div>
@@ -54,7 +54,7 @@ const AboutPreview = () => {
                 Hola, soy el corazón
               </span>
               <span className="block text-dusty-rose-elegant italic mt-2 relative">
-                detrás de Cucinanostrard
+                detrás de Titirosa
                 <div className="absolute -bottom-2 left-0 w-32 h-1 bg-gradient-to-r from-dusty-rose-300 to-warm-blush-300 rounded-full"></div>
               </span>
             </h2>

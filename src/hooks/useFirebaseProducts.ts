@@ -37,12 +37,19 @@ interface UseFirebaseProductsReturn {
   // Utility functions
   refreshProducts: () => Promise<void>;
   migrateLocalData: () => Promise<boolean>;
+  resetProductState: () => void;
   // Statistics
   productStats: {
     total: number;
     featured: number;
     available: number;
     categories: Record<string, number>;
+  };
+  // Persistence tracking
+  persistenceStatus: {
+    isConnected: boolean;
+    dataSource: "firebase" | "local" | "migrating";
+    lastSync: Date | null;
   };
 }
 
@@ -56,6 +63,20 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
     featured: 0,
     available: 0,
     categories: {} as Record<string, number>,
+  });
+  const [migrationAttempted, setMigrationAttempted] = useState(false);
+  const [hasEverHadProducts, setHasEverHadProducts] = useState(() => {
+    const savedState = localStorage.getItem("hasEverHadProducts");
+    return savedState === "true";
+  });
+  const [persistenceStatus, setPersistenceStatus] = useState<{
+    isConnected: boolean;
+    dataSource: "firebase" | "local" | "migrating";
+    lastSync: Date | null;
+  }>({
+    isConnected: false,
+    dataSource: "local",
+    lastSync: null,
   });
 
   // Calculate product statistics
@@ -153,17 +174,90 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
           );
 
           if (updatedProducts.length === 0) {
-            console.log(
-              "🔥 REAL-TIME UPDATE: No products found in Firestore, using local data...",
-            );
-            setProducts(localProducts);
-            calculateStats(localProducts);
+            console.log("🔥 REAL-TIME UPDATE: No products found in Firestore!");
+
+            // Check if this is an intentional deletion vs initial empty state
+            if (hasEverHadProducts) {
+              console.log(
+                "🗑️ ADMIN ACTION: All products were intentionally deleted by admin",
+              );
+              console.log(
+                "🚫 NO AUTO-MIGRATION: Keeping database empty as intended",
+              );
+              setProducts([]);
+              calculateStats([]);
+              setPersistenceStatus({
+                isConnected: true,
+                dataSource: "firebase",
+                lastSync: new Date(),
+              });
+            } else if (!migrationAttempted) {
+              console.log(
+                "🚀 AUTO-MIGRATION: Firebase is empty on first load, automatically migrating local products for PERSISTENCE...",
+              );
+              setMigrationAttempted(true);
+              setPersistenceStatus({
+                isConnected: true,
+                dataSource: "migrating",
+                lastSync: new Date(),
+              });
+
+              // Auto-migrate local products to Firebase for real persistence
+              MigrationService.migrateLocalProductsToFirestore(localProducts)
+                .then(() => {
+                  console.log(
+                    "✅ AUTO-MIGRATION: Local products successfully migrated to Firebase!",
+                  );
+                  console.log(
+                    "🔥 AUTO-MIGRATION: Real-time listeners will now update with persisted data",
+                  );
+                  setHasEverHadProducts(true);
+                  localStorage.setItem("hasEverHadProducts", "true");
+                  setPersistenceStatus({
+                    isConnected: true,
+                    dataSource: "firebase",
+                    lastSync: new Date(),
+                  });
+                  // The real-time listener will automatically update with the new data
+                })
+                .catch((err) => {
+                  console.error("❌ AUTO-MIGRATION: Migration failed:", err);
+                  console.log(
+                    "🔄 AUTO-MIGRATION: Falling back to local data temporarily",
+                  );
+                  setProducts(localProducts);
+                  calculateStats(localProducts);
+                  setPersistenceStatus({
+                    isConnected: false,
+                    dataSource: "local",
+                    lastSync: new Date(),
+                  });
+                });
+            } else {
+              console.log(
+                "🔄 FALLBACK: Migration already attempted, keeping empty state",
+              );
+              setProducts([]);
+              calculateStats([]);
+              setPersistenceStatus({
+                isConnected: true,
+                dataSource: "firebase",
+                lastSync: new Date(),
+              });
+            }
           } else {
             console.log(
               "🔥 REAL-TIME UPDATE: Setting products state with real-time data",
             );
             setProducts(updatedProducts);
             calculateStats(updatedProducts);
+            setHasEverHadProducts(true); // Track that we've had products in Firebase
+            localStorage.setItem("hasEverHadProducts", "true");
+            setPersistenceStatus({
+              isConnected: true,
+              dataSource: "firebase",
+              lastSync: new Date(),
+            });
           }
           setLoading(false);
           console.log(
@@ -171,6 +265,9 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
           );
           console.log(
             "📊 REAL-TIME UPDATE: Admin panel stats should now be updated in real-time",
+          );
+          console.log(
+            `🔍 PERSISTENCE STATUS: Data source: ${persistenceStatus.dataSource}, Connected: ${persistenceStatus.isConnected}`,
           );
         },
         (err) => {
@@ -231,12 +328,10 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
           );
 
           if (featured.length === 0) {
-            // Fallback to local featured products
-            const localFeatured = localProducts
-              .filter((p) => p.featured && p.available)
-              .slice(0, 6);
-            console.log("🔥 Using local featured products fallback");
-            setFeaturedProducts(localFeatured);
+            console.log(
+              "🔥 No featured products found in database - showing empty state",
+            );
+            setFeaturedProducts([]);
           } else {
             console.log(
               "🔥 Setting featured products state with real-time data",
@@ -249,21 +344,16 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
         },
         (err) => {
           console.error("Error in featured products listener:", err);
-          // Fallback to local featured products
-          const localFeatured = localProducts
-            .filter((p) => p.featured && p.available)
-            .slice(0, 6);
-          setFeaturedProducts(localFeatured);
+          setFeaturedProducts([]);
+          setError("Error loading featured products");
         },
       );
 
       return unsubscribe;
     } catch (err) {
       console.error("Error setting up featured products listener:", err);
-      const localFeatured = localProducts
-        .filter((p) => p.featured && p.available)
-        .slice(0, 6);
-      setFeaturedProducts(localFeatured);
+      setFeaturedProducts([]);
+      setError("Error setting up featured products listener");
       return () => {}; // Return empty cleanup function
     }
   }, []);
@@ -337,6 +427,39 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
           "🗑️ PRODUCT DELETE: Starting deletion process for product ID:",
           id,
         );
+        console.log(
+          `🔍 PERSISTENCE CHECK: Current data source: ${persistenceStatus.dataSource}, Connected: ${persistenceStatus.isConnected}`,
+        );
+
+        // Check if we're working with Firebase data or local fallback
+        if (persistenceStatus.dataSource === "local") {
+          console.error(
+            "❌ PERSISTENCE ERROR: Cannot delete - currently using local data fallback!",
+          );
+          console.error(
+            "💡 SOLUTION: Wait for auto-migration to complete or manually trigger migration",
+          );
+          setError(
+            "No se puede eliminar: datos no sincronizados con Firebase. Intenta migrar los datos primero.",
+          );
+          return false;
+        }
+
+        // Find the product in our current state to verify it exists
+        const productToDelete = products.find((p) => p.id === id);
+        if (!productToDelete) {
+          console.error(
+            "❌ PRODUCT DELETE ERROR: Product not found in current state!",
+          );
+          console.error(
+            "🔍 Available product IDs:",
+            products.map((p) => p.id),
+          );
+          setError("Producto no encontrado en el estado actual.");
+          return false;
+        }
+
+        console.log("✅ PRODUCT FOUND:", productToDelete.name);
 
         // Get current product count before deletion
         const currentCount = products.length;
@@ -361,11 +484,17 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
         return true;
       } catch (err) {
         console.error("🗑️ PRODUCT DELETE ERROR: Error deleting product:", err);
+        console.error("🔍 Error details:", {
+          message: err instanceof Error ? err.message : String(err),
+          productId: id,
+          persistenceStatus: persistenceStatus,
+          currentProductCount: products.length,
+        });
         setError(handleFirestoreError(err));
         return false;
       }
     },
-    [products.length],
+    [products, persistenceStatus],
   );
 
   // Search products
@@ -475,6 +604,17 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
     }
   }, []);
 
+  // Reset product state utility function (for development/testing)
+  const resetProductState = useCallback(() => {
+    console.log("🔄 RESET: Clearing product state and localStorage");
+    localStorage.removeItem("hasEverHadProducts");
+    setHasEverHadProducts(false);
+    setMigrationAttempted(false);
+    console.log(
+      "✅ RESET: Product state cleared - next reload will trigger migration if no products exist",
+    );
+  }, []);
+
   // Set up real-time listeners
   useEffect(() => {
     console.log(
@@ -517,7 +657,9 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
     getProductById,
     refreshProducts,
     migrateLocalData,
+    resetProductState,
     productStats,
+    persistenceStatus,
   };
 };
 

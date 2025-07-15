@@ -283,7 +283,7 @@ const SEO: React.FC<SEOProps> = ({
       <meta name="subject" content="Postres Artesanales República Dominicana" />
       <meta
         name="copyright"
-        content="© 2024 Cucinanostrard. Todos los derechos reservados."
+        content="© 2024 Titirosa. Todos los derechos reservados."
       />
       <meta name="rating" content="General" />
       <meta name="distribution" content="Global" />
