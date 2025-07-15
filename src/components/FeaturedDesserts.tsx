@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { MessageCircle } from "lucide-react";
-import { motion } from "framer-motion";
 import { formatPriceFrom } from "../utils/currency";
 import { useFeaturedProducts } from "../contexts/FirebaseProductsContext";
 import {

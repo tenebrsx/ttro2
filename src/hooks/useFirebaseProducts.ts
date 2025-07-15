@@ -99,9 +99,38 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
         productsQuery,
         (snapshot) => {
           console.log(
-            "🔥 Real-time products update received - snapshot size:",
+            "🔥 REAL-TIME UPDATE: Products listener triggered - snapshot size:",
             snapshot.size,
           );
+
+          // Track changes
+          const changes = snapshot.docChanges();
+          console.log(
+            "🔥 REAL-TIME UPDATE: Document changes detected:",
+            changes.length,
+          );
+
+          changes.forEach((change) => {
+            if (change.type === "added") {
+              console.log(
+                "🔥 REAL-TIME UPDATE: Product ADDED:",
+                change.doc.id,
+                change.doc.data().name,
+              );
+            } else if (change.type === "modified") {
+              console.log(
+                "🔥 REAL-TIME UPDATE: Product MODIFIED:",
+                change.doc.id,
+                change.doc.data().name,
+              );
+            } else if (change.type === "removed") {
+              console.log(
+                "🔥 REAL-TIME UPDATE: Product REMOVED:",
+                change.doc.id,
+              );
+            }
+          });
+
           const updatedProducts: Product[] = [];
 
           snapshot.forEach((doc) => {
@@ -114,27 +143,34 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
             } as Product);
           });
 
-          console.log("🔥 Products processed:", updatedProducts.length);
           console.log(
-            "🔥 Product names:",
-            updatedProducts.map((p) => p.name),
+            "🔥 REAL-TIME UPDATE: Products processed:",
+            updatedProducts.length,
+          );
+          console.log(
+            "🔥 REAL-TIME UPDATE: Current product IDs:",
+            updatedProducts.map((p) => `${p.id}:${p.name}`).slice(0, 5),
           );
 
           if (updatedProducts.length === 0) {
-            console.log("No products found in Firestore, using local data...");
+            console.log(
+              "🔥 REAL-TIME UPDATE: No products found in Firestore, using local data...",
+            );
             setProducts(localProducts);
             calculateStats(localProducts);
           } else {
-            console.log("🔥 Setting products state with real-time data");
+            console.log(
+              "🔥 REAL-TIME UPDATE: Setting products state with real-time data",
+            );
             setProducts(updatedProducts);
             calculateStats(updatedProducts);
           }
           setLoading(false);
           console.log(
-            "🔥 Products state updated - will trigger re-renders across the app",
+            "🔥 REAL-TIME UPDATE: Products state updated - triggering re-renders across the app",
           );
           console.log(
-            "📊 Admin panel stats should now be updated in real-time",
+            "📊 REAL-TIME UPDATE: Admin panel stats should now be updated in real-time",
           );
         },
         (err) => {
@@ -243,11 +279,13 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
 
         // Real-time listeners will automatically update the UI
         console.log(
-          "✅ Product created with ID:",
+          "✅ PRODUCT CREATED: Product created with ID:",
           productId,
           "- real-time listeners will update UI across all pages",
         );
-        console.log("📊 Stats will auto-update via real-time listener");
+        console.log(
+          "📊 PRODUCT CREATED: Stats will auto-update via real-time listener",
+        );
 
         return productId;
       } catch (err) {
@@ -271,11 +309,13 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
 
         // Real-time listeners will automatically update the UI
         console.log(
-          "✅ Product updated with ID:",
+          "✅ PRODUCT UPDATED: Product updated with ID:",
           id,
           "- real-time listeners will update UI across all pages",
         );
-        console.log("📊 Stats will auto-update via real-time listener");
+        console.log(
+          "📊 PRODUCT UPDATED: Stats will auto-update via real-time listener",
+        );
 
         return true;
       } catch (err) {
@@ -288,26 +328,45 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
   );
 
   // Delete product
-  const deleteProduct = useCallback(async (id: string): Promise<boolean> => {
-    try {
-      setError(null);
-      await ProductService.deleteProduct(id);
+  const deleteProduct = useCallback(
+    async (id: string): Promise<boolean> => {
+      try {
+        setError(null);
 
-      // Real-time listeners will automatically update the UI
-      console.log(
-        "✅ Product deleted with ID:",
-        id,
-        "- real-time listeners will update UI across all pages",
-      );
-      console.log("📊 Stats will auto-update via real-time listener");
+        console.log(
+          "🗑️ PRODUCT DELETE: Starting deletion process for product ID:",
+          id,
+        );
 
-      return true;
-    } catch (err) {
-      console.error("Error deleting product:", err);
-      setError(handleFirestoreError(err));
-      return false;
-    }
-  }, []);
+        // Get current product count before deletion
+        const currentCount = products.length;
+        console.log(
+          "🗑️ PRODUCT DELETE: Current products count before deletion:",
+          currentCount,
+        );
+
+        await ProductService.deleteProduct(id);
+
+        // Real-time listeners will automatically update the UI
+        console.log(
+          "✅ PRODUCT DELETE: Product deleted with ID:",
+          id,
+          "- real-time listeners will update UI across all pages",
+        );
+        console.log(
+          "📊 PRODUCT DELETE: Stats will auto-update via real-time listener",
+        );
+        console.log("📊 PRODUCT DELETE: Expected new count:", currentCount - 1);
+
+        return true;
+      } catch (err) {
+        console.error("🗑️ PRODUCT DELETE ERROR: Error deleting product:", err);
+        setError(handleFirestoreError(err));
+        return false;
+      }
+    },
+    [products.length],
+  );
 
   // Search products
   const searchProducts = useCallback(

@@ -199,15 +199,24 @@ export class ProductService {
       console.log("🔥 FIREBASE: Attempting to add document...");
       const docRef = await addDoc(testRef, firestoreData);
 
-      console.log("🔥 FIREBASE: Product created successfully with ID:", docRef.id);
+      console.log(
+        "🔥 FIREBASE: Product created successfully with ID:",
+        docRef.id,
+      );
       return docRef.id;
     } catch (error) {
       console.error("🔥 FIREBASE: Detailed error creating product:");
-      console.error("🔥 FIREBASE: - Error message:", error instanceof Error ? error.message : String(error));
+      console.error(
+        "🔥 FIREBASE: - Error message:",
+        error instanceof Error ? error.message : String(error),
+      );
       console.error("🔥 FIREBASE: - Error object:", error);
       console.error("🔥 FIREBASE: - Error code:", (error as any)?.code);
       console.error("🔥 FIREBASE: - Error name:", (error as any)?.name);
-      console.error("🔥 FIREBASE: - Full error:", JSON.stringify(error, null, 2));
+      console.error(
+        "🔥 FIREBASE: - Full error:",
+        JSON.stringify(error, null, 2),
+      );
       console.error("🔥 FIREBASE: - Product data that failed:", productData);
 
       // Re-throw with more specific error message
@@ -240,10 +249,62 @@ export class ProductService {
   // Delete product
   static async deleteProduct(id: string): Promise<void> {
     try {
-      await deleteDoc(doc(db, COLLECTIONS.PRODUCTS, id));
+      console.log(
+        "🔥 FIREBASE DELETE: Starting delete operation for product ID:",
+        id,
+      );
+
+      // First, verify the product exists
+      const productRef = doc(db, COLLECTIONS.PRODUCTS, id);
+      const productSnapshot = await getDoc(productRef);
+
+      if (!productSnapshot.exists()) {
+        console.error("🔥 FIREBASE DELETE: Product not found with ID:", id);
+        throw new Error(`Product with ID ${id} not found`);
+      }
+
+      console.log(
+        "🔥 FIREBASE DELETE: Product found, proceeding with deletion...",
+      );
+      console.log(
+        "🔥 FIREBASE DELETE: Product data before deletion:",
+        productSnapshot.data(),
+      );
+
+      // Perform the deletion
+      await deleteDoc(productRef);
+
+      console.log(
+        "🔥 FIREBASE DELETE: Product successfully deleted from Firestore",
+      );
+      console.log(
+        "🔥 FIREBASE DELETE: Real-time listeners should now update the UI automatically",
+      );
+
+      // Verify deletion
+      const verifySnapshot = await getDoc(productRef);
+      if (verifySnapshot.exists()) {
+        console.error(
+          "🔥 FIREBASE DELETE: ERROR - Product still exists after deletion!",
+        );
+        throw new Error("Product deletion failed - document still exists");
+      } else {
+        console.log(
+          "🔥 FIREBASE DELETE: Deletion verified - product no longer exists in Firestore",
+        );
+      }
     } catch (error) {
-      console.error("Error deleting product:", error);
-      throw new Error("Failed to delete product");
+      console.error("🔥 FIREBASE DELETE: Detailed error information:");
+      console.error(
+        "🔥 FIREBASE DELETE: - Error message:",
+        error instanceof Error ? error.message : String(error),
+      );
+      console.error("🔥 FIREBASE DELETE: - Error object:", error);
+      console.error("🔥 FIREBASE DELETE: - Error code:", (error as any)?.code);
+      console.error("🔥 FIREBASE DELETE: - Product ID that failed:", id);
+      throw new Error(
+        `Failed to delete product: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
     }
   }
 

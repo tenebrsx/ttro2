@@ -57,6 +57,27 @@ const Admin: React.FC<AdminPanelProps> = () => {
     productStats,
   } = useFirebaseProducts();
 
+  // Debug: Track changes to desserts array
+  useEffect(() => {
+    console.log("🎯 ADMIN DEBUG: Desserts array updated");
+    console.log("🎯 ADMIN DEBUG: Total products count:", desserts.length);
+    console.log(
+      "🎯 ADMIN DEBUG: Available products:",
+      desserts.filter((d) => d.available).length,
+    );
+    console.log(
+      "🎯 ADMIN DEBUG: Product IDs:",
+      desserts.map((d) => d.id).slice(0, 5),
+    );
+    console.log("🎯 ADMIN DEBUG: Loading state:", isLoading);
+    if (desserts.length > 0) {
+      console.log(
+        "🎯 ADMIN DEBUG: Sample product names:",
+        desserts.slice(0, 3).map((d) => d.name),
+      );
+    }
+  }, [desserts, isLoading]);
+
   // Session persistence
   useEffect(() => {
     const savedSession = localStorage.getItem("admin_session");
@@ -521,17 +542,53 @@ const Admin: React.FC<AdminPanelProps> = () => {
   const deleteDessert = async (id: string) => {
     setIsOperationLoading(true);
 
+    // Find the product being deleted
+    const productToDelete = desserts.find((d) => d.id === id);
+    console.log("🗑️ ADMIN DELETE: Starting deletion process");
+    console.log(
+      "🗑️ ADMIN DELETE: Product to delete:",
+      productToDelete?.name,
+      "ID:",
+      id,
+    );
+    console.log(
+      "🗑️ ADMIN DELETE: Current products count before deletion:",
+      desserts.length,
+    );
+
     try {
       const success = await deleteProduct(id);
 
       if (success) {
+        console.log("🗑️ ADMIN DELETE: Firebase delete operation successful");
+        console.log("🗑️ ADMIN DELETE: Waiting for real-time update...");
         alert("Producto eliminado exitosamente");
         setShowDeleteConfirm(null);
+
+        // Debug: Check if the product is still in the array after a short delay
+        setTimeout(() => {
+          const stillExists = desserts.find((d) => d.id === id);
+          if (stillExists) {
+            console.error(
+              "🗑️ ADMIN DELETE ERROR: Product still exists in admin array after deletion!",
+            );
+            console.error(
+              "🗑️ ADMIN DELETE ERROR: This indicates real-time updates are not working",
+            );
+          } else {
+            console.log(
+              "✅ ADMIN DELETE SUCCESS: Product successfully removed from admin array",
+            );
+          }
+        }, 2000);
       } else {
+        console.error(
+          "🗑️ ADMIN DELETE ERROR: Firebase delete operation failed",
+        );
         alert("Error al eliminar el producto. Intenta de nuevo.");
       }
     } catch (error) {
-      console.error("Error deleting product:", error);
+      console.error("🗑️ ADMIN DELETE ERROR: Exception during deletion:", error);
       alert("Error inesperado. Por favor intenta de nuevo.");
     } finally {
       setIsOperationLoading(false);
@@ -815,6 +872,19 @@ const Admin: React.FC<AdminPanelProps> = () => {
           return 0;
       }
     });
+
+  // Debug: Track filtered results
+  useEffect(() => {
+    console.log(
+      "🔍 ADMIN FILTER: Filtered desserts count:",
+      filteredDesserts.length,
+    );
+    console.log("🔍 ADMIN FILTER: Search term:", searchTerm);
+    console.log("🔍 ADMIN FILTER: Selected category:", selectedCategory);
+    if (filteredDesserts.length !== desserts.length) {
+      console.log("🔍 ADMIN FILTER: Some products are being filtered out");
+    }
+  }, [filteredDesserts.length, searchTerm, selectedCategory, desserts.length]);
 
   // Login form
   if (!isAuthenticated) {
