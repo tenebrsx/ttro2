@@ -34,7 +34,7 @@ const Hero = () => {
       </ParticleSystem>
       <section
         id="home"
-        className="relative min-h-screen flex items-center justify-center overflow-hidden mobile-section-consistent md:pt-0"
+        className="relative min-h-screen flex items-center justify-center overflow-hidden mobile-section-consistent md:pt-0 texture-grain-animated"
         aria-label="Sección de inicio"
         role="region"
       >
@@ -54,14 +54,15 @@ const Hero = () => {
           {/* Clean background without image */}
           <div className="w-full h-full hero-clean-bg"></div>
 
-          {/* Overlay for better text readability */}
-          <div className="absolute inset-0 hero-overlay-subtle"></div>
+          {/* Enhanced overlay for better text readability */}
+          <div className="absolute inset-0 hero-overlay-subtle surface-elegant"></div>
         </div>
 
         {/* Subtle Background Elements */}
         <ParallaxScroll speed={0.2} className="absolute inset-0 z-10">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-sage-100/10 to-sage-200/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-br from-cream-200/10 to-sage-100/10 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-sage-100/10 to-sage-200/10 rounded-full blur-3xl shadow-sage"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-br from-cream-200/10 to-sage-100/10 rounded-full blur-3xl shadow-warm"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-to-r from-transparent via-cream-100/5 to-transparent rounded-luxury opacity-30"></div>
         </ParallaxScroll>
 
         <div className="relative z-30 text-center mobile-padding max-w-5xl mx-auto">
@@ -76,11 +77,14 @@ const Hero = () => {
                 distance={20}
                 className="flex justify-center"
               >
-                <img
-                  src="/logo.png"
-                  alt="Cucina - homemade goods"
-                  className="h-20 sm:h-24 md:h-28 lg:h-32 xl:h-36 w-auto max-w-full object-contain hero-logo-shadow"
-                />
+                <div className="relative inline-block">
+                  <div className="absolute inset-0 bg-gradient-radial from-white/10 via-transparent to-transparent rounded-luxury blur-2xl scale-110 opacity-60"></div>
+                  <img
+                    src="/logo.png"
+                    alt="Cucina - homemade goods"
+                    className="relative h-20 sm:h-24 md:h-28 lg:h-32 xl:h-36 w-auto max-w-full object-contain hero-logo-shadow shadow-luxury"
+                  />
+                </div>
               </FadeReveal>
             </CinematicReveal>
           </div>
@@ -93,14 +97,17 @@ const Hero = () => {
             distance={20}
             className="relative mobile-content-consistent mt-6 md:mt-8"
           >
-            <p className="font-bodoni text-lg sm:text-xl md:text-2xl lg:text-3xl text-cocoa-500 max-w-4xl mx-auto leading-body-elegant text-contrast-high mobile-content-consistent">
-              Creamos postres artesanales que despiertan memorias y celebran
-              momentos únicos. Cada creación lleva el sabor de{" "}
-              <span className="text-sage-600 italic underline decoration-sage-600/50 decoration-2 underline-offset-4">
-                la auténtica repostería casera
-              </span>
-              , hecha con amor y dedicación.
-            </p>
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent rounded-elegant blur-xl"></div>
+              <p className="relative font-bodoni text-lg sm:text-xl md:text-2xl lg:text-3xl text-cocoa-500 max-w-4xl mx-auto leading-body-elegant text-contrast-high mobile-content-consistent bg-white/5 backdrop-blur-sm rounded-elegant px-6 py-4 shadow-inner-soft">
+                Creamos postres artesanales que despiertan memorias y celebran
+                momentos únicos. Cada creación lleva el sabor de{" "}
+                <span className="text-sage-600 italic underline decoration-sage-600/50 decoration-2 underline-offset-4 bg-sage-50/30 px-2 py-1 rounded-premium shadow-inner-soft">
+                  la auténtica repostería casera
+                </span>
+                , hecha con amor y dedicación.
+              </p>
+            </div>
 
             {/* Visual Flow Anchor */}
             <FadeReveal
@@ -111,7 +118,7 @@ const Hero = () => {
               className="mt-8 md:mt-10 flex justify-center"
             >
               <div className="flex items-center space-x-4">
-                <div className="w-2 h-2 bg-sage-400 rounded-full flow-anchor-pulse"></div>
+                <div className="w-2 h-2 bg-sage-400 rounded-full flow-anchor-pulse shadow-sage"></div>
               </div>
             </FadeReveal>
           </FadeReveal>
@@ -129,7 +136,7 @@ const Hero = () => {
                 <SophisticatedButton
                   onClick={goToContact}
                   variant="primary"
-                  className="hero-btn-mobile-enhanced hero-btn-primary tracking-button-refined mobile-content-consistent"
+                  className="hero-btn-mobile-enhanced hero-btn-primary tracking-button-refined mobile-content-consistent shadow-premium hover:shadow-luxury"
                   aria-label="Crear tu pedido especial"
                 >
                   Crea Tu Pedido Especial
@@ -142,7 +149,7 @@ const Hero = () => {
                 <SophisticatedButton
                   onClick={goToMenu}
                   variant="secondary"
-                  className="hero-btn-mobile-enhanced hero-btn-secondary tracking-button-refined uppercase mobile-content-consistent"
+                  className="hero-btn-mobile-enhanced hero-btn-secondary tracking-button-refined uppercase mobile-content-consistent shadow-elegant hover:shadow-premium"
                   aria-label="Ver el menú de postres"
                 >
                   Ver el menú

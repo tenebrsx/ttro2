@@ -38,16 +38,16 @@ type ButtonRounding = "full" | "lg" | "md" | "sm" | "none";
 // Constants
 const VARIANT_STYLES: Record<ButtonVariant, string> = {
   primary:
-    "bg-cocoa-500 hover:bg-cocoa-600 text-cream-200 shadow-brand-medium hover:shadow-brand-strong border border-cocoa-400/30 relative overflow-hidden group btn-contrast-high font-medium",
+    "bg-cocoa-500 hover:bg-cocoa-600 text-cream-200 shadow-premium hover:shadow-luxury border border-cocoa-400/30 relative overflow-hidden group btn-contrast-high font-medium backdrop-blur-sm hover:backdrop-blur-md",
   secondary:
-    "bg-white text-cocoa-500 hover:bg-cream-100 border-2 border-cocoa-500 hover:border-cocoa-600 shadow-brand-soft hover:shadow-brand-medium relative overflow-hidden group contrast-high font-medium",
+    "bg-white text-cocoa-500 hover:bg-cream-100 border-2 border-cocoa-500 hover:border-cocoa-600 shadow-elegant hover:shadow-premium relative overflow-hidden group contrast-high font-medium backdrop-blur-sm hover:backdrop-blur-md",
   outline:
-    "border-2 border-cocoa-500 text-cocoa-600 hover:bg-cocoa-500 hover:text-white hover:border-cocoa-600 shadow-brand-soft hover:shadow-brand-medium backdrop-blur-sm bg-white/90 relative overflow-hidden group font-medium",
+    "border-2 border-cocoa-500 text-cocoa-600 hover:bg-cocoa-500 hover:text-white hover:border-cocoa-600 shadow-elegant hover:shadow-premium backdrop-blur-md bg-white/90 relative overflow-hidden group font-medium hover:backdrop-blur-lg",
   ghost:
-    "text-cocoa-600 hover:bg-sage-100 hover:text-cocoa-700 relative overflow-hidden group text-contrast-high font-normal",
+    "text-cocoa-600 hover:bg-sage-100 hover:text-cocoa-700 relative overflow-hidden group text-contrast-high font-normal hover:shadow-elegant backdrop-blur-sm hover:backdrop-blur-md",
   gradient:
-    "bg-gradient-to-r from-sage-500 to-cocoa-500 hover:from-sage-600 hover:to-cocoa-600 text-white shadow-brand-medium hover:shadow-brand-strong border border-sage-400/30 relative overflow-hidden group btn-contrast-high font-medium",
-  text: "text-cocoa-600 hover:text-cocoa-700 hover:underline hover:underline-offset-4 decoration-cocoa-400/60 relative group text-contrast-high font-normal",
+    "bg-gradient-to-r from-sage-500 to-cocoa-500 hover:from-sage-600 hover:to-cocoa-600 text-white shadow-premium hover:shadow-luxury border border-sage-400/30 relative overflow-hidden group btn-contrast-high font-medium backdrop-blur-sm hover:backdrop-blur-md",
+  text: "text-cocoa-600 hover:text-cocoa-700 hover:underline hover:underline-offset-4 decoration-cocoa-400/60 relative group text-contrast-high font-normal hover:bg-cocoa-50/30 hover:shadow-inner-soft rounded-premium px-2 py-1",
 };
 
 const SIZE_STYLES: Record<ButtonSize, string> = {
@@ -67,10 +67,10 @@ const ICON_SIZES: Record<ButtonSize, string> = {
 };
 
 const ROUNDED_STYLES: Record<ButtonRounding, string> = {
-  full: "rounded-full",
-  lg: "rounded-lg",
-  md: "rounded-md",
-  sm: "rounded-sm",
+  full: "rounded-button",
+  lg: "rounded-elegant",
+  md: "rounded-card",
+  sm: "rounded-premium",
   none: "rounded-none",
 };
 
@@ -100,7 +100,7 @@ const VARIANTS_WITH_HOVER_EFFECT: ButtonVariant[] = [
 
 // Base styles
 const BASE_STYLES =
-  "inline-flex items-center justify-center font-bodoni font-medium tracking-button-refined transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cocoa-400/40 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed text-contrast-high";
+  "inline-flex items-center justify-center font-bodoni font-medium tracking-button-refined transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-cocoa-400/40 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed text-contrast-high transform hover:-translate-y-0.5 active:translate-y-0";
 
 // Utility functions
 const getButtonClasses = ({
@@ -138,12 +138,14 @@ const getButtonClasses = ({
 
 const getAnimationVariants = (animateOnHover: boolean) => ({
   hover: {
-    scale: animateOnHover ? 1.05 : 1,
-    transition: { duration: 0.3 },
+    scale: animateOnHover ? 1.02 : 1,
+    y: animateOnHover ? -2 : 0,
+    transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
   },
   tap: {
-    scale: animateOnHover ? 0.95 : 1,
-    transition: { duration: 0.1 },
+    scale: animateOnHover ? 0.98 : 1,
+    y: animateOnHover ? 0 : 0,
+    transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] },
   },
 });
 
@@ -154,7 +156,7 @@ const HoverEffect = ({ variant }: { variant: ButtonVariant }) => {
   }
 
   return (
-    <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/15 to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+    <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/20 to-white/5 opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-inherit" />
   );
 };
 

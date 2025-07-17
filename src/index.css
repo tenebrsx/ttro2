@@ -1,9 +1,337 @@
 @import url("https://fonts.googleapis.com/css2?family=Academy+Engraved+LET&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Academy+Engraved+LET&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ========================================
+   SOPHISTICATED SHADOW SYSTEM
+   ======================================== */
+:root {
+    /* Shadow System - Multi-layered shadows for depth */
+    --shadow-xs: 0 1px 2px 0 rgba(55, 40, 19, 0.05);
+    --shadow-sm:
+        0 1px 3px 0 rgba(55, 40, 19, 0.1), 0 1px 2px -1px rgba(55, 40, 19, 0.1);
+    --shadow-md:
+        0 4px 6px -1px rgba(55, 40, 19, 0.1),
+        0 2px 4px -2px rgba(55, 40, 19, 0.1);
+    --shadow-lg:
+        0 10px 15px -3px rgba(55, 40, 19, 0.1),
+        0 4px 6px -4px rgba(55, 40, 19, 0.1);
+    --shadow-xl:
+        0 20px 25px -5px rgba(55, 40, 19, 0.1),
+        0 8px 10px -6px rgba(55, 40, 19, 0.1);
+    --shadow-2xl: 0 25px 50px -12px rgba(55, 40, 19, 0.25);
+
+    /* Premium shadow layers */
+    --shadow-elegant:
+        0 2px 4px rgba(55, 40, 19, 0.04), 0 8px 16px rgba(55, 40, 19, 0.08),
+        0 24px 48px rgba(55, 40, 19, 0.12);
+
+    --shadow-premium:
+        0 4px 8px rgba(55, 40, 19, 0.06), 0 12px 24px rgba(55, 40, 19, 0.1),
+        0 32px 64px rgba(55, 40, 19, 0.15);
+
+    --shadow-luxury:
+        0 8px 16px rgba(55, 40, 19, 0.08), 0 16px 32px rgba(55, 40, 19, 0.12),
+        0 48px 96px rgba(55, 40, 19, 0.18);
+
+    /* Inner shadows for depth */
+    --shadow-inner-soft: inset 0 2px 4px 0 rgba(55, 40, 19, 0.06);
+    --shadow-inner-medium: inset 0 4px 8px 0 rgba(55, 40, 19, 0.1);
+
+    /* Colored shadows for brand elements */
+    --shadow-sage:
+        0 4px 8px rgba(146, 155, 154, 0.15),
+        0 12px 24px rgba(146, 155, 154, 0.1);
+
+    --shadow-warm:
+        0 4px 8px rgba(250, 248, 245, 0.3), 0 12px 24px rgba(250, 248, 245, 0.2);
+}
+
+/* ========================================
+   SHADOW UTILITY CLASSES
+   ======================================== */
+@layer utilities {
+    .shadow-elegant {
+        box-shadow: var(--shadow-elegant);
+    }
+
+    .shadow-premium {
+        box-shadow: var(--shadow-premium);
+    }
+
+    .shadow-luxury {
+        box-shadow: var(--shadow-luxury);
+    }
+
+    .shadow-inner-soft {
+        box-shadow: var(--shadow-inner-soft);
+    }
+
+    .shadow-inner-medium {
+        box-shadow: var(--shadow-inner-medium);
+    }
+
+    .shadow-sage {
+        box-shadow: var(--shadow-sage);
+    }
+
+    .shadow-warm {
+        box-shadow: var(--shadow-warm);
+    }
+
+    /* Hover shadow transitions */
+    .shadow-hover-elegant:hover {
+        box-shadow: var(--shadow-elegant);
+        transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .shadow-hover-premium:hover {
+        box-shadow: var(--shadow-premium);
+        transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .shadow-hover-luxury:hover {
+        box-shadow: var(--shadow-luxury);
+        transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Combined inner + outer shadows for depth */
+    .shadow-depth {
+        box-shadow: var(--shadow-inner-soft), var(--shadow-elegant);
+    }
+
+    .shadow-depth-premium {
+        box-shadow: var(--shadow-inner-medium), var(--shadow-premium);
+    }
+}
+
+/* ========================================
+   SOPHISTICATED BORDER RADIUS SYSTEM
+   ======================================== */
+:root {
+    /* Border Radius Scale - Progressive sizing */
+    --radius-xs: 6px;
+    --radius-sm: 12px;
+    --radius-md: 20px;
+    --radius-lg: 28px;
+    --radius-xl: 36px;
+    --radius-2xl: 48px;
+    --radius-full: 9999px;
+
+    /* Contextual radius values */
+    --radius-button: var(--radius-full);
+    --radius-card: var(--radius-lg);
+    --radius-modal: var(--radius-xl);
+    --radius-image: var(--radius-md);
+    --radius-input: var(--radius-md);
+
+    /* Organic radius patterns for premium feel */
+    --radius-organic-sm: 14px 18px 16px 12px;
+    --radius-organic-md: 24px 32px 28px 20px;
+    --radius-organic-lg: 32px 42px 38px 28px;
+}
+
+@layer utilities {
+    /* Standard radius utilities */
+    .rounded-elegant {
+        border-radius: var(--radius-card);
+    }
+
+    .rounded-premium {
+        border-radius: var(--radius-xl);
+    }
+
+    .rounded-luxury {
+        border-radius: var(--radius-2xl);
+    }
+
+    /* Organic radius for artistic feel */
+    .rounded-organic {
+        border-radius: var(--radius-organic-md);
+    }
+
+    .rounded-organic-sm {
+        border-radius: var(--radius-organic-sm);
+    }
+
+    .rounded-organic-lg {
+        border-radius: var(--radius-organic-lg);
+    }
+
+    /* Contextual radius classes */
+    .rounded-card {
+        border-radius: var(--radius-card);
+    }
+
+    .rounded-button {
+        border-radius: var(--radius-button);
+    }
+
+    .rounded-modal {
+        border-radius: var(--radius-modal);
+    }
+
+    .rounded-image {
+        border-radius: var(--radius-image);
+    }
+
+    /* Asymmetric radius for modern feel */
+    .rounded-asymmetric-1 {
+        border-radius: var(--radius-lg) var(--radius-md) var(--radius-lg)
+            var(--radius-md);
+    }
+
+    .rounded-asymmetric-2 {
+        border-radius: var(--radius-xl) var(--radius-sm) var(--radius-lg)
+            var(--radius-md);
+    }
+}
+
+/* ========================================
+   TEXTURE OVERLAY SYSTEM
+   ======================================== */
+:root {
+    /* Texture patterns */
+    --texture-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+
+    --texture-paper: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.02'%3E%3Ccircle cx='7' cy='7' r='1'/%3E%3Ccircle cx='53' cy='53' r='1'/%3E%3Ccircle cx='20' cy='30' r='1'/%3E%3Ccircle cx='40' cy='10' r='1'/%3E%3C/g%3E%3C/svg%3E");
+
+    --texture-canvas: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.03' fill-rule='evenodd'%3E%3Cpath d='m0 40l40-40h-40v40zm40 0v-40h-40l40 40z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+@layer utilities {
+    /* Texture overlay utilities */
+    .texture-grain::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: var(--texture-grain);
+        opacity: 0.015;
+        mix-blend-mode: overlay;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .texture-paper::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: var(--texture-paper);
+        opacity: 0.4;
+        mix-blend-mode: multiply;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .texture-canvas::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: var(--texture-canvas);
+        opacity: 0.25;
+        mix-blend-mode: soft-light;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* Animated texture for hero sections */
+    .texture-grain-animated::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: var(--texture-grain);
+        opacity: 0.02;
+        mix-blend-mode: overlay;
+        pointer-events: none;
+        z-index: 1;
+        animation: grain-animation 8s infinite linear;
+    }
+
+    @keyframes grain-animation {
+        0%,
+        100% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+        10% {
+            transform: translate(-5%, -5%) rotate(1deg);
+        }
+        20% {
+            transform: translate(-10%, 5%) rotate(-1deg);
+        }
+        30% {
+            transform: translate(5%, -10%) rotate(2deg);
+        }
+        40% {
+            transform: translate(-5%, 15%) rotate(-2deg);
+        }
+        50% {
+            transform: translate(-15%, 5%) rotate(1deg);
+        }
+        60% {
+            transform: translate(15%, 0%) rotate(-1deg);
+        }
+        70% {
+            transform: translate(0%, -15%) rotate(2deg);
+        }
+        80% {
+            transform: translate(-10%, 10%) rotate(-2deg);
+        }
+        90% {
+            transform: translate(10%, 5%) rotate(1deg);
+        }
+    }
+
+    /* Premium surface treatments */
+    .surface-elegant {
+        background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.05) 100%
+        );
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .surface-premium {
+        background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.15) 0%,
+            rgba(255, 255, 255, 0.08) 50%,
+            rgba(255, 255, 255, 0.02) 100%
+        );
+        backdrop-filter: blur(30px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .surface-luxury {
+        background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.2) 0%,
+            rgba(255, 255, 255, 0.1) 30%,
+            rgba(255, 255, 255, 0.05) 70%,
+            rgba(255, 255, 255, 0.02) 100%
+        );
+        backdrop-filter: blur(40px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+}
 
 /* Brand Identity Base Styles */
 @layer base {
@@ -424,15 +752,15 @@
         font-size: 1.125rem; /* Reduced from xl (1.25rem) for better proportion */
         padding: 0.75rem 2rem; /* Reduced padding for better scaling */
         letter-spacing: 0.025em; /* Refined spacing */
-        box-shadow: 0 6px 25px rgba(55, 40, 19, 0.3);
-        transition: all 0.3s ease;
+        box-shadow: var(--shadow-premium);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .hero-btn-primary:hover {
         background-color: #2a1f0f; /* Darker shade on hover */
         border-color: #2a1f0f;
-        box-shadow: 0 8px 30px rgba(55, 40, 19, 0.45);
-        transform: translateY(-2px) scale(1.02);
+        box-shadow: var(--shadow-luxury);
+        transform: translateY(-3px) scale(1.02);
     }
 
     .hero-btn-secondary {
@@ -452,18 +780,22 @@
         background-color: #372813; /* Fill with brand deep tone */
         color: #faf8f5;
         border-color: #372813;
-        transform: translateY(-1px) scale(1.01);
-        box-shadow: 0 6px 20px rgba(55, 40, 19, 0.3);
+        transform: translateY(-2px) scale(1.01);
+        box-shadow: var(--shadow-premium);
     }
 
-    /* Hero Logo Styling */
+    /* Hero Logo Styling - Enhanced */
     .hero-logo-shadow {
-        filter: drop-shadow(0 4px 12px rgba(55, 40, 19, 0.15));
-        transition: all 0.3s ease;
+        filter: drop-shadow(0 8px 24px rgba(55, 40, 19, 0.15))
+            drop-shadow(0 4px 12px rgba(55, 40, 19, 0.1))
+            drop-shadow(0 2px 6px rgba(55, 40, 19, 0.05));
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .hero-logo-shadow:hover {
-        filter: drop-shadow(0 6px 16px rgba(55, 40, 19, 0.25));
+        filter: drop-shadow(0 12px 32px rgba(55, 40, 19, 0.2))
+            drop-shadow(0 6px 16px rgba(55, 40, 19, 0.15))
+            drop-shadow(0 3px 8px rgba(55, 40, 19, 0.08));
         transform: scale(1.02);
     }
 

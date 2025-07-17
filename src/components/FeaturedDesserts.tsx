@@ -207,7 +207,7 @@ const FeaturedDesserts = () => {
             </div>
 
             <FadeReveal delay={2.2} duration={1.0} direction="up" distance={20}>
-              <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-soft border border-dusty-rose-100/50 p-12 max-w-2xl mx-auto">
+              <div className="bg-white/90 backdrop-blur-sm rounded-elegant shadow-premium border border-dusty-rose-100/50 p-12 max-w-2xl mx-auto">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-gradient-to-br from-dusty-rose-100 to-warm-blush-100 rounded-full flex items-center justify-center mx-auto mb-6">
                     <div className="text-2xl">🍰</div>
@@ -223,7 +223,7 @@ const FeaturedDesserts = () => {
                   <div className="flex justify-center">
                     <Link
                       to="/contact"
-                      className="inline-flex items-center gap-2 bg-gradient-to-r from-sage-500 to-sage-600 hover:from-sage-600 hover:to-sage-700 text-white px-8 py-3 rounded-2xl font-bodoni font-medium shadow-warm hover:shadow-glow transition-all duration-500 tracking-button-refined"
+                      className="inline-flex items-center gap-2 bg-gradient-to-r from-sage-500 to-sage-600 hover:from-sage-600 hover:to-sage-700 text-white px-8 py-3 rounded-button font-bodoni font-medium shadow-premium hover:shadow-luxury transition-all duration-500 tracking-button-refined"
                     >
                       <MessageCircle className="w-4 h-4" />
                       <span>Contactar para Pedidos</span>
@@ -313,8 +313,8 @@ const FeaturedDesserts = () => {
               <PremiumReveal effect="cinematic-shimmer" delay={index * 0.2}>
                 <HoverLift liftHeight={12} duration={0.4}>
                   <ScaleHover scale={1.02} duration={0.3}>
-                    <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-soft hover:shadow-elegant transition-all duration-500 overflow-hidden group border border-sage-100/50">
-                      <div className="relative overflow-hidden rounded-t-3xl">
+                    <div className="bg-white/90 backdrop-blur-sm rounded-elegant shadow-premium hover:shadow-luxury transition-all duration-500 overflow-hidden group border border-sage-100/50">
+                      <div className="relative overflow-hidden rounded-t-[28px]">
                         <img
                           src={dessert.image}
                           alt={dessert.name}
@@ -326,7 +326,7 @@ const FeaturedDesserts = () => {
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
 
                         {/* Price overlay on hover */}
-                        <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm text-sage-600 px-3 py-2 rounded-xl font-bodoni font-bold text-lg opacity-0 group-hover:opacity-100 transition-all duration-500 shadow-gentle transform translate-y-2 group-hover:translate-y-0">
+                        <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm text-sage-600 px-3 py-2 rounded-premium font-bodoni font-bold text-lg opacity-0 group-hover:opacity-100 transition-all duration-500 shadow-elegant transform translate-y-2 group-hover:translate-y-0">
                           {dessert.priceDisplay}
                         </div>
                       </div>
@@ -346,7 +346,7 @@ const FeaturedDesserts = () => {
                           <p className="text-sage-600 font-medium text-2xl font-bodoni">
                             {dessert.priceDisplay}
                           </p>
-                          <span className="text-sm text-cocoa-500/70 bg-cream-100 px-3 py-2 rounded-xl font-bodoni font-normal">
+                          <span className="text-sm text-cocoa-500/70 bg-cream-100 px-3 py-2 rounded-premium font-bodoni font-normal shadow-inner-soft">
                             {dessert.preparationTime}
                           </span>
                         </div>
@@ -361,7 +361,7 @@ const FeaturedDesserts = () => {
                         <div className="flex space-x-3">
                           <Link
                             to={`/product/${dessert.id}`}
-                            className="flex-1 text-center bg-gradient-to-r from-cream-100 to-cream-200 text-cocoa-500 py-3 px-5 rounded-2xl font-bodoni font-medium hover:from-sage-100 hover:to-sage-200 hover:text-sage-700 transition-all duration-500 text-base shadow-gentle hover:shadow-warm border border-sage-100/30 hover:-translate-y-0.5 tracking-button-refined"
+                            className="flex-1 text-center bg-gradient-to-r from-cream-100 to-cream-200 text-cocoa-500 py-3 px-5 rounded-card font-bodoni font-medium hover:from-sage-100 hover:to-sage-200 hover:text-sage-700 transition-all duration-500 text-base shadow-elegant hover:shadow-premium border border-sage-100/30 hover:-translate-y-1 tracking-button-refined"
                           >
                             Ver Detalles
                           </Link>

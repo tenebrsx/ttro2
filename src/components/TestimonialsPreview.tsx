@@ -36,10 +36,9 @@ const TestimonialsPreview = () => {
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }).map((_, i) => (
       <motion.div
-        key={i}
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: i * 0.1, duration: 0.3 }}
+        transition={{ delay: i * 0.1, duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
         className="relative"
       >
         <svg
@@ -53,10 +52,14 @@ const TestimonialsPreview = () => {
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            transition={{ delay: i * 0.1 + 0.2, duration: 0.2 }}
+            transition={{
+              delay: i * 0.1 + 0.2,
+              duration: 0.3,
+              ease: [0.4, 0, 0.2, 1],
+            }}
             className="absolute inset-0 flex items-center justify-center"
           >
-            <div className="w-2 h-2 bg-warm-blush rounded-full opacity-60" />
+            <div className="w-2 h-2 bg-warm-blush rounded-full opacity-60 shadow-inner-soft" />
           </motion.div>
         )}
       </motion.div>
@@ -85,7 +88,7 @@ const TestimonialsPreview = () => {
             <p className="text-lg body-elegant max-w-2xl mx-auto font-light leading-relaxed">
               La mayor alegría viene de saber que mis postres se convierten en
               parte de los recuerdos{" "}
-              <span className="accent-dusty-rose font-dancing italic">
+              <span className="accent-dusty-rose font-dancing italic bg-dusty-rose/5 px-2 py-1 rounded-premium shadow-inner-soft">
                 entrañables
               </span>{" "}
               de alguien.
@@ -97,21 +100,21 @@ const TestimonialsPreview = () => {
           {testimonials.map((testimonial, index) => (
             <StaggerChild key={index}>
               <motion.div
-                className="bg-elegant-cream backdrop-blur-sm p-8 rounded-2xl shadow-dusty-rose border border-dusty-rose group relative overflow-hidden"
-                whileHover={{ y: -8, scale: 1.03 }}
-                transition={{ duration: 0.3 }}
+                className="bg-elegant-cream backdrop-blur-sm p-8 rounded-elegant shadow-premium hover:shadow-luxury border border-dusty-rose group relative overflow-hidden"
+                whileHover={{ y: -12, scale: 1.05 }}
+                transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
               >
                 <motion.div
-                  className="absolute top-0 left-0 w-full h-1 bg-dusty-rose-gradient"
+                  className="absolute top-0 left-0 w-full h-1 bg-dusty-rose-gradient rounded-t-elegant"
                   initial={{ scaleX: 0 }}
                   whileHover={{ scaleX: 1 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
                 />
 
                 {/* Header with name and rating */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-2">
-                    <div className="bg-dusty-rose/10 rounded-full p-2">
+                    <div className="bg-dusty-rose/10 rounded-full p-2 shadow-inner-soft">
                       <Quote className="h-5 w-5 text-dusty-rose" />
                     </div>
                     <div>
@@ -139,15 +142,15 @@ const TestimonialsPreview = () => {
 
                 {/* Decorative elements */}
                 <motion.div
-                  className="absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-tl from-dusty-rose/5 to-transparent rounded-tl-full"
+                  className="absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-tl from-dusty-rose/5 to-transparent rounded-tl-[28px] shadow-warm"
                   animate={{
                     opacity: [0.3, 0.5, 0.3],
-                    scale: [1, 1.05, 1],
+                    scale: [1, 1.08, 1],
                   }}
                   transition={{
-                    duration: 5,
+                    duration: 6,
                     repeat: Infinity,
-                    ease: "easeInOut",
+                    ease: [0.4, 0, 0.2, 1],
                   }}
                 />
               </motion.div>

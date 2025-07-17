@@ -88,7 +88,7 @@ const FAQ: React.FC = () => {
   });
 
   return (
-    <section className="mobile-section-consistent bg-gradient-to-br from-cream-400 to-cream-500">
+    <section className="mobile-section-consistent bg-gradient-to-br from-cream-400 to-cream-500 relative texture-grain">
       <div className="max-w-4xl mx-auto mobile-padding">
         <motion.div
           className="text-center mobile-heading-consistent"
@@ -127,7 +127,7 @@ const FAQ: React.FC = () => {
               placeholder="Buscar pregunta..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-3 pl-10 rounded-xl input-high-contrast font-bodoni text-base shadow-brand-soft transition-all duration-300 focus:shadow-brand-medium"
+              className="w-full px-4 py-3 pl-10 rounded-elegant input-high-contrast font-bodoni text-base shadow-premium transition-all duration-500 focus:shadow-luxury backdrop-blur-sm bg-white/95"
             />
             <Search className="absolute left-3 top-3.5 w-4 h-4 text-mocha/40" />
           </div>
@@ -137,7 +137,7 @@ const FAQ: React.FC = () => {
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`px-4 py-2 text-sm rounded-full font-academy tracking-wide transition-all duration-300 ${activeCategory === category.id ? "bg-cocoa-500 text-white shadow-brand-medium btn-contrast-high" : "bg-white text-cocoa-600 hover:bg-cream-100 hover:text-cocoa-700 shadow-brand-soft contrast-high"}`}
+                className={`px-4 py-2 text-sm rounded-button font-academy tracking-wide transition-all duration-500 ${activeCategory === category.id ? "bg-cocoa-500 text-white shadow-premium btn-contrast-high" : "bg-white text-cocoa-600 hover:bg-cream-100 hover:text-cocoa-700 shadow-elegant hover:shadow-premium contrast-high"}`}
               >
                 {category.label}
               </button>
@@ -153,11 +153,11 @@ const FAQ: React.FC = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
-                className="bg-white backdrop-blur-sm rounded-2xl border border-sage-200 overflow-hidden shadow-brand-soft hover:shadow-brand-medium transition-all duration-300"
+                className="bg-white backdrop-blur-sm rounded-elegant border border-sage-200 overflow-hidden shadow-premium hover:shadow-luxury transition-all duration-500"
               >
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-sage-50 transition-colors duration-200"
+                  className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-sage-50 transition-all duration-500 hover:shadow-inner-soft"
                   aria-expanded={openIndex === index}
                   aria-controls={`faq-answer-${index}`}
                 >
@@ -166,7 +166,7 @@ const FAQ: React.FC = () => {
                   </h3>
                   <motion.div
                     animate={{ rotate: openIndex === index ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
                   >
                     <ChevronDown className="w-5 h-5 text-sage-500 flex-shrink-0" />
                   </motion.div>
@@ -179,13 +179,15 @@ const FAQ: React.FC = () => {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
+                      transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
                       className="overflow-hidden"
                     >
                       <div className="px-6 pb-4">
-                        <div className="w-full h-px bg-sage-200 my-4"></div>
+                        <div className="w-full h-px bg-gradient-to-r from-transparent via-sage-200 to-transparent my-4 shadow-inner-soft"></div>
                         <p className="text-fluid-base font-bodoni text-cocoa-500/80 font-normal leading-relaxed text-contrast-high">
-                          {item.answer}
+                          <span className="bg-gradient-to-r from-cream-50/30 to-transparent rounded-premium px-4 py-2 shadow-inner-soft backdrop-blur-sm">
+                            {item.answer}
+                          </span>
                         </p>
                       </div>
                     </motion.div>
@@ -228,7 +230,7 @@ const FAQ: React.FC = () => {
           <Button
             variant="primary"
             size="sm"
-            className="mt-4"
+            className="mt-4 shadow-premium hover:shadow-luxury transition-all duration-500"
             onClick={() => (window.location.href = "/contact")}
           >
             Contactar
