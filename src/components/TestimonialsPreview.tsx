@@ -76,7 +76,7 @@ const TestimonialsPreview = () => {
               <div className="w-16 h-px bg-sage/40"></div>
             </div>
 
-            <h2 className="text-4xl sm:text-5xl font-playfair text-black-bold text-shadow-elegant mb-6">
+            <h2 className="text-4xl sm:text-5xl font-academy text-black-bold text-shadow-elegant mb-6">
               Palabras <span className="text-dusty-rose">Dulces</span>
             </h2>
 
@@ -115,7 +115,7 @@ const TestimonialsPreview = () => {
                       <Quote className="h-5 w-5 text-dusty-rose" />
                     </div>
                     <div>
-                      <p className="font-playfair text-black-bold text-lg text-shadow-elegant">
+                      <p className="font-academy text-black-bold text-lg text-shadow-elegant">
                         {testimonial.name}
                       </p>
                       <p className="text-dusty-rose-elegant text-sm font-source-serif">

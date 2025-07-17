@@ -528,12 +528,13 @@ export const SophisticatedButton: React.FC<SophisticatedButtonProps> = ({
   const [isHovered, setIsHovered] = useState(false);
 
   const baseClasses =
-    "relative overflow-hidden rounded-full px-8 py-4 font-medium cursor-pointer transition-all duration-300";
+    "relative overflow-hidden rounded-full px-8 py-4 font-bodoni font-medium cursor-pointer transition-all duration-300 tracking-button-refined";
   const variantClasses = {
     primary:
-      "bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 text-white",
-    secondary: "bg-white text-dusty-rose-600 border border-dusty-rose-300",
-    ghost: "bg-transparent text-dusty-rose-600 border border-dusty-rose-300/50",
+      "bg-cocoa-500 text-cream-200 font-medium border-2 border-cocoa-500 shadow-lg",
+    secondary:
+      "bg-transparent text-cocoa-500 border-2 border-cocoa-500 font-medium",
+    ghost: "bg-transparent text-sage-600 border border-sage-300/50 font-normal",
   };
 
   return (
@@ -544,6 +545,7 @@ export const SophisticatedButton: React.FC<SophisticatedButtonProps> = ({
       onHoverEnd={() => setIsHovered(false)}
       whileHover={{
         y: -2,
+        scale: variant === "primary" ? 1.02 : 1.01,
         transition: {
           duration: 0.2,
           ease: subtleEasing as any,
@@ -709,7 +711,7 @@ interface HolographicShimmerProps {
   className?: string;
   intensity?: number;
   speed?: number;
-  color?: "white" | "rainbow" | "gold" | "dusty-rose" | "custom";
+  color?: "white" | "rainbow" | "gold" | "sage" | "custom";
   direction?: "horizontal" | "vertical" | "diagonal";
   trigger?: "auto" | "hover" | "visible";
   customColor?: string;
@@ -739,8 +741,8 @@ export const HolographicShimmer: React.FC<HolographicShimmerProps> = ({
           rgba(255,255,0,${intensity * 0.8}))`;
       case "gold":
         return `rgba(255,215,0,${intensity})`;
-      case "dusty-rose":
-        return `rgba(199,135,135,${intensity})`;
+      case "sage":
+        return `rgba(146,155,154,${intensity})`;
       case "custom":
         return customColor;
       default:
@@ -1182,7 +1184,7 @@ export const PremiumReveal: React.FC<PremiumRevealProps> = ({
       >
         <HolographicShimmer
           intensity={0.4}
-          color="dusty-rose"
+          color="sage"
           direction="diagonal"
           trigger="visible"
           speed={2}

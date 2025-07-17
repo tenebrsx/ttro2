@@ -1,47 +1,51 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Shield, Clock, Award, Users, Heart, CheckCircle } from 'lucide-react';
+import React from "react";
+import { motion } from "framer-motion";
+import { Shield, Clock, Award, Users, Heart, CheckCircle } from "lucide-react";
 
 const TrustSignals = () => {
   const trustElements = [
     {
       icon: Shield,
       title: "Ingredientes Premium",
-      description: "Solo uso ingredientes de la más alta calidad, muchos importados directamente de Europa.",
-      highlight: "100% Natural"
+      description:
+        "Solo uso ingredientes de la más alta calidad, muchos importados directamente de Europa.",
+      highlight: "100% Natural",
     },
     {
       icon: Clock,
       title: "Frescura Garantizada",
-      description: "Cada postre se prepara máximo 24 horas antes de la entrega para asegurar frescura óptima.",
-      highlight: "Recién Horneado"
+      description:
+        "Cada postre se prepara máximo 24 horas antes de la entrega para asegurar frescura óptima.",
+      highlight: "Recién Horneado",
     },
     {
       icon: Award,
       title: "Técnicas Artesanales",
-      description: "Formación en repostería francesa clásica con más de 8 años perfeccionando cada técnica.",
-      highlight: "Experiencia Comprobada"
+      description:
+        "Formación en repostería francesa clásica con más de 8 años perfeccionando cada técnica.",
+      highlight: "Experiencia Comprobada",
     },
     {
       icon: Users,
       title: "127+ Clientes Felices",
-      description: "Cada evento es único y cada cliente se convierte en parte de nuestra familia dulce.",
-      highlight: "Satisfacción 100%"
-    }
+      description:
+        "Cada evento es único y cada cliente se convierte en parte de nuestra familia dulce.",
+      highlight: "Satisfacción 100%",
+    },
   ];
 
   const certifications = [
     "Certificación en Manipulación de Alimentos",
     "Cocina Certificada por Salud Pública",
     "Ingredientes Trazables y Seguros",
-    "Proceso de Higiene Estricto"
+    "Proceso de Higiene Estricto",
   ];
 
   return (
     <section className="py-16 bg-gradient-to-br from-white to-cream/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -55,15 +59,19 @@ const TrustSignals = () => {
             </span>
             <div className="w-16 h-px bg-dusty-rose/40"></div>
           </div>
-          
-          <h2 className="text-4xl sm:text-5xl font-cormorant text-mocha mb-6">
-            Tu <span className="text-dusty-rose font-bold">Tranquilidad</span> es
-            <span className="block text-dusty-rose italic mt-2 font-bold">Mi Prioridad</span>
+
+          <h2 className="text-4xl sm:text-5xl font-academy text-mocha mb-6">
+            Tu <span className="text-dusty-rose font-bold">Tranquilidad</span>{" "}
+            es
+            <span className="block text-dusty-rose italic mt-2 font-bold">
+              Mi Prioridad
+            </span>
           </h2>
-          
+
           <p className="text-lg text-mocha/70 max-w-2xl mx-auto font-karla font-light leading-relaxed">
-            Cada detalle importa cuando se trata de crear momentos especiales. 
-            Por eso me comprometo con los más altos estándares de calidad y servicio.
+            Cada detalle importa cuando se trata de crear momentos especiales.
+            Por eso me comprometo con los más altos estándares de calidad y
+            servicio.
           </p>
         </motion.div>
 
@@ -88,11 +96,13 @@ const TrustSignals = () => {
                     {element.highlight}
                   </div>
                 </div>
-                
-                <h3 className="text-xl font-cormorant mb-3 font-medium">
-                  <span className="text-dusty-rose font-bold">{element.title}</span>
+
+                <h3 className="text-xl font-academy mb-3 font-medium">
+                  <span className="text-dusty-rose font-bold">
+                    {element.title}
+                  </span>
                 </h3>
-                
+
                 <p className="text-mocha/70 text-sm font-karla font-light leading-relaxed">
                   {element.description}
                 </p>
@@ -110,14 +120,15 @@ const TrustSignals = () => {
           className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 border border-dusty-rose/10 shadow-gentle"
         >
           <div className="text-center mb-8">
-            <h3 className="text-2xl font-cormorant mb-4">
-              Certificaciones y <span className="text-dusty-rose font-bold">Estándares</span>
+            <h3 className="text-2xl font-academy mb-4">
+              Certificaciones y{" "}
+              <span className="text-dusty-rose font-bold">Estándares</span>
             </h3>
             <p className="text-mocha/70 font-karla font-light">
               Cumplimos con todos los requisitos de seguridad alimentaria
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {certifications.map((cert, index) => (
               <motion.div
@@ -144,16 +155,17 @@ const TrustSignals = () => {
           className="text-center mt-16 p-8 bg-gradient-to-r from-dusty-rose/5 to-warm-blush/5 rounded-2xl border border-dusty-rose/10"
         >
           <Heart className="w-12 h-12 text-dusty-rose mx-auto mb-6" />
-          <h3 className="text-3xl font-cormorant mb-4">
-            Mi Promesa <span className="text-dusty-rose font-bold">Personal</span>
+          <h3 className="text-3xl font-academy mb-4">
+            Mi Promesa{" "}
+            <span className="text-dusty-rose font-bold">Personal</span>
           </h3>
           <p className="text-lg text-mocha/80 font-karla font-light leading-relaxed max-w-3xl mx-auto">
-            "Cada postre que sale de mi cocina lleva mi nombre y mi reputación. 
-            Me comprometo a que tu experiencia sea tan dulce como mis creaciones, 
-            desde el primer contacto hasta el último bocado."
+            "Cada postre que sale de mi cocina lleva mi nombre y mi reputación.
+            Me comprometo a que tu experiencia sea tan dulce como mis
+            creaciones, desde el primer contacto hasta el último bocado."
           </p>
           <div className="mt-6">
-            <p className="text-dusty-rose font-cormorant text-xl italic">
+            <p className="text-dusty-rose font-bodoni text-xl italic">
               — Con amor, el equipo de Cucinanostrard
             </p>
           </div>

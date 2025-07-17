@@ -1,51 +1,86 @@
+import React from "react";
+
+// SEO and Layout Components
 import SEO from "../components/SEO";
+
+// Page Section Components
 import Hero from "../components/Hero";
 import FeaturedDesserts from "../components/FeaturedDesserts";
 import EmotionalStorySection from "../components/EmotionalStorySection";
 import AboutPreview from "../components/AboutPreview";
-import OrderingProcess from "../components/OrderingProcess";
 import TestimonialsPreview from "../components/TestimonialsPreview";
-
 import FAQ from "../components/FAQ";
 import HomeContactSection from "../components/HomeContactSection";
 
-const Home = () => {
+// Constants
+const SEO_CONFIG = {
+  title: "Cucina | Repostería Artesanal Casera | Postres Hechos con Amor",
+  description:
+    "Cucina - Postres artesanales hechos con amor y tradición casera. Ingredientes premium, técnicas artesanales, sabores auténticos. Creamos dulces momentos para tus celebraciones especiales. Pedidos personalizados.",
+  image: "/images/cucina-postres-artesanales.jpg",
+  type: "website" as const,
+  price: 1500,
+  currency: "DOP" as const,
+} as const;
+
+const SEO_KEYWORDS = [
+  // Brand keywords
+  "cucina postres artesanales",
+  "repostería casera",
+  "postres hechos con amor",
+  "dulces artesanales",
+
+  // Product-specific keywords
+  "postres artesanales",
+  "repostería tradicional",
+  "tartas personalizadas",
+  "cupcakes artesanales",
+  "postres para eventos",
+  "dulces caseros",
+
+  // Style and technique keywords
+  "repostería artesanal",
+  "postres tradicionales",
+  "ingredientes premium",
+  "técnicas caseras",
+
+  // Service keywords
+  "postres personalizados",
+  "repostería para eventos",
+  "dulces para celebraciones",
+  "postres hechos a mano",
+] as const;
+
+// Page section components in order
+const PAGE_SECTIONS = [
+  Hero,
+  FeaturedDesserts,
+  EmotionalStorySection,
+  AboutPreview,
+  TestimonialsPreview,
+  FAQ,
+  HomeContactSection,
+] as const;
+
+const Home: React.FC = () => {
   return (
     <>
       <SEO
-        title="Cucinanostrard | Repostería Artesanal Santo Domingo | Macarons y Tartas Francesas RD"
-        description="Postres que cuentan historias desde Santo Domingo. Macarons con técnica parisina, tartas que abrazan el alma, cupcakes que hacen sonreír. Ingredientes premium, tradición francesa, corazón dominicano. Pedidos por WhatsApp."
-        keywords={[
-          "postres artesanales santo domingo",
-          "repostería dominicana",
-          "macarons república dominicana",
-          "tartas personalizadas RD",
-          "cupcakes santo domingo",
-          "postres franceses dominicana",
-          "repostería francesa santo domingo",
-          "macarons auténticos RD",
-          "dulces artesanales república dominicana",
-          "postres gourmet santo domingo",
-          "repostería zona colonial",
-          "tartas bodas dominicana",
-          "cupcakes eventos RD",
-          "postres entrega domicilio santo domingo",
-          "repostería piantini",
-          "macarons franceses entrega RD",
-        ]}
-        image="/images/cucinanostrard-postres-santo-domingo.jpg"
-        type="website"
-        price={1500}
-        currency="DOP"
+        title={SEO_CONFIG.title}
+        description={SEO_CONFIG.description}
+        keywords={SEO_KEYWORDS}
+        image={SEO_CONFIG.image}
+        type={SEO_CONFIG.type}
+        price={SEO_CONFIG.price}
+        currency={SEO_CONFIG.currency}
       />
-      <Hero />
-      <FeaturedDesserts />
-      <EmotionalStorySection />
-      <AboutPreview />
-      <OrderingProcess />
-      <TestimonialsPreview />
-      <FAQ />
-      <HomeContactSection />
+
+      {/* Main page content */}
+      <main>
+        {PAGE_SECTIONS.map((SectionComponent, index) => (
+          <SectionComponent key={index} />
+        ))}
+      </main>
     </>
   );
 };

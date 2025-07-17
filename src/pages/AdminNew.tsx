@@ -15,9 +15,8 @@ import {
   EyeOff,
   Package,
   TrendingUp,
-  Database,
-  Wifi,
-  WifiOff,
+  Shield,
+  Monitor,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { formatPrice } from "../utils/currency";
@@ -26,16 +25,21 @@ import {
   validateImageSize,
   COMPRESSION_PRESETS,
 } from "../utils/imageCompression";
+import Button from "../components/Button";
 
 import type { Product } from "../data/products";
 import { useFirebaseProducts } from "../hooks/useFirebaseProducts";
+import { useAuth } from "../contexts/AuthContext";
+import SessionManager from "../components/admin/SessionManager";
 
 type AdminPanelProps = object;
 
 const Admin: React.FC<AdminPanelProps> = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated, login, logout, allSessions, currentSession } =
+    useAuth();
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showSessionManager, setShowSessionManager] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editingDessert, setEditingDessert] = useState<Product | null>(null);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -71,26 +75,6 @@ const Admin: React.FC<AdminPanelProps> = () => {
     // Component state updated
   }, [desserts, isLoading]);
 
-  // Session persistence
-  useEffect(() => {
-    const savedSession = localStorage.getItem("admin_session");
-    if (savedSession) {
-      try {
-        const sessionData = JSON.parse(savedSession);
-        const currentTime = Date.now();
-        // Session expires after 24 hours
-        if (currentTime - sessionData.timestamp < 24 * 60 * 60 * 1000) {
-          setIsAuthenticated(true);
-        } else {
-          localStorage.removeItem("admin_session");
-        }
-      } catch (error) {
-        console.error("Error parsing session data:", error);
-        localStorage.removeItem("admin_session");
-      }
-    }
-  }, []);
-
   // Authentication
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,25 +83,17 @@ const Admin: React.FC<AdminPanelProps> = () => {
     // Simulate API call delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    if (password === "admin123") {
-      setIsAuthenticated(true);
+    const success = await login(password);
+    if (success) {
       setPassword("");
-
-      // Save session to localStorage
-      const sessionData = {
-        timestamp: Date.now(),
-        authenticated: true,
-      };
-      localStorage.setItem("admin_session", JSON.stringify(sessionData));
     } else {
       alert("Contraseña incorrecta");
     }
     setIsOperationLoading(false);
   };
 
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    localStorage.removeItem("admin_session");
+  const handleLogout = async () => {
+    await logout();
   };
 
   // Form state for adding/editing desserts
@@ -897,6 +873,18 @@ const Admin: React.FC<AdminPanelProps> = () => {
             <p className="text-mocha-600 font-source-serif text-sm sm:text-base">
               Gestiona tus dulces creaciones
             </p>
+            <div className="mt-3 p-3 bg-dusty-rose-50 rounded-lg border border-dusty-rose-200">
+              <div className="flex items-center space-x-2 text-dusty-rose-700">
+                <Shield className="w-4 h-4" />
+                <span className="text-xs font-medium">
+                  Acceso multi-dispositivo habilitado
+                </span>
+              </div>
+              <p className="text-xs text-dusty-rose-600 mt-1">
+                Puedes iniciar sesión desde múltiples dispositivos
+                simultáneamente
+              </p>
+            </div>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-6">
@@ -927,13 +915,16 @@ const Admin: React.FC<AdminPanelProps> = () => {
               </div>
             </div>
 
-            <button
+            <Button
               type="submit"
-              disabled={isLoading}
-              className="w-full bg-gradient-to-r from-dusty-rose to-dusty-rose/90 text-white py-3 rounded-xl hover:from-dusty-rose/90 hover:to-dusty-rose transition-all duration-300 font-medium font-source-serif shadow-gentle hover:shadow-elegant disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isOperationLoading}
+              variant="primary"
+              size="lg"
+              fullWidth
+              loading={isOperationLoading}
             >
-              {isLoading ? "Verificando..." : "Iniciar Sesión"}
-            </button>
+              Iniciar Sesión
+            </Button>
           </form>
         </motion.div>
       </div>
@@ -961,6 +952,17 @@ const Admin: React.FC<AdminPanelProps> = () => {
                 <p className="text-mocha-600 font-sans text-lg sm:text-xl">
                   Gestiona tus postres • {desserts.length} productos
                 </p>
+                {currentSession && (
+                  <div className="flex items-center space-x-2 text-sm text-dusty-rose-600 mt-2">
+                    <Monitor className="w-4 h-4" />
+                    <span>{currentSession.deviceInfo.deviceName}</span>
+                    {allSessions.length > 1 && (
+                      <span className="bg-dusty-rose-100 text-dusty-rose-700 px-2 py-1 rounded-full text-xs">
+                        {allSessions.length} sesiones activas
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-4 w-full sm:w-auto">
@@ -977,12 +979,28 @@ const Admin: React.FC<AdminPanelProps> = () => {
                 <span>Agregar Postre</span>
               </motion.button>
 
-              <button
-                onClick={handleLogout}
-                className="text-mocha-600 hover:text-dusty-rose-600 transition-colors p-2 rounded-xl hover:bg-dusty-rose-50 border border-dusty-rose-200 sm:border-0"
-              >
-                <LogOut className="w-5 h-5" />
-              </button>
+              <div className="flex items-center space-x-2">
+                {allSessions.length > 1 && (
+                  <button
+                    onClick={() => setShowSessionManager(true)}
+                    className="text-mocha-600 hover:text-dusty-rose-600 transition-colors p-2 rounded-xl hover:bg-dusty-rose-50 border border-dusty-rose-200 sm:border-0 relative"
+                    title="Gestionar sesiones"
+                  >
+                    <Monitor className="w-5 h-5" />
+                    {allSessions.length > 1 && (
+                      <span className="absolute -top-1 -right-1 bg-dusty-rose-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                        {allSessions.length}
+                      </span>
+                    )}
+                  </button>
+                )}
+                <button
+                  onClick={handleLogout}
+                  className="text-mocha-600 hover:text-dusty-rose-600 transition-colors p-2 rounded-xl hover:bg-dusty-rose-50 border border-dusty-rose-200 sm:border-0"
+                >
+                  <LogOut className="w-5 h-5" />
+                </button>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -1127,7 +1145,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
                 onClick={(e) => e.stopPropagation()}
                 className="bg-white rounded-2xl p-6 max-w-md w-full shadow-elegant"
               >
-                <h3 className="text-xl font-playfair font-bold text-mocha-700 mb-4">
+                <h3 className="text-xl font-academy font-bold text-mocha-700 mb-4">
                   Migrar Datos Locales a Firebase
                 </h3>
                 <p className="text-mocha-600 font-source-serif mb-4">
@@ -1781,7 +1799,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
 
                   {/* Tags and Customizations */}
                   <div>
-                    <h3 className="text-lg font-playfair font-bold text-mocha mb-4">
+                    <h3 className="text-lg font-academy font-bold text-mocha mb-4">
                       Etiquetas y Personalizaciones
                     </h3>
                     <div className="space-y-4">
@@ -1829,7 +1847,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
 
                   {/* Options */}
                   <div>
-                    <h3 className="text-lg font-playfair font-bold text-mocha mb-4">
+                    <h3 className="text-lg font-academy font-bold text-mocha mb-4">
                       Opciones
                     </h3>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -1924,7 +1942,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
                     <AlertTriangle className="w-6 h-6 text-red-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-playfair font-bold text-mocha">
+                    <h3 className="text-lg font-academy font-bold text-mocha">
                       Confirmar eliminación
                     </h3>
                     <p className="text-mocha/70 text-sm font-source-serif">
@@ -1955,6 +1973,12 @@ const Admin: React.FC<AdminPanelProps> = () => {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Session Manager Modal */}
+        <SessionManager
+          isOpen={showSessionManager}
+          onClose={() => setShowSessionManager(false)}
+        />
       </div>
     </div>
   );

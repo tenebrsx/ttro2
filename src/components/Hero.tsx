@@ -1,17 +1,12 @@
 import { useNavigate } from "react-router-dom";
 
-import Button from "./Button";
 import {
   FadeReveal,
   TextReveal,
   ParallaxScroll,
-  HoverLift,
-  ScaleHover,
-  Entrance,
   SophisticatedButton,
   ParticleSystem,
   MagneticField,
-  HolographicShimmer,
   CinematicReveal,
   FluidCursor,
   PerspectiveHover,
@@ -32,12 +27,14 @@ const Hero = () => {
     <FluidCursor className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <ParticleSystem
         particleCount={25}
-        particleColor="#c78787"
+        particleColor="#929B9A"
         className="absolute inset-0"
-      />
+      >
+        <div />
+      </ParticleSystem>
       <section
         id="home"
-        className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 md:pt-0"
+        className="relative min-h-screen flex items-center justify-center overflow-hidden mobile-section-consistent md:pt-0"
         aria-label="Sección de inicio"
         role="region"
       >
@@ -54,55 +51,38 @@ const Hero = () => {
           <source src="/videos/dessert-montage.mp4" type="video/mp4" />
         </video> */}
 
-          {/* Placeholder background image montage */}
-          <div className="w-full h-full bg-gradient-to-br from-cream-400 via-cream-500 to-cream-400">
-            <img
-              src="https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"
-              alt="Dessert montage background"
-              className="w-full h-full object-cover opacity-30 mix-blend-soft-light"
-            />
-          </div>
+          {/* Clean background without image */}
+          <div className="w-full h-full hero-clean-bg"></div>
 
           {/* Overlay for better text readability */}
-          <div className="absolute inset-0 bg-gradient-to-br from-cream-500/80 via-cream-400/70 to-cream-500/80"></div>
+          <div className="absolute inset-0 hero-overlay-subtle"></div>
         </div>
 
         {/* Subtle Background Elements */}
         <ParallaxScroll speed={0.2} className="absolute inset-0 z-10">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-dusty-rose-100/10 to-warm-blush-100/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-br from-cream-200/10 to-dusty-rose-100/10 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-sage-100/10 to-sage-200/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-br from-cream-200/10 to-sage-100/10 rounded-full blur-3xl"></div>
         </ParallaxScroll>
 
-        <div className="relative z-30 text-center px-6 sm:px-8 lg:px-12 max-w-5xl mx-auto">
-          {/* Main Heading */}
-          <div className="mb-8">
-            <span className="sr-only">Titirosa - </span>
+        <div className="relative z-30 text-center mobile-padding max-w-5xl mx-auto">
+          {/* Main Heading - Logo */}
+          <div className="mobile-heading-consistent pt-8 md:pt-12">
+            <span className="sr-only">Cucina - homemade goods</span>
             <CinematicReveal direction="horizontal" delay={0.2}>
-              <TextReveal
-                delay={0.3}
-                staggerDelay={0.08}
-                className="font-playfair text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-black-bold text-shadow-elegant leading-tight block"
-              >
-                Hecho con Amor,
-              </TextReveal>
-            </CinematicReveal>
-            <div className="mt-2 relative">
-              <CinematicReveal direction="diagonal" delay={0.5}>
-                <TextReveal
-                  delay={0.6}
-                  staggerDelay={0.1}
-                  className="font-playfair text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-dusty-rose-elegant italic leading-tight block"
-                >
-                  De Mi Cocina a la Tuya
-                </TextReveal>
-              </CinematicReveal>
               <FadeReveal
-                delay={0.9}
-                duration={0.6}
-                direction="none"
-                className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-dusty-rose-300 to-warm-blush-300 rounded-full"
-              ></FadeReveal>
-            </div>
+                delay={0.3}
+                duration={0.8}
+                direction="up"
+                distance={20}
+                className="flex justify-center"
+              >
+                <img
+                  src="/logo.png"
+                  alt="Cucina - homemade goods"
+                  className="h-20 sm:h-24 md:h-28 lg:h-32 xl:h-36 w-auto max-w-full object-contain hero-logo-shadow"
+                />
+              </FadeReveal>
+            </CinematicReveal>
           </div>
 
           {/* Subtitle */}
@@ -111,23 +91,29 @@ const Hero = () => {
             duration={0.8}
             direction="up"
             distance={20}
-            className="relative mb-16"
+            className="relative mobile-content-consistent mt-6 md:mt-8"
           >
-            <p className="font-source-serif text-xl sm:text-2xl md:text-3xl text-warm-grey-700 max-w-4xl mx-auto leading-relaxed font-medium">
-              Desde mi cocina en Santo Domingo, creo postres que despiertan
-              memorias y celebran momentos únicos. Cada tarta, macaron y cupcake
-              lleva el sabor de{" "}
-              <span className="text-dusty-rose-600 font-semibold italic underline decoration-dusty-rose-600/40 decoration-1 underline-offset-2">
-                la auténtica repostería artesanal
+            <p className="font-bodoni text-lg sm:text-xl md:text-2xl lg:text-3xl text-cocoa-500 max-w-4xl mx-auto leading-body-elegant text-contrast-high mobile-content-consistent">
+              Creamos postres artesanales que despiertan memorias y celebran
+              momentos únicos. Cada creación lleva el sabor de{" "}
+              <span className="text-sage-600 italic underline decoration-sage-600/50 decoration-2 underline-offset-4">
+                la auténtica repostería casera
               </span>
-              .
+              , hecha con amor y dedicación.
             </p>
+
+            {/* Visual Flow Anchor */}
             <FadeReveal
-              delay={1.5}
-              duration={0.6}
-              direction="none"
-              className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-dusty-rose-300 to-warm-blush-300 rounded-full"
-            ></FadeReveal>
+              delay={1.6}
+              duration={0.8}
+              direction="up"
+              distance={15}
+              className="mt-8 md:mt-10 flex justify-center"
+            >
+              <div className="flex items-center space-x-4">
+                <div className="w-2 h-2 bg-sage-400 rounded-full flow-anchor-pulse"></div>
+              </div>
+            </FadeReveal>
           </FadeReveal>
 
           {/* CTA Buttons */}
@@ -136,17 +122,17 @@ const Hero = () => {
             duration={0.8}
             direction="up"
             distance={30}
-            className="flex flex-col sm:flex-row gap-6 sm:gap-8 justify-center items-center mb-20"
+            className="flex flex-col sm:flex-row cta-mobile-spacing-improved justify-center items-center mobile-content-consistent mt-8 md:mt-12"
           >
             <PerspectiveHover rotationIntensity={8}>
               <MagneticField strength={0.15} radius={120}>
                 <SophisticatedButton
-                  onClick={goToMenu}
+                  onClick={goToContact}
                   variant="primary"
-                  className="px-10 py-5 text-xl w-full sm:w-auto"
-                  aria-label="Ver el menú de postres"
+                  className="hero-btn-mobile-enhanced hero-btn-primary tracking-button-refined mobile-content-consistent"
+                  aria-label="Crear tu pedido especial"
                 >
-                  Ver el menú
+                  Crea Tu Pedido Especial
                 </SophisticatedButton>
               </MagneticField>
             </PerspectiveHover>
@@ -154,12 +140,12 @@ const Hero = () => {
             <PerspectiveHover rotationIntensity={8}>
               <MagneticField strength={0.15} radius={120}>
                 <SophisticatedButton
-                  onClick={goToContact}
+                  onClick={goToMenu}
                   variant="secondary"
-                  className="px-10 py-5 text-xl w-full sm:w-auto"
-                  aria-label="Crear tu pedido especial"
+                  className="hero-btn-mobile-enhanced hero-btn-secondary tracking-button-refined uppercase mobile-content-consistent"
+                  aria-label="Ver el menú de postres"
                 >
-                  Crea Tu Pedido Especial
+                  Ver el menú
                 </SophisticatedButton>
               </MagneticField>
             </PerspectiveHover>

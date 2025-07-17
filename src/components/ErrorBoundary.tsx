@@ -26,7 +26,7 @@ class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="min-h-screen flex items-center justify-center bg-cream">
           <div className="text-center p-8 max-w-md">
-            <h2 className="text-2xl font-cormorant text-mocha mb-4">
+            <h2 className="text-2xl font-academy text-mocha mb-4">
               Oops! Algo salió mal
             </h2>
             <p className="text-mocha/70 font-karla mb-4">

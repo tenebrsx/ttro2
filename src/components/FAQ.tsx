@@ -88,10 +88,10 @@ const FAQ: React.FC = () => {
   });
 
   return (
-    <section className="py-16 md:py-20 bg-gradient-to-br from-cream-400 to-cream-500">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="mobile-section-consistent bg-gradient-to-br from-cream-400 to-cream-500">
+      <div className="max-w-4xl mx-auto mobile-padding">
         <motion.div
-          className="text-center mb-12 md:mb-16"
+          className="text-center mobile-heading-consistent"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -99,35 +99,35 @@ const FAQ: React.FC = () => {
         >
           <div className="flex items-center justify-center mb-6">
             <div className="w-12 md:w-16 h-px bg-sage/40"></div>
-            <span className="mx-4 text-sm font-karla text-sage/70 uppercase tracking-wider">
+            <span className="mx-4 text-sm font-academy text-cocoa-500/70 uppercase tracking-academy">
               Preguntas Frecuentes
             </span>
             <div className="w-12 md:w-16 h-px bg-sage/40"></div>
           </div>
 
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-playfair text-black-bold text-shadow-elegant mb-6">
+          <h2 className="heading-consistent text-fluid-4xl text-cocoa-500 text-shadow-elegant mb-6">
             Preguntas que
-            <span className="block text-dusty-rose-elegant italic mt-2 font-bold">
+            <span className="subheading-consistent block text-sage-500 mt-2">
               Endulzan las Dudas
             </span>
           </h2>
 
           <div className="w-24 h-px bg-sage/40 mx-auto mb-6"></div>
 
-          <p className="text-base md:text-lg body-elegant font-light leading-relaxed">
+          <p className="text-fluid-lg font-bodoni text-cocoa-500/80 font-medium leading-relaxed text-contrast-high">
             Respuestas a las preguntas más comunes sobre pedidos personalizados
           </p>
         </motion.div>
 
         {/* Search and filter */}
-        <div className="mb-8 space-y-4">
+        <div className="mobile-content-consistent space-y-4">
           <div className="relative">
             <input
               type="text"
               placeholder="Buscar pregunta..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-3 pl-10 rounded-xl bg-elegant-cream backdrop-blur-sm border border-dusty-rose focus:border-dusty-rose focus:ring-1 focus:ring-dusty-rose/20 font-karla body-elegant placeholder-mocha/40 shadow-dusty-rose transition-all duration-300 focus:shadow-warm"
+              className="w-full px-4 py-3 pl-10 rounded-xl input-high-contrast font-bodoni text-base shadow-brand-soft transition-all duration-300 focus:shadow-brand-medium"
             />
             <Search className="absolute left-3 top-3.5 w-4 h-4 text-mocha/40" />
           </div>
@@ -137,7 +137,7 @@ const FAQ: React.FC = () => {
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`px-3 py-1.5 text-xs md:text-sm rounded-full font-karla transition-all duration-300 ${activeCategory === category.id ? "bg-dusty-rose-gradient text-white shadow-dusty-rose" : "bg-elegant-cream body-elegant hover:bg-white hover:text-dusty-rose"}`}
+                className={`px-4 py-2 text-sm rounded-full font-academy tracking-wide transition-all duration-300 ${activeCategory === category.id ? "bg-cocoa-500 text-white shadow-brand-medium btn-contrast-high" : "bg-white text-cocoa-600 hover:bg-cream-100 hover:text-cocoa-700 shadow-brand-soft contrast-high"}`}
               >
                 {category.label}
               </button>
@@ -153,22 +153,22 @@ const FAQ: React.FC = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
-                className="bg-elegant-cream backdrop-blur-sm rounded-2xl border border-dusty-rose overflow-hidden shadow-dusty-rose hover:shadow-warm transition-all duration-300"
+                className="bg-white backdrop-blur-sm rounded-2xl border border-sage-200 overflow-hidden shadow-brand-soft hover:shadow-brand-medium transition-all duration-300"
               >
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full px-4 md:px-6 py-3 md:py-4 text-left flex items-center justify-between hover:bg-dusty-rose/5 transition-colors duration-200"
+                  className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-sage-50 transition-colors duration-200"
                   aria-expanded={openIndex === index}
                   aria-controls={`faq-answer-${index}`}
                 >
-                  <h3 className="text-base md:text-lg font-playfair text-black-bold text-shadow-elegant font-medium pr-4">
+                  <h3 className="text-fluid-lg font-academy text-cocoa-600 font-semibold tracking-wide text-contrast-high pr-4">
                     {item.question}
                   </h3>
                   <motion.div
                     animate={{ rotate: openIndex === index ? 180 : 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <ChevronDown className="w-5 h-5 text-dusty-rose flex-shrink-0" />
+                    <ChevronDown className="w-5 h-5 text-sage-500 flex-shrink-0" />
                   </motion.div>
                 </button>
 
@@ -182,9 +182,9 @@ const FAQ: React.FC = () => {
                       transition={{ duration: 0.3 }}
                       className="overflow-hidden"
                     >
-                      <div className="px-4 md:px-6 pb-4">
-                        <div className="w-full h-px bg-dusty-rose/20 my-3 md:mb-4"></div>
-                        <p className="text-sm md:text-base body-elegant font-light leading-relaxed">
+                      <div className="px-6 pb-4">
+                        <div className="w-full h-px bg-sage-200 my-4"></div>
+                        <p className="text-fluid-base font-bodoni text-cocoa-500/80 font-normal leading-relaxed text-contrast-high">
                           {item.answer}
                         </p>
                       </div>
@@ -199,7 +199,7 @@ const FAQ: React.FC = () => {
               animate={{ opacity: 1 }}
               className="text-center py-8"
             >
-              <p className="body-elegant font-karla italic">
+              <p className="font-bodoni text-cocoa-500/70 italic text-contrast-high">
                 No se encontraron preguntas que coincidan con tu búsqueda.
               </p>
               <button
@@ -207,7 +207,7 @@ const FAQ: React.FC = () => {
                   setSearchQuery("");
                   setActiveCategory("all");
                 }}
-                className="mt-4 text-dusty-rose hover:underline text-sm"
+                className="mt-4 text-sage-600 hover:text-cocoa-600 hover:underline text-sm font-academy tracking-wide"
               >
                 Mostrar todas las preguntas
               </button>
@@ -216,13 +216,13 @@ const FAQ: React.FC = () => {
         </div>
 
         <motion.div
-          className="text-center mt-10 md:mt-12"
+          className="text-center mobile-content-consistent"
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <p className="body-elegant font-karla font-light italic">
+          <p className="font-bodoni text-cocoa-500/80 font-medium italic text-contrast-high">
             ¿Tienes otra pregunta? No dudes en contactarme directamente
           </p>
           <Button

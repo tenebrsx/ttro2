@@ -87,7 +87,7 @@ const Menu = () => {
             <section className="relative py-20 bg-gradient-to-br from-cream-400 to-cream-500 overflow-hidden">
               <HolographicShimmer
                 intensity={0.2}
-                color="dusty-rose"
+                color="sage"
                 direction="diagonal"
                 trigger="visible"
                 speed={4}
@@ -96,8 +96,8 @@ const Menu = () => {
               <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center">
                   <div className="animate-pulse">
-                    <div className="h-8 bg-dusty-rose-200 rounded w-64 mx-auto mb-4"></div>
-                    <div className="h-4 bg-dusty-rose-100 rounded w-96 mx-auto mb-8"></div>
+                    <div className="h-8 bg-sage-200 rounded w-64 mx-auto mb-4"></div>
+                    <div className="h-4 bg-sage-100 rounded w-96 mx-auto mb-8"></div>
                   </div>
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
                     {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -164,20 +164,18 @@ const Menu = () => {
                 <div className="text-center mb-16">
                   <FadeReveal delay={0.5} duration={0.8} direction="up">
                     <div className="flex items-center justify-center mb-6">
-                      <div className="w-16 h-px bg-dusty-rose/40"></div>
-                      <span className="mx-4 text-sm font-source-serif text-dusty-rose/70 uppercase tracking-wider">
-                        Mi Diario de Postres
+                      <div className="w-16 h-px bg-sage/40"></div>
+                      <span className="mx-4 text-sm font-academy text-sage/70 uppercase tracking-wider">
+                        Nuestro Menú Artesanal
                       </span>
-                      <div className="w-16 h-px bg-dusty-rose/40"></div>
+                      <div className="w-16 h-px bg-sage/40"></div>
                     </div>
                   </FadeReveal>
 
                   <TextReveal delay={0.8} staggerDelay={0.1}>
-                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-playfair text-black-bold text-shadow-elegant mb-6">
+                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-academy text-cocoa-500 text-shadow-elegant mb-6">
                       Menú de{" "}
-                      <span className="text-dusty-rose-600">
-                        Postres Artesanales
-                      </span>
+                      <span className="text-sage-600">Postres Artesanales</span>
                     </h1>
                   </TextReveal>
 
@@ -194,8 +192,8 @@ const Menu = () => {
             {/* Menu Items */}
             <section className="py-12 bg-gradient-to-br from-cream-400 via-cream-500 to-cream-400 relative overflow-hidden">
               {/* Background decorative elements */}
-              <div className="absolute top-10 right-10 w-40 h-40 bg-dusty-rose-100 rounded-full opacity-20 animate-pulse-soft"></div>
-              <div className="absolute bottom-20 left-10 w-32 h-32 bg-warm-blush-100 rounded-full opacity-30"></div>
+              <div className="absolute top-10 right-10 w-40 h-40 bg-sage-100 rounded-full opacity-20 animate-pulse-soft"></div>
+              <div className="absolute bottom-20 left-10 w-32 h-32 bg-sage-100 rounded-full opacity-30"></div>
 
               <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
@@ -213,7 +211,7 @@ const Menu = () => {
                     >
                       <motion.div
                         whileHover={{ y: -8, transition: { duration: 0.2 } }}
-                        className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-soft hover:shadow-elegant transition-all duration-300 overflow-hidden group border border-dusty-rose-100/50"
+                        className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-soft hover:shadow-elegant transition-all duration-300 overflow-hidden group border border-sage-100/50"
                       >
                         <div className="relative overflow-hidden rounded-t-3xl">
                           <img
@@ -231,7 +229,7 @@ const Menu = () => {
                           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500 ease-out"></div>
 
                           {/* Price overlay on hover */}
-                          <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm text-dusty-rose-600 px-3 py-2 rounded-xl font-cormorant font-bold text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-gentle">
+                          <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm text-sage-600 px-3 py-2 rounded-xl font-bodoni font-bold text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-gentle">
                             {item.priceRange}
                           </div>
                         </div>
@@ -248,15 +246,15 @@ const Menu = () => {
                           </p>
 
                           <div className="flex items-center justify-between mb-5">
-                            <p className="text-dusty-rose-elegant font-bold text-2xl font-playfair">
+                            <p className="text-sage-600 font-bold text-2xl font-bodoni">
                               {item.priceRange}
                             </p>
-                            <span className="text-sm text-warm-grey-500 bg-cream-100 px-3 py-2 rounded-xl font-karla font-medium">
+                            <span className="text-sm text-cocoa-400 bg-cream-100 px-3 py-2 rounded-xl font-bodoni font-medium">
                               {item.preparationTime}
                             </span>
                           </div>
 
-                          <div className="bg-elegant-cream p-4 rounded-2xl mb-6 border border-dusty-rose">
+                          <div className="bg-cream-100 p-4 rounded-2xl mb-6 border border-sage">
                             <p className="text-sm body-elegant italic leading-relaxed text-shadow-elegant">
                               {item.story}
                             </p>
@@ -277,7 +275,7 @@ const Menu = () => {
                                   `/product/${item.id}`,
                                 );
                               }}
-                              className="flex-1 text-center bg-gradient-to-r from-cream-100 to-warm-ivory text-mocha py-3 px-5 rounded-2xl font-karla font-semibold hover:from-dusty-rose-100 hover:to-warm-blush-100 hover:text-dusty-rose-700 transition-all duration-300 text-base shadow-gentle hover:shadow-warm border border-dusty-rose-100/30"
+                              className="flex-1 text-center bg-gradient-to-r from-cream-100 to-cream-200 text-cocoa py-3 px-5 rounded-2xl font-academy font-semibold hover:from-sage-100 hover:to-sage-100 hover:text-sage-700 transition-all duration-300 text-base shadow-gentle hover:shadow-warm border border-sage-100/30"
                             >
                               Ver Detalles
                             </Link>
@@ -289,7 +287,7 @@ const Menu = () => {
                                 const whatsappUrl = `https://api.whatsapp.com/send/?phone=18096581245&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
                                 window.open(whatsappUrl, "_blank");
                               }}
-                              className="bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 hover:from-dusty-rose-600 hover:to-dusty-rose-700 text-white py-3 px-4 rounded-2xl font-karla font-semibold transition-all duration-300 flex items-center space-x-2 text-sm shadow-warm hover:shadow-glow"
+                              className="bg-gradient-to-r from-sage-500 to-sage-600 hover:from-sage-600 hover:to-sage-700 text-white py-3 px-4 rounded-2xl font-academy font-semibold transition-all duration-300 flex items-center space-x-2 text-sm shadow-warm hover:shadow-glow"
                             >
                               <MessageCircle className="w-4 h-4" />
                               <span>Ordenar</span>
@@ -329,13 +327,13 @@ const Menu = () => {
                 >
                   <Link
                     to="/contact"
-                    className="inline-block bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 hover:from-dusty-rose-600 hover:to-dusty-rose-700 text-white px-10 py-4 rounded-full text-lg font-source-serif font-medium shadow-warm hover:shadow-elegant border border-dusty-rose-400/20 relative overflow-hidden transition-all duration-300"
+                    className="inline-block bg-gradient-to-r from-sage-500 to-sage-600 hover:from-sage-600 hover:to-sage-700 text-white px-10 py-4 rounded-full text-lg font-academy font-medium shadow-warm hover:shadow-elegant border border-sage-400/20 relative overflow-hidden transition-all duration-300"
                   >
                     <span className="relative z-10">
                       Crear Mi Postre Especial
                     </span>
                     <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-dusty-rose-600 to-dusty-rose-700"
+                      className="absolute inset-0 bg-gradient-to-r from-sage-600 to-sage-700"
                       initial={{ x: "-100%" }}
                       whileHover={{ x: "0%" }}
                       transition={{ duration: 0.3 }}

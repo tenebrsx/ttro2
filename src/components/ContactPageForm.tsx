@@ -209,7 +209,7 @@ const ContactPageForm: React.FC = () => {
         <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <Heart className="h-8 w-8 text-green-600" />
         </div>
-        <h3 className="text-2xl font-playfair text-black-bold text-shadow-elegant mb-4">
+        <h3 className="text-2xl font-academy text-black-bold text-shadow-elegant mb-4">
           ¡Mensaje Enviado!
         </h3>
         <p className="text-mocha/70 font-karla mb-4">
@@ -222,7 +222,7 @@ const ContactPageForm: React.FC = () => {
         </p>
         <button
           onClick={() => setIsSubmitted(false)}
-          className="mt-6 text-dusty-rose hover:text-dusty-rose/80 font-karla text-sm transition-colors"
+          className="mt-6 text-sage hover:text-sage/80 font-bodoni text-sm transition-colors"
         >
           Enviar otro mensaje
         </button>
@@ -233,7 +233,7 @@ const ContactPageForm: React.FC = () => {
   return (
     <div className="bg-white rounded-2xl shadow-lg p-8">
       <div className="text-center mb-8">
-        <h3 className="text-2xl font-playfair text-black-bold text-shadow-elegant mb-2">
+        <h3 className="text-2xl font-academy text-black-bold text-shadow-elegant mb-2">
           Cuéntame Tu Idea
         </h3>
         <p className="text-mocha/70 font-karla">
@@ -252,14 +252,14 @@ const ContactPageForm: React.FC = () => {
             Nombre Completo *
           </label>
           <div className="relative">
-            <User className="absolute left-3 top-3 h-5 w-5 text-dusty-rose/50" />
+            <User className="absolute left-3 top-3 h-5 w-5 text-sage/50" />
             <input
               type="text"
               id="name"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className={`pl-10 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-dusty-rose/20 focus:border-dusty-rose transition-colors ${
+              className={`pl-10 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-sage/20 focus:border-sage transition-colors ${
                 errors.name ? "border-red-300" : "border-gray-300"
               }`}
               placeholder="Tu nombre completo"
@@ -289,7 +289,7 @@ const ContactPageForm: React.FC = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={`pl-10 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-dusty-rose/20 focus:border-dusty-rose transition-colors ${
+              className={`pl-10 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-sage/20 focus:border-sage transition-colors ${
                 errors.email ? "border-red-300" : "border-gray-300"
               }`}
               placeholder="tu@email.com"
@@ -319,7 +319,7 @@ const ContactPageForm: React.FC = () => {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              className={`pl-10 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-dusty-rose/20 focus:border-dusty-rose transition-colors ${
+              className={`pl-10 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-sage/20 focus:border-sage transition-colors ${
                 errors.phone ? "border-red-300" : "border-gray-300"
               }`}
               placeholder="(809) 658-1245"
@@ -348,7 +348,7 @@ const ContactPageForm: React.FC = () => {
               name="requestType"
               value={formData.requestType}
               onChange={handleChange}
-              className={`pl-10 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-dusty-rose/20 focus:border-dusty-rose transition-colors ${
+              className={`pl-10 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-sage/20 focus:border-sage transition-colors ${
                 errors.requestType ? "border-red-300" : "border-gray-300"
               }`}
             >
@@ -386,7 +386,7 @@ const ContactPageForm: React.FC = () => {
                 name="eventDate"
                 value={formData.eventDate}
                 onChange={handleChange}
-                className={`pl-10 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-dusty-rose/20 focus:border-dusty-rose transition-colors ${
+                className={`pl-10 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-sage/20 focus:border-sage transition-colors ${
                   errors.eventDate ? "border-red-300" : "border-gray-300"
                 }`}
               />
@@ -417,7 +417,7 @@ const ContactPageForm: React.FC = () => {
                 onChange={handleChange}
                 min="1"
                 max="1000"
-                className={`pl-10 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-dusty-rose/20 focus:border-dusty-rose transition-colors ${
+                className={`pl-10 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-sage/20 focus:border-sage transition-colors ${
                   errors.guestCount ? "border-red-300" : "border-gray-300"
                 }`}
                 placeholder="Ej: 12"
@@ -446,7 +446,7 @@ const ContactPageForm: React.FC = () => {
             value={formData.message}
             onChange={handleChange}
             rows={5}
-            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-dusty-rose/20 focus:border-dusty-rose transition-colors ${
+            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-sage/20 focus:border-sage transition-colors ${
               errors.message ? "border-red-300" : "border-gray-300"
             }`}
             placeholder="Describe tu visión: ¿qué tipo de postre tienes en mente? ¿Hay algún sabor especial que te gustaría? ¿Tienes alguna inspiración o tema en particular?"
@@ -463,10 +463,8 @@ const ContactPageForm: React.FC = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`w-full bg-dusty-rose text-white py-3 px-6 rounded-lg font-karla font-medium transition-all transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-dusty-rose/20 ${
-            isSubmitting
-              ? "opacity-50 cursor-not-allowed"
-              : "hover:bg-dusty-rose/90"
+          className={`w-full bg-sage text-white py-3 px-6 rounded-lg font-academy font-medium transition-all transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-sage/20 ${
+            isSubmitting ? "opacity-50 cursor-not-allowed" : "hover:bg-sage/90"
           }`}
         >
           {isSubmitting ? (

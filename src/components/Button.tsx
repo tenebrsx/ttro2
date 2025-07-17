@@ -3,10 +3,11 @@ import { LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import LoadingSpinner from "./LoadingSpinner";
 
+// Types
 interface ButtonProps {
   children: React.ReactNode;
-  variant?: "primary" | "secondary" | "outline" | "ghost" | "gradient" | "text";
-  size?: "xs" | "sm" | "md" | "lg" | "xl";
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   icon?: LucideIcon;
   iconPosition?: "left" | "right";
   loading?: boolean;
@@ -16,7 +17,7 @@ interface ButtonProps {
   className?: string;
   type?: "button" | "submit" | "reset";
   fullWidth?: boolean;
-  rounded?: "full" | "lg" | "md" | "sm" | "none";
+  rounded?: ButtonRounding;
   animateOnHover?: boolean;
   as?: keyof JSX.IntrinsicElements;
   href?: string;
@@ -24,6 +25,197 @@ interface ButtonProps {
   rel?: string;
 }
 
+type ButtonVariant =
+  | "primary"
+  | "secondary"
+  | "outline"
+  | "ghost"
+  | "gradient"
+  | "text";
+type ButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
+type ButtonRounding = "full" | "lg" | "md" | "sm" | "none";
+
+// Constants
+const VARIANT_STYLES: Record<ButtonVariant, string> = {
+  primary:
+    "bg-cocoa-500 hover:bg-cocoa-600 text-cream-200 shadow-brand-medium hover:shadow-brand-strong border border-cocoa-400/30 relative overflow-hidden group btn-contrast-high font-medium",
+  secondary:
+    "bg-white text-cocoa-500 hover:bg-cream-100 border-2 border-cocoa-500 hover:border-cocoa-600 shadow-brand-soft hover:shadow-brand-medium relative overflow-hidden group contrast-high font-medium",
+  outline:
+    "border-2 border-cocoa-500 text-cocoa-600 hover:bg-cocoa-500 hover:text-white hover:border-cocoa-600 shadow-brand-soft hover:shadow-brand-medium backdrop-blur-sm bg-white/90 relative overflow-hidden group font-medium",
+  ghost:
+    "text-cocoa-600 hover:bg-sage-100 hover:text-cocoa-700 relative overflow-hidden group text-contrast-high font-normal",
+  gradient:
+    "bg-gradient-to-r from-sage-500 to-cocoa-500 hover:from-sage-600 hover:to-cocoa-600 text-white shadow-brand-medium hover:shadow-brand-strong border border-sage-400/30 relative overflow-hidden group btn-contrast-high font-medium",
+  text: "text-cocoa-600 hover:text-cocoa-700 hover:underline hover:underline-offset-4 decoration-cocoa-400/60 relative group text-contrast-high font-normal",
+};
+
+const SIZE_STYLES: Record<ButtonSize, string> = {
+  xs: "px-2.5 py-1.5 text-xs",
+  sm: "px-4 py-2 text-sm",
+  md: "px-6 py-3 text-base",
+  lg: "px-8 py-4 text-lg",
+  xl: "px-10 py-5 text-xl",
+};
+
+const ICON_SIZES: Record<ButtonSize, string> = {
+  xs: "w-3 h-3",
+  sm: "w-4 h-4",
+  md: "w-5 h-5",
+  lg: "w-6 h-6",
+  xl: "w-7 h-7",
+};
+
+const ROUNDED_STYLES: Record<ButtonRounding, string> = {
+  full: "rounded-full",
+  lg: "rounded-lg",
+  md: "rounded-md",
+  sm: "rounded-sm",
+  none: "rounded-none",
+};
+
+const SPINNER_SIZE_MAP: Record<ButtonSize, "small" | "medium"> = {
+  xs: "small",
+  sm: "small",
+  md: "small",
+  lg: "medium",
+  xl: "medium",
+};
+
+const SPINNER_COLOR_MAP: Record<ButtonVariant, "cream" | "sage"> = {
+  primary: "cream",
+  secondary: "cream",
+  outline: "sage",
+  ghost: "sage",
+  gradient: "cream",
+  text: "sage",
+};
+
+const VARIANTS_WITH_HOVER_EFFECT: ButtonVariant[] = [
+  "primary",
+  "secondary",
+  "gradient",
+  "outline",
+];
+
+// Base styles
+const BASE_STYLES =
+  "inline-flex items-center justify-center font-bodoni font-medium tracking-button-refined transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cocoa-400/40 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed text-contrast-high";
+
+// Utility functions
+const getButtonClasses = ({
+  variant,
+  size,
+  rounded,
+  fullWidth,
+  animateOnHover,
+  className,
+}: {
+  variant: ButtonVariant;
+  size: ButtonSize;
+  rounded: ButtonRounding;
+  fullWidth: boolean;
+  animateOnHover: boolean;
+  className: string;
+}) => {
+  const widthClass = fullWidth ? "w-full" : "";
+  const hoverAnimationClass = animateOnHover
+    ? ""
+    : "transform hover:scale-105 active:scale-95";
+
+  return [
+    BASE_STYLES,
+    VARIANT_STYLES[variant],
+    SIZE_STYLES[size],
+    ROUNDED_STYLES[rounded],
+    widthClass,
+    hoverAnimationClass,
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
+};
+
+const getAnimationVariants = (animateOnHover: boolean) => ({
+  hover: {
+    scale: animateOnHover ? 1.05 : 1,
+    transition: { duration: 0.3 },
+  },
+  tap: {
+    scale: animateOnHover ? 0.95 : 1,
+    transition: { duration: 0.1 },
+  },
+});
+
+// Sub-components
+const HoverEffect = ({ variant }: { variant: ButtonVariant }) => {
+  if (!VARIANTS_WITH_HOVER_EFFECT.includes(variant)) {
+    return null;
+  }
+
+  return (
+    <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/15 to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+  );
+};
+
+const ButtonIcon = ({
+  Icon,
+  size,
+  position,
+  loading,
+}: {
+  Icon?: LucideIcon;
+  size: ButtonSize;
+  position: "left" | "right";
+  loading: boolean;
+}) => {
+  if (!Icon || loading) return null;
+
+  const marginClass = position === "left" ? "mr-2" : "ml-2";
+
+  return (
+    <Icon className={`${ICON_SIZES[size]} ${marginClass} relative z-10`} />
+  );
+};
+
+const ButtonSpinner = ({
+  loading,
+  size,
+  variant,
+  loadingVariant,
+}: {
+  loading: boolean;
+  size: ButtonSize;
+  variant: ButtonVariant;
+  loadingVariant: "spin" | "pulse" | "dots";
+}) => {
+  if (!loading) return null;
+
+  return (
+    <LoadingSpinner
+      size={SPINNER_SIZE_MAP[size]}
+      variant={loadingVariant}
+      color={SPINNER_COLOR_MAP[variant]}
+      className="mr-2 relative z-10"
+    />
+  );
+};
+
+const ButtonContent = ({
+  children,
+  loading,
+}: {
+  children: React.ReactNode;
+  loading: boolean;
+}) => (
+  <span
+    className={`${loading ? "opacity-90" : ""} relative z-10 tracking-button-refined font-medium text-shadow-soft`}
+  >
+    {children}
+  </span>
+);
+
+// Main component
 const Button: React.FC<ButtonProps> = ({
   children,
   variant = "primary",
@@ -44,185 +236,64 @@ const Button: React.FC<ButtonProps> = ({
   target,
   rel,
 }) => {
-  // Base classes that apply to all buttons
-  const baseClasses =
-    "inline-flex items-center justify-center font-karla font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-dusty-rose-400/30 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+  const buttonClasses = getButtonClasses({
+    variant,
+    size,
+    rounded,
+    fullWidth,
+    animateOnHover,
+    className,
+  });
 
-  // Width classes
-  const widthClasses = fullWidth ? "w-full" : "";
-
-  // Rounded corner classes
-  const roundedClasses = {
-    full: "rounded-full",
-    lg: "rounded-lg",
-    md: "rounded-md",
-    sm: "rounded-sm",
-    none: "rounded-none",
-  };
-
-  // Hover animation classes
-  const hoverAnimationClasses = animateOnHover
-    ? "transform hover:scale-105 active:scale-95"
-    : "";
-
-  // Variant specific styling
-  const variantClasses = {
-    primary:
-      "bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 hover:from-dusty-rose-600 hover:to-dusty-rose-700 text-white shadow-warm hover:shadow-elegant border border-dusty-rose-400/20 relative overflow-hidden group",
-    secondary:
-      "bg-white text-dusty-rose-600 hover:bg-dusty-rose-50 border-2 border-dusty-rose-300 hover:border-dusty-rose-400 shadow-gentle hover:shadow-warm relative overflow-hidden group",
-    outline:
-      "border-2 border-dusty-rose-400 text-dusty-rose-600 hover:bg-dusty-rose-500 hover:text-white hover:border-dusty-rose-500 shadow-gentle hover:shadow-warm backdrop-blur-sm bg-white/80 relative overflow-hidden group",
-    ghost:
-      "text-dusty-rose-600 hover:bg-dusty-rose-100 hover:text-dusty-rose-700 relative overflow-hidden group",
-    gradient:
-      "bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 hover:from-dusty-rose-600 hover:to-dusty-rose-700 text-white shadow-warm hover:shadow-elegant border border-dusty-rose-400/20 relative overflow-hidden group",
-    text: "text-dusty-rose-600 hover:text-dusty-rose-700 hover:underline hover:underline-offset-4 decoration-dusty-rose-400/50 relative group",
-  };
-
-  // Size specific padding and text size
-  const sizeClasses = {
-    xs: "px-2.5 py-1.5 text-xs",
-    sm: "px-4 py-2 text-sm",
-    md: "px-6 py-3 text-base",
-    lg: "px-8 py-4 text-lg",
-    xl: "px-10 py-5 text-xl",
-  };
-
-  // Icon size based on button size
-  const iconSizeClasses = {
-    xs: "w-3 h-3",
-    sm: "w-4 h-4",
-    md: "w-5 h-5",
-    lg: "w-6 h-6",
-    xl: "w-7 h-7",
-  };
-
-  // Map button size to loading spinner size
-  const spinnerSizeMap = {
-    xs: "small",
-    sm: "small",
-    md: "small",
-    lg: "medium",
-    xl: "medium",
-  } as const;
-
-  // Map button variant to loading spinner color
-  const spinnerColorMap = {
-    primary: "cream",
-    secondary: "cream",
-    outline: "dusty-rose",
-    ghost: "dusty-rose",
-    gradient: "cream",
-    text: "dusty-rose",
-  } as const;
-
-  // Button hover animation variants
-  const buttonVariants = {
-    hover: {
-      scale: animateOnHover ? 1.05 : 1,
-      transition: { duration: 0.3 },
-    },
-    tap: {
-      scale: animateOnHover ? 0.95 : 1,
-      transition: { duration: 0.1 },
-    },
-  };
+  const animationVariants = getAnimationVariants(animateOnHover);
 
   const commonProps = {
     onClick,
     disabled: disabled || loading,
-    className: `
-      ${baseClasses}
-      ${variantClasses[variant]}
-      ${sizeClasses[size]}
-      ${roundedClasses[rounded]}
-      ${widthClasses}
-      ${!animateOnHover ? hoverAnimationClasses : ""}
-      ${className}
-    `,
+    className: buttonClasses,
     whileHover: animateOnHover ? "hover" : undefined,
     whileTap: animateOnHover ? "tap" : undefined,
-    variants: buttonVariants,
+    variants: animationVariants,
   };
 
-  const renderButton = () => {
-    if (as === "a") {
-      return (
-        <motion.a {...commonProps} href={href} target={target} rel={rel}>
-          {/* Subtle hover effect for all variants */}
-          {(variant === "primary" ||
-            variant === "secondary" ||
-            variant === "gradient" ||
-            variant === "outline") && (
-            <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          )}
+  const buttonContent = (
+    <>
+      <HoverEffect variant={variant} />
+      <ButtonSpinner
+        loading={loading}
+        size={size}
+        variant={variant}
+        loadingVariant={loadingVariant}
+      />
+      <ButtonIcon
+        Icon={Icon}
+        size={size}
+        position="left"
+        loading={loading || iconPosition !== "left"}
+      />
+      <ButtonContent loading={loading}>{children}</ButtonContent>
+      <ButtonIcon
+        Icon={Icon}
+        size={size}
+        position="right"
+        loading={loading || iconPosition !== "right"}
+      />
+    </>
+  );
 
-          {loading ? (
-            <LoadingSpinner
-              size={spinnerSizeMap[size]}
-              variant={loadingVariant}
-              color={spinnerColorMap[variant]}
-              className="mr-2 relative z-10"
-            />
-          ) : (
-            Icon &&
-            iconPosition === "left" && (
-              <Icon className={`${iconSizeClasses[size]} mr-2 relative z-10`} />
-            )
-          )}
-
-          <span
-            className={`${loading ? "opacity-90" : ""} relative z-10 tracking-wide`}
-          >
-            {children}
-          </span>
-
-          {!loading && Icon && iconPosition === "right" && (
-            <Icon className={`${iconSizeClasses[size]} ml-2 relative z-10`} />
-          )}
-        </motion.a>
-      );
-    }
-
+  if (as === "a") {
     return (
-      <motion.button {...commonProps} type={type}>
-        {/* Subtle hover effect for all variants */}
-        {(variant === "primary" ||
-          variant === "secondary" ||
-          variant === "gradient" ||
-          variant === "outline") && (
-          <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        )}
-
-        {loading ? (
-          <LoadingSpinner
-            size={spinnerSizeMap[size]}
-            variant={loadingVariant}
-            color={spinnerColorMap[variant]}
-            className="mr-2 relative z-10"
-          />
-        ) : (
-          Icon &&
-          iconPosition === "left" && (
-            <Icon className={`${iconSizeClasses[size]} mr-2 relative z-10`} />
-          )
-        )}
-
-        <span
-          className={`${loading ? "opacity-90" : ""} relative z-10 tracking-wide`}
-        >
-          {children}
-        </span>
-
-        {!loading && Icon && iconPosition === "right" && (
-          <Icon className={`${iconSizeClasses[size]} ml-2 relative z-10`} />
-        )}
-      </motion.button>
+      <motion.a {...commonProps} href={href} target={target} rel={rel}>
+        {buttonContent}
+      </motion.a>
     );
-  };
+  }
 
-  return renderButton();
+  return (
+    <motion.button {...commonProps} type={type}>
+      {buttonContent}
+    </motion.button>
+  );
 };
 
 export default Button;

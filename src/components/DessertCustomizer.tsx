@@ -1,6 +1,14 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChefHat, Cake, Heart, Star, Clock, Users, X } from "lucide-react";
+import { X } from "lucide-react";
+import {
+  ArtisanChef,
+  LoveCake,
+  HandHeart,
+  MagicWand,
+  SacredTime,
+  HeartPeople,
+} from "./icons/ArtisanalIcons";
 import { formatPrice } from "../utils/currency";
 
 interface DessertOption {
@@ -55,7 +63,7 @@ const DessertCustomizer: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         id: "base",
         title: "Tipo de Postre",
         description: "Elige la base de tu creación",
-        icon: <Cake className="w-6 h-6" />,
+        icon: <LoveCake className="text-current" size={24} />,
         required: true,
         options: [
           {
@@ -97,7 +105,7 @@ const DessertCustomizer: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         id: "size",
         title: "Tamaño",
         description: "Selecciona el tamaño perfecto",
-        icon: <Users className="w-6 h-6" />,
+        icon: <HeartPeople className="text-current" size={24} />,
         required: true,
         options: [
           {
@@ -135,7 +143,7 @@ const DessertCustomizer: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         id: "flavor",
         title: "Sabor Principal",
         description: "El alma de tu postre",
-        icon: <Heart className="w-6 h-6" />,
+        icon: <HandHeart className="text-current" size={24} />,
         required: true,
         options: [
           {
@@ -187,7 +195,7 @@ const DessertCustomizer: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         id: "filling",
         title: "Relleno",
         description: "La sorpresa en cada capa",
-        icon: <Star className="w-6 h-6" />,
+        icon: <MagicWand className="text-current" size={24} />,
         required: false,
         options: [
           {
@@ -232,7 +240,7 @@ const DessertCustomizer: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         id: "decoration",
         title: "Decoración",
         description: "El toque final artístico",
-        icon: <ChefHat className="w-6 h-6" />,
+        icon: <ArtisanChef className="text-current" size={24} />,
         required: true,
         options: [
           {
@@ -405,11 +413,11 @@ const DessertCustomizer: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: "spring" }}
             >
-              <Heart className="w-10 h-10 text-green-600" />
+              <HandHeart className="text-green-600" size={40} />
             </motion.div>
 
             <div>
-              <h2 className="text-3xl font-playfair text-dark-cocoa mb-4">
+              <h2 className="text-3xl font-academy text-dark-cocoa mb-4">
                 ¡Tu Postre Personalizado está Listo!
               </h2>
               <p className="text-mocha/70 font-source-serif">
@@ -418,7 +426,7 @@ const DessertCustomizer: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </div>
 
             <div className="bg-cream/50 rounded-2xl p-6 text-left">
-              <h3 className="text-xl font-cormorant text-mocha mb-4">
+              <h3 className="text-xl font-academy text-mocha mb-4">
                 Resumen de tu Pedido
               </h3>
               <div className="space-y-2 text-sm">
@@ -536,7 +544,7 @@ const DessertCustomizer: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <div className="bg-gradient-to-r from-dusty-rose to-warm-blush text-white p-6">
           <div className="flex justify-between items-center">
             <div>
-              <h2 className="text-2xl font-playfair">Personaliza tu Postre</h2>
+              <h2 className="text-2xl font-academy">Personaliza tu Postre</h2>
               <p className="text-white/80 font-source-serif">
                 Paso {currentStep + 1} de {customizationSteps.length}
               </p>
@@ -578,7 +586,7 @@ const DessertCustomizer: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                     {customizationSteps[currentStep].icon}
                   </div>
                 </div>
-                <h3 className="text-2xl font-cormorant text-dark-cocoa mb-2">
+                <h3 className="text-2xl font-academy text-dark-cocoa mb-2">
                   {customizationSteps[currentStep].title}
                 </h3>
                 <p className="text-mocha/70 font-source-serif">
@@ -649,7 +657,7 @@ const DessertCustomizer: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               {/* Extras step */}
               {currentStep === customizationSteps.length - 1 && (
                 <div className="mt-8">
-                  <h4 className="text-lg font-cormorant text-dark-cocoa mb-4">
+                  <h4 className="text-lg font-academy text-dark-cocoa mb-4">
                     Extras Opcionales
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -712,7 +720,7 @@ const DessertCustomizer: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               </span>
             </div>
             <div className="text-sm text-mocha/70">
-              <Clock className="w-4 h-4 inline mr-1" />
+              <SacredTime className="inline mr-1 text-current" size={16} />
               Preparación: 2-3 días
             </div>
           </div>

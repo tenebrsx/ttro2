@@ -44,7 +44,7 @@ const Cart: FC = () => {
                 className="mb-8"
               >
                 <ShoppingBag className="w-24 h-24 text-dusty-rose/30 mx-auto mb-6" />
-                <h1 className="text-3xl font-playfair text-dark-cocoa mb-4">
+                <h1 className="text-3xl font-academy text-dark-cocoa mb-4">
                   Tu carrito está vacío
                 </h1>
                 <p className="text-mocha/70 font-source-serif mb-8">
@@ -94,7 +94,7 @@ const Cart: FC = () => {
               <ArrowLeft className="w-5 h-5 mr-2" />
               Volver
             </button>
-            <h1 className="text-3xl font-playfair text-dark-cocoa mb-2">
+            <h1 className="text-3xl font-academy text-dark-cocoa mb-2">
               Tu Carrito
             </h1>
             <p className="text-mocha/70 font-source-serif">
@@ -132,7 +132,7 @@ const Cart: FC = () => {
                       />
 
                       <div className="flex-1">
-                        <h3 className="font-playfair text-dark-cocoa text-lg mb-1">
+                        <h3 className="font-academy text-dark-cocoa text-lg mb-1">
                           {item.name}
                         </h3>
                         <p className="text-dusty-rose font-medium">
@@ -197,7 +197,7 @@ const Cart: FC = () => {
                 transition={{ delay: 0.2 }}
                 className="bg-white rounded-2xl shadow-gentle p-6 border border-dusty-rose/10 sticky top-24"
               >
-                <h2 className="text-xl font-playfair text-dark-cocoa mb-6">
+                <h2 className="text-xl font-academy text-dark-cocoa mb-6">
                   Resumen del pedido
                 </h2>
 

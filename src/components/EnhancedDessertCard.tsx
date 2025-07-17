@@ -163,7 +163,7 @@ const EnhancedDessertCard: React.FC<DessertCardProps> = ({
           )}
 
           {/* Title */}
-          <h3 className="text-xl font-playfair text-dark-cocoa mb-2 group-hover:text-dusty-rose transition-colors duration-300">
+          <h3 className="text-xl font-academy text-dark-cocoa mb-2 group-hover:text-dusty-rose transition-colors duration-300">
             {name}
           </h3>
 

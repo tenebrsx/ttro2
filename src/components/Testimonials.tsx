@@ -48,7 +48,7 @@ const Testimonials = () => {
             <div className="w-16 h-px bg-sage/40"></div>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl font-playfair text-mocha mb-6 text-shadow-soft">
+          <h2 className="text-4xl sm:text-5xl font-academy text-mocha mb-6 text-shadow-soft">
             Palabras <span className="text-dusty-rose font-bold">Dulces</span>
           </h2>
 
@@ -82,7 +82,7 @@ const Testimonials = () => {
 
               <div className="space-y-3">
                 <div className="text-right">
-                  <p className="font-cormorant text-mocha text-lg font-medium">
+                  <p className="font-bodoni text-mocha text-lg font-medium">
                     — {testimonial.name}
                   </p>
                   <p className="text-sage text-sm font-karla">
@@ -107,7 +107,7 @@ const Testimonials = () => {
               hago. No solo creo postres, creo momentos que permanecen en el
               corazón para siempre.&rdquo;
             </p>
-            <p className="text-sage font-cormorant text-lg italic">
+            <p className="text-sage font-bodoni text-lg italic">
               — Con amor, desde mi cocina hasta tu corazón
             </p>
           </div>

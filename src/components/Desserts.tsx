@@ -73,13 +73,13 @@ const Desserts = () => {
             <div className="w-16 h-px bg-sage/40"></div>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl font-playfair mb-6 font-bold leading-tight">
-            <span className="block text-black-bold text-shadow-elegant">
+          <h2 className="text-4xl sm:text-5xl font-academy mb-6 font-bold leading-tight">
+            <span className="block text-cocoa-500 text-shadow-elegant">
               Dulces Creaciones
             </span>
-            <span className="block text-dusty-rose-elegant italic mt-2 relative">
+            <span className="block text-sage-500 italic font-academy mt-2 relative">
               Hechas con Amor
-              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-dusty-rose-300 to-warm-blush-300 rounded-full"></div>
+              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-sage-300 to-sage-400 rounded-full"></div>
             </span>
           </h2>
 
@@ -109,7 +109,7 @@ const Desserts = () => {
                 <div className="p-6 relative">
                   <div className="absolute top-0 left-6 w-8 h-px bg-sage/30 transform -translate-y-3"></div>
 
-                  <h3 className="text-xl font-playfair text-black-bold text-shadow-elegant mb-3">
+                  <h3 className="text-xl font-academy text-black-bold text-shadow-elegant mb-3">
                     {dessert.name}
                   </h3>
                   <p className="text-mocha/70 leading-relaxed mb-4 font-karla font-light text-sm">
@@ -136,10 +136,10 @@ const Desserts = () => {
 
           <button
             onClick={() => scrollToSection("contact")}
-            className="bg-sage text-cream px-10 py-4 rounded-full text-lg hover:bg-mocha transition-all duration-500 transform hover:scale-105 shadow-gentle hover:shadow-soft font-karla font-medium"
+            className="bg-sage text-cream px-10 py-4 rounded-full text-lg hover:bg-cocoa transition-all duration-500 transform hover:scale-105 shadow-gentle hover:shadow-soft font-academy font-medium"
           >
             Explora Nuestro{" "}
-            <span className="text-dusty-rose font-bold">Menú Completo</span>
+            <span className="text-sage-600 font-bold">Menú Completo</span>
           </button>
         </div>
       </div>

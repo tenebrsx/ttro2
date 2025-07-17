@@ -80,9 +80,9 @@ const Menu = () => {
             <div className="w-16 h-px bg-sage/40"></div>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl font-cormorant text-mocha mb-6 text-shadow-soft">
-            <span className="text-dusty-rose font-bold">Dulces</span> Creaciones
-            <span className="block text-dusty-rose italic mt-2 font-bold">
+          <h2 className="text-4xl sm:text-5xl font-bodoni text-cocoa mb-6 text-shadow-soft">
+            <span className="text-sage font-bold">Dulces</span> Creaciones
+            <span className="block text-sage italic mt-2 font-bold">
               Hechas con Amor
             </span>
           </h2>
@@ -121,8 +121,9 @@ const Menu = () => {
                   <span className="text-sm text-sage font-medium mb-2 block font-karla uppercase tracking-wide">
                     {dish.category}
                   </span>
-                  <h3 className="text-xl font-cormorant mb-3 text-shadow-soft">
-                    Explora Nuestro <span className="text-dusty-rose font-bold">Menú Completo</span>
+                  <h3 className="text-xl font-bodoni mb-3 text-shadow-soft">
+                    Explora Nuestro{" "}
+                    <span className="text-sage font-bold">Menú Completo</span>
                   </h3>
                   <p className="text-mocha/70 leading-relaxed font-karla font-light mb-3">
                     {dish.description}

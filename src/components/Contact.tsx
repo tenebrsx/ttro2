@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Mail, MapPin, Send, MessageCircle, Heart } from "lucide-react";
+import {
+  HeartMail,
+  HeartLocation,
+  MessageWings,
+  ChatBubble,
+  HandHeart,
+} from "./icons/ArtisanalIcons";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -48,28 +54,28 @@ const Contact = () => {
         <div className="text-center mb-16">
           <div className="flex items-center justify-center mb-6">
             <div className="w-16 h-px bg-sage/40"></div>
-            <span className="mx-4 text-sm font-karla text-sage/70 uppercase tracking-wider">
+            <span className="mx-4 text-sm font-academy text-sage/70 uppercase tracking-wider">
               Creaciones Únicas
             </span>
             <div className="w-16 h-px bg-sage/40"></div>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl font-playfair mb-6 font-bold leading-tight">
-            <span className="block text-black-bold text-shadow-elegant">
+          <h2 className="text-4xl sm:text-5xl font-academy mb-6 font-bold leading-tight">
+            <span className="block text-cocoa-500 text-shadow-elegant">
               Convirtamos Tu Sueño en
             </span>
-            <span className="block text-dusty-rose-elegant italic mt-2 relative">
+            <span className="block text-sage-500 italic font-academy mt-2 relative">
               Realidad
-              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-dusty-rose-300 to-warm-blush-300 rounded-full"></div>
+              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-sage-300 to-sage-400 rounded-full"></div>
             </span>
           </h2>
 
           <div className="w-24 h-px bg-sage/40 mx-auto mb-6"></div>
 
-          <p className="text-lg text-mocha/70 max-w-2xl mx-auto font-karla font-light leading-relaxed">
+          <p className="text-lg text-cocoa-500 max-w-2xl mx-auto font-bodoni font-light leading-relaxed">
             Cada pedido especial comienza con una conversación íntima sobre tu
             momento único.
-            <span className="block mt-2 italic text-mocha/60">
+            <span className="block mt-2 italic text-cocoa-400">
               Porque los detalles perfectos nacen cuando dos corazones se
               encuentran.
             </span>
@@ -79,46 +85,46 @@ const Contact = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div className="space-y-8">
             <div>
-              <h3 className="text-2xl font-playfair text-black-bold text-shadow-elegant mb-6">
+              <h3 className="text-2xl font-academy text-cocoa-500 text-shadow-elegant mb-6">
                 Conectemos Nuestros{" "}
-                <span className="text-dusty-rose-elegant font-bold">
-                  Corazones
-                </span>
+                <span className="text-sage-500 font-bold">Corazones</span>
               </h3>
               <div className="space-y-6">
                 <div className="flex items-center space-x-4 group">
                   <div className="w-12 h-12 bg-sage/20 rounded-full flex items-center justify-center shadow-gentle group-hover:shadow-warm transition-all duration-300">
-                    <Mail className="h-6 w-6 text-sage" />
+                    <HeartMail className="text-sage-600" size={24} />
                   </div>
                   <div>
-                    <p className="text-mocha font-medium font-karla">Email</p>
-                    <p className="text-mocha/70 font-karla">
-                      hello@titirosa.com
+                    <p className="text-cocoa-500 font-medium font-bodoni">
+                      Email
+                    </p>
+                    <p className="text-cocoa-400 font-bodoni">
+                      hello@cucina.com
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-4 group">
                   <div className="w-12 h-12 bg-sage/20 rounded-full flex items-center justify-center shadow-gentle group-hover:shadow-warm transition-all duration-300">
-                    <MessageCircle className="h-6 w-6 text-sage" />
+                    <ChatBubble className="text-sage-600" size={24} />
                   </div>
                   <div>
-                    <p className="text-mocha font-medium font-karla">
+                    <p className="text-cocoa-500 font-medium font-bodoni">
                       WhatsApp
                     </p>
-                    <p className="text-mocha/70 font-karla">(809) 658-1245</p>
+                    <p className="text-cocoa-400 font-bodoni">(809) 658-1245</p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-4 group">
                   <div className="w-12 h-12 bg-sage/20 rounded-full flex items-center justify-center shadow-gentle group-hover:shadow-warm transition-all duration-300">
-                    <MapPin className="h-6 w-6 text-sage" />
+                    <HeartLocation className="text-sage-600" size={24} />
                   </div>
                   <div>
-                    <p className="text-mocha font-medium font-karla">
+                    <p className="text-cocoa-500 font-medium font-bodoni">
                       Ubicación
                     </p>
-                    <p className="text-mocha/70 font-karla">
+                    <p className="text-cocoa-400 font-bodoni">
                       Santo Domingo, RD
                     </p>
                   </div>
@@ -128,14 +134,14 @@ const Contact = () => {
 
             <div className="bg-sage/10 p-6 rounded-lg shadow-gentle">
               <div className="flex items-center mb-4">
-                <Heart className="h-5 w-5 text-sage mr-2" />
-                <h4 className="text-lg font-playfair text-black-bold text-shadow-elegant">
-                  <span className="text-dusty-rose-elegant font-bold">
+                <HandHeart className="text-sage-600 mr-2" size={20} />
+                <h4 className="text-lg font-academy text-cocoa-500 text-shadow-elegant">
+                  <span className="text-sage-500 font-bold">
                     Una Promesa Personal
                   </span>
                 </h4>
               </div>
-              <p className="text-mocha/70 font-karla font-light leading-relaxed">
+              <p className="text-cocoa-400 font-bodoni font-light leading-relaxed">
                 Tu celebración será única, como tú. Cada detalle será
                 cuidadosamente pensado para crear no solo un postre, sino una
                 experiencia que perdure en el corazón de quienes amas.
@@ -144,11 +150,9 @@ const Contact = () => {
           </div>
 
           <div className="bg-white p-8 rounded-lg shadow-gentle">
-            <h3 className="text-2xl font-playfair text-black-bold text-shadow-elegant mb-6">
-              <span className="text-dusty-rose-elegant font-bold">
-                Cuéntame
-              </span>{" "}
-              Tu Historia
+            <h3 className="text-2xl font-academy text-cocoa-500 text-shadow-elegant mb-6">
+              <span className="text-sage-500 font-bold">Cuéntanos</span> Tu
+              Historia
             </h3>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -239,7 +243,7 @@ const Contact = () => {
                 type="submit"
                 className="w-full bg-sage text-cream px-8 py-4 rounded-lg text-lg font-karla font-medium hover:bg-sage/90 transition-all duration-300 transform hover:scale-105 shadow-gentle hover:shadow-warm flex items-center justify-center space-x-2"
               >
-                <Send className="h-5 w-5" />
+                <MessageWings className="text-cream" size={20} />
                 <span>Comenzar Mi Historia Dulce</span>
               </button>
             </form>

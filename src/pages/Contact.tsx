@@ -105,7 +105,7 @@ const Contact = () => {
                 <div className="w-16 h-px bg-dusty-rose/40"></div>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-playfair text-black-bold text-shadow-elegant mb-6">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-academy text-black-bold text-shadow-elegant mb-6">
                 Hagamos Realidad
                 <span className="block text-dusty-rose-elegant italic mt-2">
                   Tu Dulce Especial
@@ -135,7 +135,7 @@ const Contact = () => {
                 className="bg-elegant-cream rounded-3xl shadow-dusty-rose p-8 border border-dusty-rose"
               >
                 <div className="mb-8">
-                  <h2 className="text-2xl font-playfair text-black-bold text-shadow-elegant mb-4">
+                  <h2 className="text-2xl font-academy text-black-bold text-shadow-elegant mb-4">
                     Cuéntame sobre tu evento
                   </h2>
                   <p className="body-elegant font-source-serif font-light">
@@ -285,7 +285,7 @@ const Contact = () => {
                       <MessageCircle className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-playfair text-black-bold text-shadow-elegant">
+                      <h3 className="text-xl font-academy text-black-bold text-shadow-elegant">
                         Respuesta inmediata
                       </h3>
                       <p className="text-green-700 font-source-serif font-light">

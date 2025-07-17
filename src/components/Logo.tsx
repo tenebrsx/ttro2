@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 
 interface LogoProps {
   className?: string;
@@ -6,10 +6,10 @@ interface LogoProps {
   alt?: string;
 }
 
-const Logo: React.FC<LogoProps> = ({
+const Logo: FC<LogoProps> = ({
   className = "",
   size = "md",
-  alt = "Cucinanostrard Logo",
+  alt = "Cucina Logo",
 }) => {
   const sizeClasses = {
     sm: "h-6",
@@ -20,7 +20,7 @@ const Logo: React.FC<LogoProps> = ({
   return (
     <div className={`flex items-center ${className}`}>
       <img
-        src="/logo.svg"
+        src="/logo-new.png"
         alt={alt}
         className={`${sizeClasses[size]} w-auto object-contain`}
         onError={(e) => {
@@ -29,9 +29,14 @@ const Logo: React.FC<LogoProps> = ({
           e.currentTarget.nextElementSibling?.classList.remove("hidden");
         }}
       />
-      <span className="hidden text-xl font-cormorant text-mocha group-hover:text-sage transition-colors duration-200">
-        Cucinanostrard
-      </span>
+      <div className="hidden flex-col items-start">
+        <span className="text-xl font-academy text-cocoa-500 cucina-logo tracking-academy">
+          cucina
+        </span>
+        <span className="text-sm font-bodoni text-sage-500 cucina-tagline -mt-1">
+          homemade goods
+        </span>
+      </div>
     </div>
   );
 };

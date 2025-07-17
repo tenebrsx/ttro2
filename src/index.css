@@ -1,24 +1,43 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Dancing+Script:wght@400..700&family=Karla:wght@300;400;500;600&family=Playfair+Display:wght@700&family=Source+Serif+Pro:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Academy+Engraved+LET&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Mobile-first optimizations */
+/* Brand Identity Base Styles */
 @layer base {
     html {
         scroll-behavior: smooth;
         -webkit-tap-highlight-color: transparent;
-        background-color: #f6f4f2;
+        background-color: #faf8f5; /* Brand background color */
     }
 
     body {
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         touch-action: manipulation;
-        font-family: "Karla", sans-serif;
-        line-height: 1.6;
-        background-color: #f6f4f2;
+        font-family:
+            "Bodoni Moda", "Bodoni 72", serif !important; /* MANDATORY Brand body font */
+        font-weight: 400 !important; /* MANDATORY Regular weight for readability */
+        line-height: 1.55; /* Elegant reading flow */
+        background-color: #faf8f5;
+        color: #372813; /* Brand secondary color for text */
+    }
+
+    /* Typography Hierarchy - Elegant & Handcrafted */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family:
+            "Academy Engraved LET", serif !important; /* MANDATORY Brand heading font */
+        color: #372813;
+        font-weight: 400 !important; /* MANDATORY Regular weight for elegant feel */
+        line-height: 1.25; /* Slightly tighter for multi-line elegance */
+        letter-spacing: -0.025em; /* Subtle negative spacing for refinement */
     }
 
     /* Better touch targets for mobile */
@@ -30,6 +49,7 @@
         touch-action: manipulation;
         min-height: 44px;
         min-width: 44px;
+        font-weight: 400; /* Consistent elegant weight */
     }
 
     /* Improve mobile input experience */
@@ -37,11 +57,14 @@
     textarea,
     select {
         font-size: 16px; /* Prevents zoom on iOS */
+        font-family:
+            "Bodoni Moda", serif !important; /* MANDATORY Bodoni for inputs */
+        font-weight: 400 !important; /* MANDATORY Elegant weight for inputs */
     }
 
     /* Ensure all main containers use consistent background */
     #root {
-        background-color: #f6f4f2;
+        background-color: #faf8f5;
         min-height: 100vh;
     }
 
@@ -53,369 +76,238 @@
     }
 }
 
-/* Cart animations and mobile styles */
+/* Brand Component Styles */
 @layer components {
-    .cart-slide-enter {
-        transform: translateX(100%);
-        opacity: 0;
+    /* MANDATORY Brand Typography Classes */
+    .font-academy {
+        font-family: "Academy Engraved LET", serif !important;
     }
 
-    .cart-slide-enter-active {
-        transform: translateX(0);
-        opacity: 1;
-        transition:
-            transform 300ms ease-out,
-            opacity 300ms ease-out;
+    .font-bodoni {
+        font-family: "Bodoni Moda", "Bodoni 72", serif !important;
     }
 
-    .cart-slide-exit {
-        transform: translateX(0);
-        opacity: 1;
+    /* Brand Color Classes */
+    .text-brand-primary {
+        color: #929b9a;
     }
 
-    .cart-slide-exit-active {
-        transform: translateX(100%);
-        opacity: 0;
-        transition:
-            transform 300ms ease-in,
-            opacity 300ms ease-in;
+    .text-brand-secondary {
+        color: #372813;
     }
 
-    /* Mobile cart item animations */
-    .cart-item-enter {
-        opacity: 0;
-        transform: translateY(20px);
+    .text-brand-highlight {
+        color: #aab5b3;
     }
 
-    .cart-item-enter-active {
-        opacity: 1;
-        transform: translateY(0);
-        transition:
-            opacity 200ms ease-out,
-            transform 200ms ease-out;
+    .bg-brand-primary {
+        background-color: #929b9a;
     }
 
-    .cart-item-exit {
-        opacity: 1;
-        transform: translateX(0);
+    .bg-brand-secondary {
+        background-color: #372813;
     }
 
-    .cart-item-exit-active {
-        opacity: 0;
-        transform: translateX(-100px);
-        transition:
-            opacity 300ms ease-in,
-            transform 300ms ease-in;
+    .bg-brand-cream {
+        background-color: #faf8f5;
     }
 
-    /* Enhanced mobile touch interactions */
-    .touch-feedback {
-        transition: all 0.15s ease;
+    /* Hero Section Specific Styles */
+    .hero-clean-bg {
+        background: linear-gradient(
+            135deg,
+            #faf8f5 0%,
+            #f7f4f0 50%,
+            #faf8f5 100%
+        );
     }
 
-    .touch-feedback:active {
-        transform: scale(0.98);
+    .hero-overlay-subtle {
+        background: linear-gradient(
+            180deg,
+            rgba(250, 248, 245, 0.1) 0%,
+            rgba(250, 248, 245, 0.3) 50%,
+            rgba(250, 248, 245, 0.1) 100%
+        );
     }
 
-    /* Improved mobile scroll areas */
-    .mobile-scroll {
-        -webkit-overflow-scrolling: touch;
-        scroll-behavior: smooth;
+    .hero-text-shadow {
+        text-shadow: 0 2px 4px rgba(55, 40, 19, 0.1);
     }
 
-    /* Mobile-optimized shadows */
-    .shadow-mobile {
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    /* Brand Button Styles */
+    .btn-brand-primary {
+        background-color: #372813; /* Brand deep tone */
+        color: #faf8f5;
+        border: 2px solid #372813;
+        border-radius: 50px; /* Pill-shaped */
+        padding: 16px 32px;
+        font-family:
+            "Bodoni Moda", "Bodoni 72", serif !important; /* MANDATORY Bodoni for elegant consistency */
+        font-weight: 500 !important; /* MANDATORY Medium weight, not bold */
+        text-transform: uppercase;
+        letter-spacing: 0.025em; /* Refined spacing */
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(55, 40, 19, 0.25);
     }
 
-    /* Better mobile button styles */
-    .btn-mobile {
-        min-height: 48px;
-        padding: 12px 24px;
-        border-radius: 12px;
-        font-weight: 500;
-        transition: all 0.2s ease;
+    .btn-brand-primary:hover {
+        background-color: #2a1f0f; /* Darker shade on hover */
+        border-color: #2a1f0f;
+        box-shadow: 0 8px 25px rgba(55, 40, 19, 0.4);
+        transform: translateY(-2px) scale(1.02);
     }
 
-    .btn-mobile:active {
-        transform: scale(0.98);
+    .btn-brand-secondary {
+        background-color: transparent;
+        color: #372813; /* Brand deep tone text */
+        border: 2px solid #372813; /* Brand deep tone border */
+        border-radius: 50px; /* Pill-shaped */
+        padding: 14px 30px;
+        font-family:
+            "Bodoni Moda", "Bodoni 72", serif !important; /* MANDATORY Bodoni for consistency */
+        font-weight: 500 !important; /* MANDATORY Medium weight, elegant */
+        text-transform: uppercase;
+        letter-spacing: 0.025em; /* Refined spacing */
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
     }
 
-    /* Mobile-first responsive text */
-    .text-responsive {
-        font-size: clamp(0.875rem, 2.5vw, 1rem);
+    .btn-brand-secondary:hover {
+        background-color: #372813; /* Fill with brand deep tone */
+        color: #faf8f5;
+        border-color: #372813;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(55, 40, 19, 0.3);
     }
 
-    .heading-responsive {
-        font-size: clamp(1.5rem, 5vw, 2.5rem);
+    /* WhatsApp Button Brand Styling */
+    .whatsapp-brand {
+        background-color: #929b9a !important; /* Override default green */
+        border: none;
     }
 
-    /* Enhanced mobile cards */
-    .card-mobile {
+    .whatsapp-brand:hover {
+        background-color: #7a8382 !important;
+    }
+
+    /* Process Steps Cards */
+    .process-card {
+        background: #faf8f5;
+        border: 1px solid #aab5b3;
         border-radius: 16px;
-        padding: 16px;
-        transition:
-            transform 0.2s ease,
-            box-shadow 0.2s ease;
+        padding: 32px 24px;
+        box-shadow: 0 4px 20px rgba(146, 155, 154, 0.1);
+        transition: all 0.3s ease;
     }
 
-    .card-mobile:active {
-        transform: translateY(1px);
+    .process-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 30px rgba(146, 155, 154, 0.15);
     }
 
-    /* Mobile navigation improvements */
-    .nav-mobile {
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+    /* Mobile optimizations with brand consistency */
+    .mobile-padding {
+        padding: 20px;
     }
 
-    /* Line clamp utility for mobile */
-    .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+    .mobile-heading-consistent h1,
+    .mobile-heading-consistent .heading-primary {
+        font-family: "Academy Engraved LET", serif !important;
+        color: #372813;
+        font-weight: 400 !important; /* MANDATORY Regular weight for elegance */
+        font-size: clamp(2.5rem, 8vw, 4rem);
+        line-height: 1.2; /* Slightly more breathing room */
+        letter-spacing: -0.025em; /* Refined negative spacing */
+        text-align: center;
     }
 
-    .line-clamp-3 {
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+    .mobile-content-consistent {
+        font-family: "Bodoni Moda", serif !important;
+        color: #372813;
+        font-weight: 400 !important; /* MANDATORY Regular weight for readability */
+        line-height: 1.55; /* Elegant reading flow */
     }
 
-    /* Smooth animations for mobile */
+    .mobile-section-consistent {
+        background-color: #faf8f5;
+        padding-top: 80px; /* Account for navbar */
+    }
+
+    /* CTA Button Spacing for Mobile */
+    .cta-mobile-spacing {
+        gap: 16px;
+        margin-top: 40px;
+    }
+
+    .cta-mobile-spacing > * {
+        flex: 1;
+        max-width: 300px;
+    }
+
+    /* Brand Consistent Shadows */
+    .shadow-brand-soft {
+        box-shadow: 0 2px 8px rgba(146, 155, 154, 0.12);
+    }
+
+    .shadow-brand-medium {
+        box-shadow: 0 4px 16px rgba(146, 155, 154, 0.15);
+    }
+
+    .shadow-brand-strong {
+        box-shadow: 0 8px 24px rgba(146, 155, 154, 0.2);
+    }
+
+    /* Text Contrast for Accessibility */
+    .text-contrast-high {
+        color: #372813;
+        font-weight: 450; /* Slightly lighter for elegance */
+    }
+
+    /* Flow elements */
+    .flow-anchor-pulse {
+        animation: pulse-soft 2s ease-in-out infinite;
+    }
+
+    /* Typography utilities */
+    .tracking-academy-hero {
+        letter-spacing: 0.05em;
+    }
+
+    .tracking-academy-subhead {
+        letter-spacing: 0.02em;
+    }
+
+    .tracking-academy-normal {
+        letter-spacing: 0.01em;
+    }
+
+    .font-academy-medium {
+        font-weight: 450; /* Elegant medium weight */
+    }
+
+    .font-academy-regular {
+        font-weight: 400; /* Regular elegant weight */
+    }
+
+    /* Animation classes with brand feel */
     .animate-fade-in {
-        animation: fadeIn 0.5s ease-out;
+        animation: fadeIn 0.8s ease-out;
     }
 
     .animate-slide-up {
-        animation: slideUp 0.5s ease-out;
+        animation: slideUp 0.8s ease-out;
     }
 
-    /* Mobile-optimized focus states */
-    .focus-mobile:focus {
-        outline: 2px solid #c78787;
-        outline-offset: 2px;
+    .animate-fade-in-up {
+        animation: fadeInUp 0.8s ease-out;
     }
 
-    /* Enhanced mobile loading states */
-    .loading-shimmer {
-        background: linear-gradient(
-            90deg,
-            #f0f0f0 25%,
-            #e0e0e0 50%,
-            #f0f0f0 75%
-        );
-        background-size: 200% 100%;
-        animation: shimmer 1.5s infinite;
-    }
-}
-
-/* Keyframe animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes shimmer {
-    0% {
-        background-position: -200% 0;
-    }
-    100% {
-        background-position: 200% 0;
-    }
-}
-
-/* Mobile-specific media queries with animation optimizations */
-@media (max-width: 768px) {
-    /* Enable hardware acceleration for smoother animations */
-    * {
-        -webkit-transform: translate3d(0, 0, 0);
-        transform: translate3d(0, 0, 0);
-    }
-
-    /* Optimize animations for mobile */
-    .animate-mobile {
-        animation-duration: 0.4s !important;
-        animation-timing-function: ease-out !important;
-    }
-
-    /* Ensure framer-motion works on mobile */
-    [data-framer-motion] {
-        will-change: transform, opacity;
-        transform: translateZ(0);
-    }
-    /* Optimize animations for mobile performance */
-    .mobile-optimized-animations {
-        animation-duration: 0.3s !important;
-        transition-duration: 0.3s !important;
-    }
-
-    /* Enable animations on mobile with performance optimizations */
-    .mobile-animations-enabled {
-        will-change: transform, opacity;
-        transform: translateZ(0);
-        backface-visibility: hidden;
-    }
-
-    /* Better mobile spacing */
-    .mobile-padding {
-        padding: 16px;
-    }
-
-    .mobile-margin {
-        margin: 16px 0;
-    }
-
-    /* Mobile-optimized grid */
-    .grid-mobile {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
-
-    /* Enhanced mobile typography */
-    .text-mobile-sm {
-        font-size: 14px;
-        line-height: 1.4;
-    }
-
-    .text-mobile-base {
-        font-size: 16px;
-        line-height: 1.5;
-    }
-
-    .text-mobile-lg {
-        font-size: 18px;
-        line-height: 1.4;
-    }
-}
-
-/* Dark mode support for mobile */
-@media (prefers-color-scheme: dark) {
-    .cart-item-bg {
-        background-color: rgba(255, 255, 255, 0.95);
-    }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .btn-mobile {
-        border: 2px solid currentColor;
-    }
-
-    .card-mobile {
-        border: 1px solid currentColor;
-    }
-}
-
-/* Reduced motion preferences - less aggressive for mobile compatibility */
-@media (prefers-reduced-motion: reduce) {
-    /* Only disable complex animations, keep basic transitions */
-    .complex-animation {
-        animation: none !important;
-    }
-
-    .reduce-motion-enabled {
-        animation-duration: 0.3s !important;
-        transition-duration: 0.3s !important;
-    }
-
-    /* Keep scroll behavior smooth unless explicitly disabled */
-    .no-smooth-scroll {
-        scroll-behavior: auto !important;
-    }
-
-    /* Ensure content is visible even without animations */
-    [data-framer-motion] {
-        opacity: 1 !important;
-        transform: none !important;
-    }
-}
-
-/* Mobile debugging and fallback styles */
-@media (max-width: 768px) {
-    /* Force content visibility on mobile */
-    .mobile-content-visible {
-        opacity: 1 !important;
-        visibility: visible !important;
-        display: block !important;
-    }
-
-    /* Ensure framer-motion elements are visible */
-    [data-framer-motion] {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    /* Fallback for failed animations */
-    .animation-fallback {
-        opacity: 1 !important;
-        transform: translateY(0) !important;
-        transition: none !important;
-    }
-
-    /* Debug mode - uncomment to see all elements */
-    .debug-mobile * {
-        border: 1px solid red !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-}
-
-/* Mobile animation fixes */
-@media (max-width: 640px) {
-    /* Force enable animations on mobile */
-    .force-animations * {
-        animation-play-state: running !important;
-        transition: all 0.3s ease-out !important;
-        opacity: 1 !important;
-    }
-
-    /* Optimize touch interactions */
-    .touch-optimized {
-        -webkit-tap-highlight-color: transparent;
-        touch-action: manipulation;
-        -webkit-user-select: none;
-        user-select: none;
-    }
-
-    /* Emergency visibility fixes for mobile */
-    .hero-content,
-    .section-content,
-    .mobile-visible {
-        opacity: 1 !important;
-        visibility: visible !important;
-        transform: none !important;
-    }
-
-    /* Framer Motion mobile fixes */
-    [data-framer-component] {
-        opacity: 1;
-        transform: none;
-    }
-
-    /* Animation timeout fallback */
-    .animation-timeout {
-        animation: mobile-fadein 0.5s ease-out;
-    }
-
-    @keyframes mobile-fadein {
+    /* Brand consistent keyframes */
+    @keyframes fadeIn {
         from {
             opacity: 0;
         }
@@ -423,118 +315,732 @@
             opacity: 1;
         }
     }
-}
 
-@layer utilities {
-    .font-cormorant {
-        font-family: "Cormorant Garamond", serif;
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
-    .font-karla {
-        font-family: "Karla", sans-serif;
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes pulse-soft {
+        0%,
+        100% {
+            opacity: 0.7;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+    }
+
+    @keyframes float-gentle {
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-8px);
+        }
+    }
+
+    @keyframes float-gentle-delayed {
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-6px);
+        }
+    }
+
+    @keyframes pulse-soft-delayed {
+        0%,
+        100% {
+            opacity: 0.6;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 0.9;
+            transform: scale(1.03);
+        }
+    }
+
+    /* MANDATORY Brand consistent utility classes */
+    .typography-academy-heading {
+        font-family: "Academy Engraved LET", serif !important;
+        color: #372813;
+        font-weight: 400 !important; /* MANDATORY Regular weight for elegance */
+        letter-spacing: -0.025em; /* Refined spacing */
+        line-height: 1.25; /* Elegant multi-line spacing */
+    }
+
+    .typography-academy-subheading {
+        font-family: "Academy Engraved LET", serif !important;
+        color: #929b9a;
+        font-weight: 400 !important; /* MANDATORY Regular weight for elegance */
+        letter-spacing: -0.02em; /* Subtle refinement */
+    }
+
+    .typography-bodoni-body {
+        font-family: "Bodoni Moda", "Bodoni 72", serif !important;
+        color: #372813;
+        font-weight: 400 !important; /* MANDATORY Regular weight for readability */
+        line-height: 1.55; /* Elegant reading flow */
+    }
+
+    .typography-bodoni-emphasis {
+        font-family: "Bodoni Moda", "Bodoni 72", serif !important;
+        color: #929b9a;
+        font-style: italic; /* True Bodoni italics */
+        font-weight: 400 !important; /* MANDATORY Light and airy italic */
+        letter-spacing: 0.01em; /* Slight spacing for italic elegance */
+    }
+
+    /* Brand consistent button styles */
+    .hero-btn-primary {
+        background-color: #372813; /* Brand deep tone */
+        color: #faf8f5;
+        border: 2px solid #372813;
+        font-family:
+            "Bodoni Moda", "Bodoni 72", serif; /* Bodoni for consistency */
+        font-weight: 450; /* Slightly reduced weight for elegance */
+        font-size: 1.125rem; /* Reduced from xl (1.25rem) for better proportion */
+        padding: 0.75rem 2rem; /* Reduced padding for better scaling */
+        letter-spacing: 0.025em; /* Refined spacing */
+        box-shadow: 0 6px 25px rgba(55, 40, 19, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .hero-btn-primary:hover {
+        background-color: #2a1f0f; /* Darker shade on hover */
+        border-color: #2a1f0f;
+        box-shadow: 0 8px 30px rgba(55, 40, 19, 0.45);
+        transform: translateY(-2px) scale(1.02);
+    }
+
+    .hero-btn-secondary {
+        background: transparent;
+        color: #372813; /* Brand deep tone text */
+        border: 2px solid #372813; /* Brand deep tone border */
+        font-family:
+            "Bodoni Moda", "Bodoni 72", serif; /* Bodoni for consistency */
+        font-weight: 450; /* Slightly reduced weight for elegance */
+        font-size: 1.125rem; /* Reduced from xl (1.25rem) for better proportion */
+        padding: 0.75rem 2rem; /* Reduced padding for better scaling */
+        letter-spacing: 0.025em; /* Refined spacing */
+        transition: all 0.3s ease;
+    }
+
+    .hero-btn-secondary:hover {
+        background-color: #372813; /* Fill with brand deep tone */
+        color: #faf8f5;
+        border-color: #372813;
+        transform: translateY(-1px) scale(1.01);
+        box-shadow: 0 6px 20px rgba(55, 40, 19, 0.3);
+    }
+
+    /* Hero Logo Styling */
+    .hero-logo-shadow {
+        filter: drop-shadow(0 4px 12px rgba(55, 40, 19, 0.15));
+        transition: all 0.3s ease;
+    }
+
+    .hero-logo-shadow:hover {
+        filter: drop-shadow(0 6px 16px rgba(55, 40, 19, 0.25));
+        transform: scale(1.02);
+    }
+
+    /* Enhanced CTA Button Spacing */
+    .cta-mobile-spacing-improved {
+        gap: 0.5rem; /* Tighter gap for better visual grouping */
+        margin-top: 2rem;
+    }
+
+    /* Enhanced Mobile Button Sizing */
+    .hero-btn-mobile-enhanced {
+        padding: 1rem 2.5rem;
+        font-size: 1.125rem;
+        font-weight: 500;
+        min-width: 240px;
+        width: 100%;
+    }
+
+    /* Brand organic styling */
+    .card-organic-bg {
+        background: linear-gradient(
+            135deg,
+            #faf8f5 0%,
+            #f7f4f0 50%,
+            #faf8f5 100%
+        );
+    }
+
+    .backdrop-blur-organic {
+        backdrop-filter: blur(10px);
+    }
+
+    .rounded-organic {
+        border-radius: 24px;
+    }
+
+    .rounded-organic-sm {
+        border-radius: 16px;
+    }
+
+    .card-organic-hover {
+        transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+
+    .card-organic-hover:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 12px 40px rgba(146, 155, 154, 0.2);
+    }
+
+    .texture-organic {
+        background-image:
+            radial-gradient(
+                circle at 20% 50%,
+                rgba(146, 155, 154, 0.05) 0%,
+                transparent 50%
+            ),
+            radial-gradient(
+                circle at 80% 20%,
+                rgba(55, 40, 19, 0.03) 0%,
+                transparent 50%
+            ),
+            radial-gradient(
+                circle at 40% 80%,
+                rgba(146, 155, 154, 0.04) 0%,
+                transparent 50%
+            );
+    }
+
+    .process-label {
+        background: linear-gradient(
+            135deg,
+            var(--tw-gradient-from) 0%,
+            var(--tw-gradient-to) 100%
+        );
+        box-shadow: 0 2px 8px rgba(146, 155, 154, 0.15);
+    }
+
+    .icon-glow {
+        filter: drop-shadow(0 2px 4px rgba(146, 155, 154, 0.15));
     }
 
     .text-shadow-soft {
-        text-shadow: 0 2px 4px rgba(131, 106, 93, 0.1);
-    }
-
-    .bg-texture {
-        background-image: radial-gradient(
-            circle at 2px 2px,
-            rgba(180, 195, 188, 0.05) 1px,
-            transparent 0
-        );
-        background-size: 24px 24px;
-    }
-
-    .shadow-soft {
-        box-shadow:
-            0 4px 20px rgba(131, 106, 93, 0.08),
-            0 1px 3px rgba(131, 106, 93, 0.1);
-    }
-
-    .shadow-gentle {
-        box-shadow: 0 2px 12px rgba(131, 106, 93, 0.06);
-    }
-
-    .shadow-warm {
-        box-shadow:
-            0 8px 25px rgba(131, 106, 93, 0.12),
-            0 3px 6px rgba(131, 106, 93, 0.08);
-    }
-
-    /* Enhanced Typography Styles */
-    .text-elegant {
-        font-family: "Playfair Display", serif;
-        font-weight: 700;
-        letter-spacing: -0.025em;
-        line-height: 1.2;
-    }
-
-    .text-beautiful {
-        font-family: "Cormorant Garamond", serif;
-        font-weight: 600;
-        letter-spacing: -0.015em;
-        line-height: 1.3;
-    }
-
-    .text-dusty-rose-elegant {
-        color: #c78787;
-        font-weight: 600;
-        text-shadow: 0 1px 2px rgba(199, 135, 135, 0.2);
-    }
-
-    .text-black-bold {
-        color: #000000;
-        font-weight: 700;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    }
-
-    .heading-primary {
-        font-family: "Playfair Display", serif;
-        font-weight: 700;
-        color: #000000;
-        line-height: 1.1;
-        letter-spacing: -0.03em;
-    }
-
-    .heading-secondary {
-        font-family: "Cormorant Garamond", serif;
-        font-weight: 600;
-        color: #c78787;
-        line-height: 1.2;
-        letter-spacing: -0.02em;
-    }
-
-    .body-elegant {
-        font-family: "Source Serif Pro", serif;
-        font-weight: 400;
-        line-height: 1.7;
-        color: #836a5d;
-    }
-
-    .accent-dusty-rose {
-        color: #c78787;
-        font-weight: 600;
-    }
-
-    .bg-dusty-rose-gradient {
-        background: linear-gradient(135deg, #c78787 0%, #e5c1c1 100%);
-    }
-
-    .bg-elegant-cream {
-        background: linear-gradient(135deg, #f6f4f1 0%, #fdf2f2 100%);
-    }
-
-    .border-dusty-rose {
-        border-color: #c78787;
-    }
-
-    .shadow-dusty-rose {
-        box-shadow: 0 4px 20px rgba(199, 135, 135, 0.15);
+        text-shadow: 0 1px 2px rgba(55, 40, 19, 0.1);
     }
 
     .text-shadow-elegant {
-        text-shadow: 0 2px 4px rgba(199, 135, 135, 0.2);
+        text-shadow: 0 2px 4px rgba(55, 40, 19, 0.15);
+    }
+
+    /* Brand contrast improvements */
+    .btn-contrast-high {
+        color: #faf8f5;
+        font-weight: 500; /* Medium weight, not bold */
+    }
+
+    .contrast-high {
+        color: #372813;
+        font-weight: 450; /* Elegant weight */
+    }
+
+    /* Academy font tracking utilities */
+    .tracking-academy-wide {
+        letter-spacing: 0.05em; /* More refined wide spacing */
+    }
+
+    .tracking-academy-tight {
+        letter-spacing: -0.015em; /* Subtle negative spacing */
+    }
+
+    .tracking-academy-hero {
+        letter-spacing: -0.025em; /* Refined hero spacing */
+    }
+
+    .tracking-academy-subhead {
+        letter-spacing: -0.02em; /* Elegant subheading spacing */
+    }
+
+    .tracking-academy-normal {
+        letter-spacing: 0.01em; /* Standard refined spacing */
+    }
+
+    /* Additional brand animations */
+    .float-gentle {
+        animation: float-gentle 4s ease-in-out infinite;
+    }
+
+    .float-gentle-delayed {
+        animation: float-gentle-delayed 5s ease-in-out infinite 1s;
+    }
+
+    .pulse-soft {
+        animation: pulse-soft 3s ease-in-out infinite;
+    }
+
+    .pulse-soft-delayed {
+        animation: pulse-soft-delayed 3s ease-in-out infinite 1.5s;
+    }
+
+    /* Flowing path animation */
+    .flowing-path {
+        stroke-dasharray: 20;
+        animation: flow 8s linear infinite;
+    }
+
+    @keyframes flow {
+        0% {
+            stroke-dashoffset: 0;
+        }
+        100% {
+            stroke-dashoffset: 40;
+        }
+    }
+
+    /* Mobile fallback */
+    .mobile-content-visible {
+        opacity: 1;
+        transform: none;
+    }
+
+    .animation-fallback * {
+        animation: none !important;
+        transform: none !important;
+        transition: none !important;
+    }
+
+    /* Refined Process Section Utilities */
+    .process-card-refined {
+        background: linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(250, 248, 245, 0.8) 100%
+        );
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(146, 155, 154, 0.1);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.8),
+            0 4px 20px rgba(146, 155, 154, 0.08);
+        transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+
+    .process-card-refined:hover {
+        transform: translateY(-4px);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.9),
+            0 8px 30px rgba(146, 155, 154, 0.15);
+        border-color: rgba(146, 155, 154, 0.2);
+    }
+
+    /* Enhanced Icon Containers */
+    .process-icon-container {
+        background: linear-gradient(
+            135deg,
+            rgba(146, 155, 154, 0.1) 0%,
+            rgba(250, 248, 245, 0.3) 50%,
+            rgba(146, 155, 154, 0.05) 100%
+        );
+        box-shadow:
+            0 2px 8px rgba(146, 155, 154, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        transition: all 0.5s ease;
+    }
+
+    .process-icon-container:hover {
+        transform: scale(1.05);
+        box-shadow:
+            0 4px 16px rgba(146, 155, 154, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    /* Refined Number Badges */
+    .process-number-badge {
+        background: rgba(146, 155, 154, 0.15);
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(146, 155, 154, 0.2);
+        color: #372813;
+        font-weight: 450;
+        transition: all 0.3s ease;
+    }
+
+    /* Enhanced CTA Section */
+    .process-cta-container {
+        background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.9) 0%,
+            rgba(250, 248, 245, 0.8) 100%
+        );
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(146, 155, 154, 0.15);
+        box-shadow:
+            0 8px 32px rgba(146, 155, 154, 0.12),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    /* Mobile Process Dividers */
+    .process-mobile-divider {
+        background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(146, 155, 154, 0.3) 50%,
+            transparent 100%
+        );
+        height: 1px;
+        margin: 2rem auto;
+        width: 3rem;
+    }
+
+    /* Refined Text Shadows */
+    .text-shadow-refined {
+        text-shadow: 0 1px 3px rgba(55, 40, 19, 0.08);
+    }
+
+    /* Enhanced Gradient Overlays */
+    .gradient-overlay-refined {
+        background: linear-gradient(
+            135deg,
+            rgba(146, 155, 154, 0.05) 0%,
+            transparent 50%,
+            rgba(250, 248, 245, 0.1) 100%
+        );
+    }
+
+    /* Smooth Scroll Animations */
+    .scroll-fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+
+    .scroll-fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Process Section Mobile Optimizations */
+    /* Small Mobile Devices (320px - 480px) */
+    @media (max-width: 480px) {
+        /* Hero Section Typography for Small Mobile */
+        .mobile-heading-consistent .text-5xl.font-academy {
+            font-size: 3.5rem !important; /* Adjusted for very small screens */
+            line-height: 1.1 !important;
+            letter-spacing: -0.02em !important;
+            font-weight: 400 !important;
+            margin-bottom: -0.25rem !important; /* Even closer to match logo */
+            text-shadow: 0 2px 4px rgba(55, 40, 19, 0.1) !important;
+        }
+
+        .mobile-heading-consistent .text-3xl.font-academy.italic {
+            font-size: 1.25rem !important; /* Further reduced for tight screens */
+            line-height: 1.3 !important;
+            letter-spacing: -0.01em !important;
+            font-weight: 400 !important;
+            opacity: 0.72 !important; /* More subtle for better hierarchy */
+            margin-top: -0.125rem !important; /* Negative margin to overlap slightly like logo */
+            margin-bottom: 1.25rem !important; /* Reduced spacing to paragraph */
+        }
+
+        .mobile-content-consistent .text-xl.font-bodoni,
+        .mobile-content-consistent .text-2xl.font-bodoni {
+            font-size: 0.95rem !important;
+            line-height: 1.5 !important;
+            font-weight: 400 !important;
+            margin-top: 1.25rem !important; /* Reduced from subtitle */
+            margin-bottom: 1.5rem !important; /* Reduced to buttons */
+            max-width: 95% !important;
+        }
+
+        .hero-btn-primary,
+        .hero-btn-secondary {
+            font-size: 1.125rem !important;
+            font-weight: 500 !important;
+            padding: 1.125rem 2.25rem !important;
+            letter-spacing: 0.02em !important;
+            min-width: 280px !important;
+        }
+
+        .hero-btn-mobile-enhanced {
+            font-size: 1.125rem !important;
+            padding: 1.125rem 2.25rem !important;
+            min-width: 280px !important;
+        }
+
+        .mobile-padding {
+            padding: 1rem !important;
+        }
+    }
+
+    /* Standard Mobile Devices (481px - 768px) */
+    @media (min-width: 481px) and (max-width: 768px) {
+        .process-card-refined {
+            margin-bottom: 1.5rem;
+            padding: 2rem 1.5rem;
+        }
+
+        .process-icon-container {
+            width: 4rem;
+            height: 4rem;
+        }
+
+        .process-mobile-divider {
+            margin: 1.5rem auto;
+            width: 2rem;
+        }
+
+        /* Featured Desserts Typography Fixes for Mobile */
+        .font-academy {
+            font-family: "Academy Engraved LET", serif !important;
+            font-weight: 400 !important;
+        }
+
+        /* Ensure consistent typography in featured desserts section */
+        .text-5xl.font-academy,
+        .text-6xl.font-academy,
+        .text-7xl.font-academy {
+            font-family: "Academy Engraved LET", serif !important;
+            font-weight: 400 !important;
+            font-style: normal !important;
+        }
+
+        .text-3xl.font-academy,
+        .text-4xl.font-academy,
+        .text-5xl.font-academy {
+            font-family: "Academy Engraved LET", serif !important;
+            font-weight: 400 !important;
+        }
+
+        /* Ensure italic subheadings use Academy font */
+        .font-academy.italic {
+            font-family: "Academy Engraved LET", serif !important;
+            font-weight: 400 !important;
+            font-style: italic !important;
+        }
+
+        /* Hero Section Mobile Typography Hierarchy - Standard Mobile */
+        .mobile-heading-consistent .text-5xl.font-academy {
+            font-size: 4.25rem !important; /* Optimal for standard mobile */
+            line-height: 1.05 !important;
+            letter-spacing: -0.025em !important;
+            font-weight: 400 !important;
+            margin-bottom: -0.125rem !important; /* Even closer spacing to match logo */
+            text-shadow: 0 2px 4px rgba(55, 40, 19, 0.1) !important;
+        }
+
+        .mobile-heading-consistent .text-3xl.font-academy.italic {
+            font-size: 1.5rem !important; /* Slightly reduced for better hierarchy */
+            line-height: 1.25 !important;
+            letter-spacing: -0.015em !important;
+            font-weight: 400 !important;
+            opacity: 0.75 !important; /* Further reduced opacity to be more supportive */
+            margin-top: -0.5rem !important; /* More negative margin for tighter spacing like logo */
+            margin-bottom: 1.5rem !important; /* Reduced spacing to paragraph */
+        }
+
+        .mobile-content-consistent .text-xl.font-bodoni,
+        .mobile-content-consistent .text-2xl.font-bodoni {
+            font-size: 1.075rem !important;
+            line-height: 1.48 !important;
+            font-weight: 400 !important;
+            margin-top: 1.5rem !important; /* Reduced from subtitle */
+            margin-bottom: 1.75rem !important; /* Reduced to buttons for better grouping */
+            max-width: 92% !important;
+        }
+
+        .hero-btn-primary,
+        .hero-btn-secondary {
+            font-size: 1.25rem !important;
+            font-weight: 500 !important;
+            padding: 1.125rem 2.5rem !important;
+            letter-spacing: 0.02em !important;
+            min-width: 320px !important;
+        }
+
+        .hero-btn-mobile-enhanced {
+            font-size: 1.25rem !important;
+            padding: 1.125rem 2.5rem !important;
+            min-width: 320px !important;
+        }
+    }
+
+    /* All Mobile Devices - Common Styles */
+    @media (max-width: 768px) {
+        /* Enhanced spacing for better visual flow */
+        .cta-mobile-spacing {
+            margin-top: 1.5rem !important; /* Reduced to bring buttons closer to content */
+            gap: 0.75rem !important; /* Slightly tighter button grouping */
+        }
+
+        .cta-mobile-spacing-improved {
+            margin-top: 1.25rem !important; /* Even closer to content */
+            gap: 0.625rem !important; /* Tighter button grouping */
+        }
+
+        /* Improved mobile hero container spacing */
+        .mobile-heading-consistent {
+            padding-top: 2rem !important;
+            margin-bottom: 1.5rem !important;
+        }
+
+        /* Visual anchor refinements for mobile */
+        .flow-anchor-pulse {
+            margin-top: 1.25rem !important; /* Reduced for better flow */
+            margin-bottom: 0.75rem !important; /* Reduced spacing */
+        }
+
+        /* Enhanced text contrast on mobile */
+        .text-contrast-high {
+            color: #372813 !important;
+            font-weight: 420 !important;
+        }
+
+        /* Mobile hero section padding optimization */
+        .mobile-section-consistent {
+            padding-top: 6rem !important;
+            padding-bottom: 2rem !important;
+        }
+
+        /* Refined mobile padding for hero content */
+        .mobile-padding {
+            padding: 1.5rem 1.25rem !important;
+        }
+    }
+
+    /* Desktop Optimizations for Hero Section */
+    @media (min-width: 769px) {
+        /* Desktop button refinements - more elegant scaling */
+        .hero-btn-primary,
+        .hero-btn-secondary {
+            font-size: 1rem !important; /* Reduced from 1.125rem for better proportion */
+            font-weight: 450 !important;
+            padding: 0.875rem 2.25rem !important; /* More proportional padding */
+            letter-spacing: 0.02em !important;
+        }
+
+        /* Desktop subheading refinements */
+        .font-academy.text-4xl,
+        .font-academy.text-5xl.italic {
+            font-weight: 380 !important; /* Lighter weight for supportive role */
+            opacity: 0.78 !important; /* Subtle de-emphasis */
+        }
+
+        /* Desktop paragraph scaling */
+        .font-bodoni.text-2xl,
+        .font-bodoni.text-3xl {
+            font-size: 1.375rem !important; /* Scaled down from 1.5rem/1.875rem */
+            line-height: 1.5 !important;
+            font-weight: 420 !important; /* Slightly refined weight */
+        }
+
+        /* Desktop CTA spacing optimization */
+        .cta-mobile-spacing {
+            margin-top: 2.5rem !important;
+            gap: 0.75rem !important;
+        }
+
+        .cta-mobile-spacing-improved {
+            margin-top: 2.25rem !important;
+            gap: 0.5rem !important; /* Closer buttons on desktop */
+        }
+
+        .hero-btn-mobile-enhanced {
+            font-size: 1.125rem !important;
+            padding: 1rem 2.5rem !important;
+            min-width: auto !important;
+            width: auto !important;
+        }
+    }
+
+    /* Large Desktop Refinements */
+    @media (min-width: 1024px) {
+        .hero-btn-primary,
+        .hero-btn-secondary {
+            font-size: 1.125rem !important; /* Slightly larger for large screens */
+            padding: 1rem 2.5rem !important;
+        }
+
+        .hero-btn-mobile-enhanced {
+            font-size: 1.125rem !important;
+            padding: 1rem 2.5rem !important;
+        }
+
+        .font-bodoni.text-3xl {
+            font-size: 1.5rem !important; /* Restore some size on large screens */
+        }
+    }
+
+    /* Featured Desserts Typography Consistency */
+    .featured-desserts .font-academy {
+        font-family: "Academy Engraved LET", serif !important;
+        font-weight: 400 !important;
+    }
+
+    /* Ensure heading and subheading use same font family and weight */
+    .featured-desserts .text-5xl.font-academy,
+    .featured-desserts .text-6xl.font-academy,
+    .featured-desserts .text-7xl.font-academy,
+    .featured-desserts .text-3xl.font-academy,
+    .featured-desserts .text-4xl.font-academy {
+        font-family: "Academy Engraved LET", serif !important;
+        font-weight: 400 !important;
+    }
+
+    /* Specific mobile typography fixes */
+    @media (max-width: 768px) {
+        .featured-desserts .font-academy {
+            font-family: "Academy Engraved LET", serif !important;
+            font-weight: 400 !important;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .featured-desserts .text-5xl.font-academy {
+            font-family: "Academy Engraved LET", serif !important;
+            font-weight: 400 !important;
+            font-style: normal !important;
+        }
+
+        .featured-desserts .text-3xl.font-academy.italic {
+            font-family: "Academy Engraved LET", serif !important;
+            font-weight: 400 !important;
+            font-style: italic !important;
+        }
+    }
+
+    /* Enhanced Button Styling for Process Section */
+    .process-btn-primary {
+        background: linear-gradient(135deg, #929b9a 0%, #7a8382 100%);
+        color: #faf8f5;
+        border: none;
+        box-shadow:
+            0 4px 20px rgba(146, 155, 154, 0.25),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+
+    .process-btn-primary:hover {
+        background-color: #2a1f0f; /* Darker shade on hover */
+        border-color: #2a1f0f;
+        box-shadow: 0 8px 25px rgba(55, 40, 19, 0.4);
+        transform: translateY(-1px) scale(1.02);
     }
 }

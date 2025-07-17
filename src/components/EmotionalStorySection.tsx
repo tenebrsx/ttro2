@@ -67,13 +67,13 @@ const EmotionalStorySection = () => {
           {/* Main title */}
           {showFallback || isMobile ? (
             <div className="mb-8 mobile-content-visible">
-              <h2 className="text-5xl sm:text-6xl md:text-7xl font-playfair mb-8 font-bold leading-tight">
-                <span className="block text-black-bold text-shadow-elegant">
+              <h2 className="text-5xl sm:text-6xl md:text-7xl font-academy mb-8 font-bold leading-tight">
+                <span className="block text-cocoa-500 text-shadow-elegant">
                   Cada Dulce Nace
                 </span>
-                <span className="block text-dusty-rose-elegant italic mt-2 relative">
+                <span className="block text-sage-500 italic font-academy mt-2 relative">
                   de una Emoción
-                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-dusty-rose-300 to-warm-blush-300 rounded-full"></div>
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-sage-300 to-sage-400 rounded-full"></div>
                 </span>
               </h2>
             </div>
@@ -85,13 +85,13 @@ const EmotionalStorySection = () => {
                 transition={{ duration: 0.4, delay: 0.2 }}
                 className="mb-8"
               >
-                <h2 className="text-5xl sm:text-6xl md:text-7xl font-playfair mb-8 font-bold leading-tight">
-                  <span className="block text-black-bold text-shadow-elegant">
+                <h2 className="text-5xl sm:text-6xl md:text-7xl font-academy mb-8 font-bold leading-tight">
+                  <span className="block text-cocoa-500 text-shadow-elegant">
                     Cada Dulce Nace
                   </span>
-                  <span className="block text-dusty-rose-elegant italic mt-2 relative">
+                  <span className="block text-sage-500 italic font-academy mt-2 relative">
                     de una Emoción
-                    <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-dusty-rose-300 to-warm-blush-300 rounded-full"></div>
+                    <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-sage-300 to-sage-400 rounded-full"></div>
                   </span>
                 </h2>
               </motion.div>
@@ -101,12 +101,12 @@ const EmotionalStorySection = () => {
           {/* Subtitle */}
           {showFallback || isMobile ? (
             <div className="mb-12 mobile-content-visible">
-              <p className="text-lg sm:text-xl text-mocha/80 font-source-serif font-light leading-relaxed max-w-2xl mx-auto">
-                <span className="text-dusty-rose font-semibold">
+              <p className="text-lg sm:text-xl text-cocoa-500 font-bodoni font-normal leading-body-elegant max-w-2xl mx-auto">
+                <span className="text-sage-600 font-normal italic tracking-bodoni-elegant">
                   Postres artesanales
                 </span>{" "}
                 hechos a mano con{" "}
-                <span className="text-dusty-rose font-semibold">
+                <span className="text-sage-600 font-normal italic tracking-bodoni-elegant">
                   ingredientes reales
                 </span>
                 .
@@ -120,12 +120,12 @@ const EmotionalStorySection = () => {
                 transition={{ duration: 0.4, delay: 0.4 }}
                 className="mb-12"
               >
-                <p className="text-lg sm:text-xl text-mocha/80 font-source-serif font-light leading-relaxed max-w-2xl mx-auto">
-                  <span className="text-dusty-rose font-semibold">
+                <p className="text-lg sm:text-xl text-cocoa-500 font-bodoni font-normal leading-body-elegant max-w-2xl mx-auto">
+                  <span className="text-sage-600 font-normal italic tracking-bodoni-elegant">
                     Postres artesanales
                   </span>{" "}
                   hechos a mano con{" "}
-                  <span className="text-dusty-rose font-semibold">
+                  <span className="text-sage-600 font-normal italic tracking-bodoni-elegant">
                     ingredientes reales
                   </span>
                   .

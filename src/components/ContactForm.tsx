@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Send, Calendar, Users, Heart, MessageCircle } from "lucide-react";
+import {
+  MessageWings,
+  HeartCalendar,
+  HeartPeople,
+  HandHeart,
+  ChatBubble,
+} from "./icons/ArtisanalIcons";
 import Button from "./Button";
 import { sendEmail } from "../services/emailService";
 
@@ -108,9 +114,9 @@ const ContactForm: React.FC = () => {
     return (
       <div className="text-center py-12">
         <div className="w-16 h-16 bg-sage/20 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Heart className="w-8 h-8 text-sage" />
+          <HandHeart className="text-sage" size={32} />
         </div>
-        <h3 className="text-2xl font-playfair text-black-bold text-shadow-elegant mb-4">
+        <h3 className="text-2xl font-academy text-black-bold text-shadow-elegant mb-4">
           ¡Gracias por tu mensaje!
         </h3>
         <p className="text-mocha/70 font-karla">
@@ -124,7 +130,7 @@ const ContactForm: React.FC = () => {
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-mocha mb-2 font-karla">
+          <label className="block text-sm font-semibold text-cocoa-600 mb-2 font-academy tracking-wide">
             Nombre completo *
           </label>
           <input
@@ -133,13 +139,13 @@ const ContactForm: React.FC = () => {
             required
             value={formData.name}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-lg border border-sage/20 focus:border-sage focus:ring-2 focus:ring-sage/20 transition-colors font-karla"
+            className="w-full px-4 py-3 rounded-lg input-high-contrast font-bodoni text-base"
             placeholder="Tu nombre"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-mocha mb-2 font-karla">
+          <label className="block text-sm font-semibold text-cocoa-600 mb-2 font-academy tracking-wide">
             Email *
           </label>
           <input
@@ -148,7 +154,7 @@ const ContactForm: React.FC = () => {
             required
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-lg border border-sage/20 focus:border-sage focus:ring-2 focus:ring-sage/20 transition-colors font-karla"
+            className="w-full px-4 py-3 rounded-lg input-high-contrast font-bodoni text-base"
             placeholder="tu@email.com"
           />
         </div>
@@ -156,7 +162,7 @@ const ContactForm: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-mocha mb-2 font-karla">
+          <label className="block text-sm font-semibold text-cocoa-600 mb-2 font-academy tracking-wide">
             Teléfono/WhatsApp
           </label>
           <input
@@ -164,13 +170,13 @@ const ContactForm: React.FC = () => {
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-lg border border-sage/20 focus:border-sage focus:ring-2 focus:ring-sage/20 transition-colors font-karla"
+            className="w-full px-4 py-3 rounded-lg input-high-contrast font-bodoni text-base"
             placeholder="(809) 658-1245"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-mocha mb-2 font-karla">
+          <label className="block text-sm font-semibold text-cocoa-600 mb-2 font-academy tracking-wide">
             Tipo de evento *
           </label>
           <select
@@ -178,7 +184,7 @@ const ContactForm: React.FC = () => {
             required
             value={formData.eventType}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-lg border border-sage/20 focus:border-sage focus:ring-2 focus:ring-sage/20 transition-colors font-karla"
+            className="w-full px-4 py-3 rounded-lg input-high-contrast font-bodoni text-base"
           >
             <option value="">Selecciona un tipo</option>
             <option value="birthday">Cumpleaños</option>
@@ -193,8 +199,8 @@ const ContactForm: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-mocha mb-2 font-karla">
-            <Calendar className="inline w-4 h-4 mr-1" />
+          <label className="block text-sm font-semibold text-cocoa-600 mb-2 font-academy tracking-wide">
+            <HeartCalendar className="inline mr-1 text-cocoa-600" size={16} />
             Fecha del evento
           </label>
           <input
@@ -202,13 +208,13 @@ const ContactForm: React.FC = () => {
             name="eventDate"
             value={formData.eventDate}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-lg border border-sage/20 focus:border-sage focus:ring-2 focus:ring-sage/20 transition-colors font-karla"
+            className="w-full px-4 py-3 rounded-lg input-high-contrast font-bodoni text-base"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-mocha mb-2 font-karla">
-            <Users className="inline w-4 h-4 mr-1" />
+          <label className="block text-sm font-semibold text-cocoa-600 mb-2 font-academy tracking-wide">
+            <HeartPeople className="inline mr-1 text-cocoa-600" size={16} />
             Número de invitados
           </label>
           <input
@@ -216,21 +222,21 @@ const ContactForm: React.FC = () => {
             name="guests"
             value={formData.guests}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-lg border border-sage/20 focus:border-sage focus:ring-2 focus:ring-sage/20 transition-colors font-karla"
+            className="w-full px-4 py-3 rounded-lg input-high-contrast font-bodoni text-base"
             placeholder="Ej: 20"
           />
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-mocha mb-2 font-karla">
+        <label className="block text-sm font-semibold text-cocoa-600 mb-2 font-academy tracking-wide">
           Presupuesto estimado
         </label>
         <select
           name="budget"
           value={formData.budget}
           onChange={handleChange}
-          className="w-full px-4 py-3 rounded-lg border border-sage/20 focus:border-sage focus:ring-2 focus:ring-sage/20 transition-colors font-karla"
+          className="w-full px-4 py-3 rounded-lg input-high-contrast font-bodoni text-base"
         >
           <option value="">Selecciona un rango</option>
           <option value="under-50">Menos de $50</option>
@@ -242,7 +248,7 @@ const ContactForm: React.FC = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-mocha mb-2 font-karla">
+        <label className="block text-sm font-semibold text-cocoa-600 mb-2 font-academy tracking-wide">
           Alergias o restricciones dietéticas
         </label>
         <input
@@ -250,14 +256,14 @@ const ContactForm: React.FC = () => {
           name="allergies"
           value={formData.allergies}
           onChange={handleChange}
-          className="w-full px-4 py-3 rounded-lg border border-sage/20 focus:border-sage focus:ring-2 focus:ring-sage/20 transition-colors font-karla"
+          className="w-full px-4 py-3 rounded-lg input-high-contrast font-bodoni text-base"
           placeholder="Ej: Sin gluten, vegano, sin nueces"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-mocha mb-2 font-karla">
-          <MessageCircle className="inline w-4 h-4 mr-1" />
+        <label className="block text-sm font-semibold text-cocoa-600 mb-2 font-academy tracking-wide">
+          <ChatBubble className="inline mr-1 text-cocoa-600" size={16} />
           Cuéntame sobre tu visión *
         </label>
         <textarea
@@ -266,7 +272,7 @@ const ContactForm: React.FC = () => {
           value={formData.message}
           onChange={handleChange}
           rows={4}
-          className="w-full px-4 py-3 rounded-lg border border-sage/20 focus:border-sage focus:ring-2 focus:ring-sage/20 transition-colors font-karla resize-none"
+          className="w-full px-4 py-3 rounded-lg input-high-contrast font-bodoni text-base resize-none"
           placeholder="Describe tu evento soñado, sabores que te gustan, estilo visual, o cualquier detalle especial que tengas en mente..."
         />
       </div>
@@ -275,14 +281,14 @@ const ContactForm: React.FC = () => {
         <Button
           type="submit"
           loading={loading}
-          icon={Send}
+          icon={MessageWings}
           iconPosition="right"
           size="lg"
           className="px-12"
         >
           {loading ? "Enviando..." : "Enviar Consulta"}
         </Button>
-        <p className="text-sm text-mocha/60 mt-4 font-karla">
+        <p className="text-sm text-cocoa-500/70 mt-4 font-bodoni font-medium">
           Te responderé en 24 horas para conversar sobre tu dulce celebración
         </p>
       </div>

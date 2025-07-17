@@ -1,136 +1,140 @@
 import { Link } from "react-router-dom";
-import { Mail, MessageCircle, MapPin, Instagram } from "lucide-react";
+import { Instagram } from "lucide-react";
+import { HeartMail, ChatBubble, HeartLocation } from "./icons/ArtisanalIcons";
 import Logo from "./Logo";
+
+// Constants
+const CONTACT_INFO = {
+  email: "hello@cucinanostrard.com",
+  phone: "(809) 658-1245",
+  location: "Santo Domingo, DR",
+} as const;
+
+const SOCIAL_LINKS = {
+  instagram: "https://www.instagram.com/cucinanostrard/",
+  whatsapp:
+    "https://api.whatsapp.com/send/?phone=18096581245&text&type=phone_number&app_absent=0",
+} as const;
+
+const NAVIGATION_ITEMS = [
+  { path: "/", label: "Inicio" },
+  { path: "/about", label: "Acerca de" },
+  { path: "/menu", label: "Menú" },
+  { path: "/contact", label: "Crea tu pedido personalizado" },
+] as const;
+
+// Utility styles
+const linkStyles =
+  "text-cream/80 hover:text-sage transition-colors duration-200 font-bodoni font-normal tracking-button-refined";
+const sectionHeaderStyles =
+  "text-lg font-academy mb-4 text-sage font-normal text-shadow-elegant leading-elegant tracking-academy-normal";
+
+// Sub-components
+const CompanyInfo = () => (
+  <div className="space-y-4 md:col-span-2">
+    <div className="flex items-center space-x-2">
+      <Logo size="md" className="filter brightness-0 invert" />
+    </div>
+    <p className="text-cream/80 leading-body-elegant font-bodoni font-normal max-w-md text-shadow-elegant">
+      Creando postres artesanales con amor, ingredientes de calidad y la
+      tradición de la repostería casera.
+    </p>
+    <div className="flex items-center space-x-4">
+      <a
+        href={SOCIAL_LINKS.instagram}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-cream/80 hover:text-sage transition-colors duration-200"
+        aria-label="Visit our Instagram page"
+      >
+        <Instagram className="h-5 w-5" />
+      </a>
+      <span className="text-cream/60 font-bodoni text-sm font-normal">
+        @cucina
+      </span>
+    </div>
+  </div>
+);
+
+const NavigationSection = () => (
+  <div>
+    <h4 className={sectionHeaderStyles}>Navegación</h4>
+    <ul className="space-y-2">
+      {NAVIGATION_ITEMS.map((item) => (
+        <li key={item.path}>
+          <Link to={item.path} className={linkStyles}>
+            {item.label}
+          </Link>
+        </li>
+      ))}
+      <li>
+        <a
+          href={SOCIAL_LINKS.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${linkStyles} flex items-center space-x-2`}
+        >
+          <Instagram className="h-4 w-4" />
+          <span>Instagram</span>
+        </a>
+      </li>
+      <li>
+        <a
+          href={SOCIAL_LINKS.whatsapp}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${linkStyles} flex items-center space-x-2`}
+        >
+          <ChatBubble className="text-current" size={20} />
+          <span>WhatsApp</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+);
+
+const ContactInfoItem = ({
+  icon: Icon,
+  text,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  text: string;
+}) => (
+  <div className="flex items-center space-x-3">
+    <Icon className="text-sage" size={16} />
+    <span className="text-cream/80 font-bodoni text-sm">{text}</span>
+  </div>
+);
+
+const ContactSection = () => (
+  <div>
+    <h4 className={sectionHeaderStyles}>Contacto</h4>
+    <div className="space-y-2">
+      <ContactInfoItem icon={HeartMail} text={CONTACT_INFO.email} />
+      <ContactInfoItem icon={ChatBubble} text={CONTACT_INFO.phone} />
+      <ContactInfoItem icon={HeartLocation} text={CONTACT_INFO.location} />
+    </div>
+  </div>
+);
+
+const Copyright = () => (
+  <div className="border-t border-cream/20 mt-8 pt-8 text-center">
+    <p className="text-cream/60 font-bodoni text-shadow-elegant">
+      © 2024 Cucina. Postres artesanales hechos con amor.
+    </p>
+  </div>
+);
 
 const Footer = () => {
   return (
-    <footer className="bg-mocha text-cream py-12">
+    <footer className="bg-cocoa text-cream py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Logo & Description */}
-          <div className="space-y-4 md:col-span-2">
-            <div className="flex items-center space-x-2">
-              <Logo size="md" className="filter brightness-0 invert" />
-            </div>
-            <p className="text-cream/80 leading-relaxed font-source-serif font-light max-w-md text-shadow-elegant">
-              Creando experiencias dulces con amor, ingredientes de temporada y
-              atención personal a cada detalle.
-            </p>
-            <div className="flex items-center space-x-4">
-              <a
-                href="https://www.instagram.com/cucinanostrard/?hl=en"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-cream/80 hover:text-dusty-rose transition-colors duration-200"
-              >
-                <Instagram className="h-5 w-5" />
-              </a>
-              <span className="text-cream/60 font-karla text-sm">
-                @cucinanostrard
-              </span>
-            </div>
-          </div>
-
-          {/* Navigation */}
-          <div>
-            <h4 className="text-lg font-playfair mb-4">
-              <span className="text-dusty-rose font-bold text-shadow-elegant">
-                Navegación
-              </span>
-            </h4>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  to="/"
-                  className="text-cream/80 hover:text-dusty-rose transition-colors duration-200 font-karla"
-                >
-                  Inicio
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/about"
-                  className="text-cream/80 hover:text-dusty-rose transition-colors duration-200 font-karla"
-                >
-                  Acerca de
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/menu"
-                  className="text-cream/80 hover:text-dusty-rose transition-colors duration-200 font-karla"
-                >
-                  Menú
-                </Link>
-              </li>
-              <li>
-                <a
-                  href="https://www.instagram.com/cucinanostrard/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-cream/80 hover:text-dusty-rose transition-colors duration-200 font-karla flex items-center space-x-2"
-                >
-                  <Instagram className="h-4 w-4" />
-                  <span>Instagram</span>
-                </a>
-              </li>
-              <li>
-                <Link
-                  to="/contact"
-                  className="text-cream/80 hover:text-dusty-rose transition-colors duration-200 font-karla"
-                >
-                  Crea tu pedido personalizado
-                </Link>
-              </li>
-              <li>
-                <a
-                  href="https://api.whatsapp.com/send/?phone=18096581245&text&type=phone_number&app_absent=0"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-cream/80 hover:text-dusty-rose transition-colors duration-200 font-karla flex items-center space-x-2"
-                >
-                  <MessageCircle className="h-4 w-4" />
-                  <span>WhatsApp</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact Info */}
-          <div>
-            <h4 className="text-lg font-playfair mb-4">
-              <span className="text-dusty-rose font-bold text-shadow-elegant">
-                Contacto
-              </span>
-            </h4>
-            <div className="space-y-2">
-              <div className="flex items-center space-x-3">
-                <Mail className="h-4 w-4 text-dusty-rose" />
-                <span className="text-cream/80 font-karla text-sm">
-                  hello@cucinanostrard.com
-                </span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <MessageCircle className="h-4 w-4 text-dusty-rose" />
-                <span className="text-cream/80 font-karla text-sm">
-                  (809) 658-1245
-                </span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <MapPin className="h-4 w-4 text-dusty-rose" />
-                <span className="text-cream/80 font-karla text-sm">
-                  Santo Domingo, DR
-                </span>
-              </div>
-            </div>
-          </div>
+          <CompanyInfo />
+          <NavigationSection />
+          <ContactSection />
         </div>
-
-        <div className="border-t border-cream/20 mt-8 pt-8 text-center">
-          <p className="text-cream/60 font-source-serif text-shadow-elegant">
-            © 2024 Cucinanostrard. Elaborado en Santo Domingo con alma.
-          </p>
-        </div>
+        <Copyright />
       </div>
     </footer>
   );

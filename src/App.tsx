@@ -6,10 +6,17 @@ import {
 } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { useEffect } from "react";
+
+// Components
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
-import FloatingActionButton from "./components/ui/FloatingActionButton";
+import ErrorBoundary from "./components/ErrorBoundary";
 import ScrollManager from "./components/ScrollManager";
+
+// UI Components
+import FloatingActionButton from "./components/ui/FloatingActionButton";
+
+// Pages
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Menu from "./pages/Menu";
@@ -19,31 +26,33 @@ import Admin from "./pages/AdminNew";
 import Product from "./pages/Product";
 import ImageCompressionTest from "./pages/ImageCompressionTest";
 import MobileAnimationTest from "./pages/MobileAnimationTest";
-import ErrorBoundary from "./components/ErrorBoundary";
+
+// Contexts and Utils
 import { FirebaseProductsProvider } from "./contexts/FirebaseProductsContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import { initializeMobileOptimizations } from "./utils/mobileDetection";
 
 function AppContent() {
   const location = useLocation();
+  const isAdminRoute = location.pathname === "/admin";
 
-  // Initialize mobile optimizations
   useEffect(() => {
-    const initMobile = async () => {
+    const setupMobileOptimizations = async () => {
       try {
         await initializeMobileOptimizations();
-        console.log("🎯 Mobile optimizations initialized");
+        console.log("🎯 Mobile optimizations initialized successfully");
       } catch (error) {
-        console.warn("⚠️ Mobile optimization initialization failed:", error);
+        console.warn("⚠️ Failed to initialize mobile optimizations:", error);
       }
     };
 
-    initMobile();
+    setupMobileOptimizations();
   }, []);
-  const isAdminPage = location.pathname === "/admin";
 
   return (
     <div className="min-h-screen">
-      {!isAdminPage && <Navigation />}
+      {!isAdminRoute && <Navigation />}
+
       <main>
         <ErrorBoundary>
           <Routes>
@@ -62,22 +71,29 @@ function AppContent() {
           </Routes>
         </ErrorBoundary>
       </main>
-      {!isAdminPage && <Footer />}
-      {!isAdminPage && <FloatingActionButton />}
+
+      {!isAdminRoute && (
+        <>
+          <Footer />
+          <FloatingActionButton />
+        </>
+      )}
     </div>
   );
 }
 
 function App() {
   return (
-    <FirebaseProductsProvider>
-      <HelmetProvider>
-        <Router>
-          <ScrollManager />
-          <AppContent />
-        </Router>
-      </HelmetProvider>
-    </FirebaseProductsProvider>
+    <AuthProvider>
+      <FirebaseProductsProvider>
+        <HelmetProvider>
+          <Router>
+            <ScrollManager />
+            <AppContent />
+          </Router>
+        </HelmetProvider>
+      </FirebaseProductsProvider>
+    </AuthProvider>
   );
 }
 
