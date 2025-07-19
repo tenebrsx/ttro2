@@ -5,7 +5,9 @@ interface OptimizedImageProps {
   src: string;
   alt: string;
   className?: string;
-  aspectRatio?: "square" | "portrait" | "landscape";
+  aspectRatio?: "square" | "portrait" | "landscape" | "auto";
+  objectFit?: "cover" | "contain" | "fill" | "scale-down" | "none";
+  maintainAspectRatio?: boolean;
   priority?: boolean;
   onLoad?: () => void;
   onError?: (e: React.SyntheticEvent<HTMLImageElement, Event>) => void;
@@ -17,7 +19,9 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   src,
   alt,
   className = "",
-  aspectRatio = "landscape",
+  aspectRatio = "auto",
+  objectFit = "contain",
+  maintainAspectRatio = true,
   priority = false,
   onLoad,
   onError,
@@ -33,6 +37,15 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
     square: "aspect-square",
     portrait: "aspect-[3/4]",
     landscape: "aspect-[4/3]",
+    auto: "",
+  };
+
+  const objectFitClasses = {
+    cover: "object-cover",
+    contain: "object-contain",
+    fill: "object-fill",
+    "scale-down": "object-scale-down",
+    none: "object-none",
   };
 
   const handleLoad = () => {
@@ -72,7 +85,11 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
   return (
     <div
-      className={`relative overflow-hidden ${aspectRatioClasses[aspectRatio]} ${className}`}
+      className={`relative overflow-hidden ${
+        maintainAspectRatio && aspectRatio !== "auto"
+          ? aspectRatioClasses[aspectRatio]
+          : ""
+      } ${className}`}
     >
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-dusty-rose/10">
@@ -106,7 +123,9 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
           onLoad={handleLoad}
           onError={handleError}
           loading={priority ? "eager" : "lazy"}
-          className={`w-full h-full object-cover transition-opacity duration-300 ${
+          className={`w-full ${
+            aspectRatio === "auto" && !maintainAspectRatio ? "h-auto" : "h-full"
+          } ${objectFitClasses[objectFit]} transition-opacity duration-300 ${
             isLoading ? "opacity-0" : "opacity-100"
           }`}
         />

@@ -184,8 +184,8 @@ export class ProductService {
       console.log("🔥 FIREBASE: Creating product with data:", productData);
 
       // Validate required fields
-      if (!productData.name || !productData.description || !productData.price) {
-        throw new Error("Missing required fields: name, description, or price");
+      if (!productData.name || !productData.price) {
+        throw new Error("Missing required fields: name or price");
       }
 
       const firestoreData = convertProductToFirestore(productData);

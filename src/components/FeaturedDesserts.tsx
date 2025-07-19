@@ -1,21 +1,17 @@
 import { Link } from "react-router-dom";
 import { MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
-import { formatPriceFrom } from "../utils/currency";
+import { formatPriceFrom, formatPriceWithUnit } from "../utils/currency";
 import { useFeaturedProducts } from "../contexts/FirebaseProductsContext";
 import {
   FadeReveal,
   StaggerReveal,
   StaggerChild,
   TextReveal,
-  SophisticatedButton,
   CinematicReveal,
 } from "./animations/SophisticatedAnimations";
-import {
-  SECTION_DELAYS,
-  DURATIONS,
-  STAGGER_DELAYS,
-} from "../config/animationTiming";
+
+import EnhancedDessertCard from "./EnhancedDessertCard";
 
 const FeaturedDesserts = () => {
   const { featuredProducts, loading, error } = useFeaturedProducts();
@@ -29,7 +25,10 @@ const FeaturedDesserts = () => {
       product.images[0] ||
       "https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
     price: product.price,
-    priceDisplay: formatPriceFrom(product.price),
+    priceDisplay: formatPriceWithUnit(
+      product.price,
+      (product as any).priceUnit,
+    ),
     story: product.shortDescription,
     rating: product.rating,
     preparationTime: product.preparationTime,
@@ -49,16 +48,12 @@ const FeaturedDesserts = () => {
       <section className="featured-desserts py-24 bg-gradient-to-br from-cream-400 via-cream-500 to-cream-400 relative overflow-hidden scroll-optimized">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
           <div className="text-center">
-            <CinematicReveal
-              direction="center"
-              delay={SECTION_DELAYS.featuredDesserts.base}
-              duration={DURATIONS.elegant}
-            >
+            <CinematicReveal direction="center" delay={0.2} duration={1.2}>
               <div className="h-8 bg-sage-200/50 rounded w-64 mx-auto mb-4"></div>
               <div className="h-4 bg-sage-100/50 rounded w-96 mx-auto mb-8"></div>
             </CinematicReveal>
             <StaggerReveal
-              staggerDelay={STAGGER_DELAYS.normal}
+              staggerDelay={0.2}
               className="grid grid-cols-1 lg:grid-cols-3 gap-10"
             >
               {[1, 2, 3, 4].map((i) => (
@@ -82,11 +77,7 @@ const FeaturedDesserts = () => {
       <section className="featured-desserts py-24 bg-gradient-to-br from-cream-400 via-cream-500 to-cream-400 relative overflow-hidden scroll-optimized">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
           <div className="text-center">
-            <FadeReveal
-              delay={SECTION_DELAYS.featuredDesserts.divider}
-              duration={DURATIONS.elegant}
-              direction="none"
-            >
+            <FadeReveal delay={0.4} duration={1.2} direction="none">
               <div className="flex items-center justify-center mb-8">
                 <div className="w-20 h-px bg-gradient-to-r from-transparent via-sage-400 to-transparent"></div>
                 <span className="mx-6 text-base font-academy text-sage-600 uppercase tracking-widest font-medium">
@@ -98,16 +89,16 @@ const FeaturedDesserts = () => {
 
             <div className="mb-8">
               <TextReveal
-                delay={SECTION_DELAYS.featuredDesserts.title}
-                staggerDelay={STAGGER_DELAYS.normal}
+                delay={0.3}
+                staggerDelay={0.2}
                 className="text-5xl sm:text-6xl md:text-7xl font-academy leading-elegant block text-cocoa-500 text-shadow-elegant tracking-academy-hero"
               >
                 Deliciosos postres
               </TextReveal>
               <div className="mt-2 relative">
                 <TextReveal
-                  delay={SECTION_DELAYS.featuredDesserts.subtitle}
-                  staggerDelay={STAGGER_DELAYS.normal}
+                  delay={0.5}
+                  staggerDelay={0.2}
                   className="text-3xl sm:text-4xl md:text-5xl font-academy leading-elegant block text-sage-500 italic tracking-academy-subhead"
                 >
                   hechos con amor
@@ -115,12 +106,7 @@ const FeaturedDesserts = () => {
               </div>
             </div>
 
-            <FadeReveal
-              delay={SECTION_DELAYS.featuredDesserts.content}
-              duration={DURATIONS.medium}
-              direction="up"
-              distance={20}
-            >
+            <FadeReveal delay={0.6} duration={0.8} direction="up" distance={20}>
               <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-soft border border-sage-100/50 p-12 max-w-2xl mx-auto">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -164,11 +150,7 @@ const FeaturedDesserts = () => {
       <section className="featured-desserts py-24 bg-gradient-to-br from-cream-400 via-cream-500 to-cream-400 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
           <div className="text-center">
-            <FadeReveal
-              delay={SECTION_DELAYS.featuredDesserts.divider}
-              duration={DURATIONS.medium}
-              direction="none"
-            >
+            <FadeReveal delay={0.4} duration={0.8} direction="none">
               <div className="flex items-center justify-center mb-8">
                 <div className="w-20 h-px bg-gradient-to-r from-transparent via-sage-400 to-transparent"></div>
                 <span className="mx-6 text-base font-academy text-sage-600 uppercase tracking-widest font-medium">
@@ -180,23 +162,23 @@ const FeaturedDesserts = () => {
 
             <div className="mb-8">
               <TextReveal
-                delay={SECTION_DELAYS.featuredDesserts.title}
-                staggerDelay={STAGGER_DELAYS.normal}
+                delay={0.3}
+                staggerDelay={0.2}
                 className="text-5xl sm:text-6xl md:text-7xl font-academy leading-elegant block text-cocoa-500 text-shadow-elegant tracking-academy-hero"
               >
                 Deliciosos postres
               </TextReveal>
               <div className="mt-2 relative">
                 <TextReveal
-                  delay={SECTION_DELAYS.featuredDesserts.subtitle}
-                  staggerDelay={STAGGER_DELAYS.normal}
+                  delay={0.5}
+                  staggerDelay={0.2}
                   className="text-3xl sm:text-4xl md:text-5xl font-academy leading-elegant block text-sage-500 italic tracking-academy-subhead"
                 >
                   hechos con amor
                 </TextReveal>
                 <FadeReveal
-                  delay={SECTION_DELAYS.featuredDesserts.underline}
-                  duration={DURATIONS.medium}
+                  delay={0.7}
+                  duration={0.8}
                   direction="none"
                   className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-sage-300 to-sage-400 rounded-full"
                 >
@@ -205,12 +187,7 @@ const FeaturedDesserts = () => {
               </div>
             </div>
 
-            <FadeReveal
-              delay={SECTION_DELAYS.featuredDesserts.cards}
-              duration={DURATIONS.medium}
-              direction="up"
-              distance={20}
-            >
+            <FadeReveal delay={0.3} duration={0.6} direction="up" distance={20}>
               <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-premium border border-dusty-rose-100/50 p-12 max-w-2xl mx-auto">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-gradient-to-br from-dusty-rose-100 to-warm-blush-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -246,11 +223,7 @@ const FeaturedDesserts = () => {
     <section className="featured-desserts py-24 bg-gradient-to-br from-cream-400 via-cream-500 to-cream-400 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         <div className="text-center mb-20">
-          <FadeReveal
-            delay={SECTION_DELAYS.featuredDesserts.divider}
-            duration={DURATIONS.medium}
-            direction="none"
-          >
+          <FadeReveal delay={0.4} duration={0.8} direction="none">
             <div className="flex items-center justify-center mb-8">
               <div className="w-20 h-px bg-gradient-to-r from-transparent via-dusty-rose-400 to-transparent"></div>
               <span className="mx-6 text-base font-bodoni text-sage-600 uppercase tracking-widest font-medium">
@@ -262,23 +235,23 @@ const FeaturedDesserts = () => {
 
           <div className="mb-8">
             <TextReveal
-              delay={SECTION_DELAYS.featuredDesserts.title}
-              staggerDelay={STAGGER_DELAYS.normal}
+              delay={0.3}
+              staggerDelay={0.2}
               className="text-5xl sm:text-6xl md:text-7xl font-academy font-normal leading-elegant block text-cocoa-500 text-shadow-elegant tracking-academy-hero"
             >
               Sabores que
             </TextReveal>
             <div className="mt-2 relative">
               <TextReveal
-                delay={SECTION_DELAYS.featuredDesserts.subtitle}
-                staggerDelay={STAGGER_DELAYS.normal}
+                delay={0.5}
+                staggerDelay={0.2}
                 className="text-5xl sm:text-6xl md:text-7xl font-academy font-normal leading-elegant block text-sage-500 italic tracking-academy-hero"
               >
                 Enamoran
               </TextReveal>
               <FadeReveal
-                delay={SECTION_DELAYS.featuredDesserts.underline}
-                duration={DURATIONS.medium}
+                delay={0.7}
+                duration={0.8}
                 direction="none"
                 className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-sage-300 to-sage-400 rounded-full"
               >
@@ -287,12 +260,7 @@ const FeaturedDesserts = () => {
             </div>
           </div>
 
-          <FadeReveal
-            delay={SECTION_DELAYS.featuredDesserts.content}
-            duration={DURATIONS.medium}
-            direction="up"
-            distance={30}
-          >
+          <FadeReveal delay={0.6} duration={0.8} direction="up" distance={30}>
             <p className="text-xl sm:text-2xl font-bodoni max-w-3xl mx-auto leading-body-elegant font-normal">
               Estos son los postres artesanales que más solicitan nuestros
               clientes. Cada uno está hecho con ingredientes de calidad y el
@@ -307,86 +275,21 @@ const FeaturedDesserts = () => {
         </div>
 
         <StaggerReveal
-          staggerDelay={STAGGER_DELAYS.normal}
-          childDelay={SECTION_DELAYS.featuredDesserts.cards}
+          staggerDelay={0.2}
+          childDelay={0.3}
           className="grid grid-cols-1 lg:grid-cols-3 gap-10"
         >
           {featuredDesserts.map((dessert, index) => (
             <StaggerChild key={index}>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{
-                  duration: 0.6,
-                  delay: index * 0.1,
-                  ease: "easeOut",
-                }}
-                whileHover={{ y: -4 }}
-                className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-premium hover:shadow-luxury transition-all duration-500 overflow-hidden group border border-sage-100/50"
-              >
-                <div className="relative overflow-hidden rounded-t-[28px]">
-                  <img
-                    src={dessert.image}
-                    alt={dessert.name}
-                    className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                  {/* Subtle shimmer effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
-
-                  {/* Price overlay on hover */}
-                  <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm text-sage-600 px-3 py-2 rounded-premium font-bodoni font-bold text-lg opacity-0 group-hover:opacity-100 transition-all duration-500 shadow-elegant transform translate-y-2 group-hover:translate-y-0">
-                    {dessert.priceDisplay}
-                  </div>
-                </div>
-
-                <div className="p-8">
-                  <div className="mb-4">
-                    <h3 className="text-2xl font-academy text-cocoa-500 font-normal leading-elegant tracking-academy-normal">
-                      {dessert.name}
-                    </h3>
-                  </div>
-
-                  <p className="font-bodoni text-base mb-6 line-clamp-3 leading-body-elegant font-normal">
-                    {dessert.description}
-                  </p>
-
-                  <div className="flex items-center justify-between mb-5">
-                    <p className="text-sage-600 font-medium text-2xl font-bodoni">
-                      {dessert.priceDisplay}
-                    </p>
-                    <span className="text-sm text-cocoa-500/70 bg-cream-100 px-3 py-2 rounded-premium font-bodoni font-normal shadow-inner-soft">
-                      {dessert.preparationTime}
-                    </span>
-                  </div>
-
-                  <div className="bg-cream-100 p-4 rounded-2xl mb-6 border border-sage-200">
-                    <p className="text-sm font-bodoni italic leading-body-elegant text-shadow-elegant font-normal tracking-bodoni-elegant">
-                      {dessert.story}
-                    </p>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex space-x-3">
-                    <Link
-                      to={`/product/${dessert.id}`}
-                      className="flex-1 flex items-center justify-center bg-gradient-to-r from-cream-100 to-cream-200 text-cocoa-500 py-3 px-5 rounded-full font-bodoni font-medium hover:from-sage-100 hover:to-sage-200 hover:text-sage-700 transition-all duration-500 text-base shadow-elegant hover:shadow-premium border border-sage-100/30 hover:-translate-y-1 tracking-button-refined"
-                    >
-                      Ver Detalles
-                    </Link>
-                    <SophisticatedButton
-                      onClick={() => handleWhatsAppOrder(dessert)}
-                      variant="primary"
-                      className="py-3 px-4 text-sm flex items-center space-x-2"
-                    >
-                      <MessageCircle className="w-4 h-4" />
-                      <span>Ordenar</span>
-                    </SophisticatedButton>
-                  </div>
-                </div>
-              </motion.div>
+              <EnhancedDessertCard
+                id={dessert.id}
+                name={dessert.name}
+                image={dessert.image}
+                price={dessert.priceDisplay}
+                story={dessert.story}
+                preparationTime={dessert.preparationTime}
+                onClick={() => handleWhatsAppOrder(dessert)}
+              />
             </StaggerChild>
           ))}
         </StaggerReveal>

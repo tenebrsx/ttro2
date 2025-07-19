@@ -8,8 +8,8 @@ import Logo from "./Logo";
 // Constants
 const NAVIGATION_ITEMS = [
   { path: "/", label: "Inicio" },
-  { path: "/about", label: "Acerca de" },
   { path: "/menu", label: "Menú" },
+  { path: "/about", label: "Acerca de" },
 ] as const;
 
 const EXTERNAL_LINKS = {
@@ -103,7 +103,7 @@ const WhatsAppButton = ({ isMobile = false }: { isMobile?: boolean }) => {
       rel="noopener noreferrer"
       className={isMobile ? mobileStyles : desktopStyles}
     >
-      <ChatBubble className="text-current" size={20} />
+      <ChatBubble className="text-current" size={isMobile ? 26 : 20} />
       <span>WhatsApp</span>
     </a>
   );

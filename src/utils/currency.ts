@@ -6,7 +6,10 @@
  * @param showDecimals - Whether to show decimal places (default: true)
  * @returns Formatted currency string (e.g., "RD$45.00")
  */
-export const formatPrice = (amount: number, showDecimals: boolean = true): string => {
+export const formatPrice = (
+  amount: number,
+  showDecimals: boolean = true,
+): string => {
   if (showDecimals) {
     return `RD$${amount.toFixed(2)}`;
   }
@@ -19,7 +22,10 @@ export const formatPrice = (amount: number, showDecimals: boolean = true): strin
  * @param showDecimals - Whether to show decimal places (default: true)
  * @returns Formatted price string (e.g., "desde RD$45.00")
  */
-export const formatPriceFrom = (amount: number, showDecimals: boolean = true): string => {
+export const formatPriceFrom = (
+  amount: number,
+  showDecimals: boolean = true,
+): string => {
   return `desde ${formatPrice(amount, showDecimals)}`;
 };
 
@@ -33,7 +39,7 @@ export const formatPriceFrom = (amount: number, showDecimals: boolean = true): s
 export const formatPriceWithQuantity = (
   amount: number,
   quantity: string,
-  showDecimals: boolean = true
+  showDecimals: boolean = true,
 ): string => {
   return `${formatPrice(amount, showDecimals)}/${quantity}`;
 };
@@ -48,7 +54,7 @@ export const formatPriceWithQuantity = (
 export const formatPriceFromWithQuantity = (
   amount: number,
   quantity: string,
-  showDecimals: boolean = true
+  showDecimals: boolean = true,
 ): string => {
   return `desde ${formatPriceWithQuantity(amount, quantity, showDecimals)}`;
 };
@@ -56,17 +62,17 @@ export const formatPriceFromWithQuantity = (
 /**
  * Currency symbol for Dominican Peso
  */
-export const CURRENCY_SYMBOL = 'RD$';
+export const CURRENCY_SYMBOL = "RD$";
 
 /**
  * Currency code for Dominican Peso
  */
-export const CURRENCY_CODE = 'DOP';
+export const CURRENCY_CODE = "DOP";
 
 /**
  * Currency name in Spanish
  */
-export const CURRENCY_NAME = 'Peso Dominicano';
+export const CURRENCY_NAME = "Peso Dominicano";
 
 /**
  * Format a number using Intl.NumberFormat for Dominican Peso
@@ -75,11 +81,26 @@ export const CURRENCY_NAME = 'Peso Dominicano';
  */
 export const formatPriceIntl = (amount: number): string => {
   // Use Spanish Dominican Republic locale formatting
-  const formatter = new Intl.NumberFormat('es-DO', {
-    style: 'currency',
-    currency: 'DOP',
-    currencyDisplay: 'symbol'
+  const formatter = new Intl.NumberFormat("es-DO", {
+    style: "currency",
+    currency: "DOP",
+    currencyDisplay: "symbol",
   });
 
-  return formatter.format(amount).replace('$', 'RD$');
+  return formatter.format(amount).replace("$", "RD$");
+};
+
+/**
+ * Format a price with its unit for products
+ * @param amount - The numeric amount to format
+ * @param unit - The price unit (e.g., "por unidad", "por docena", "por porción", "por torta")
+ * @param showDecimals - Whether to show decimal places (default: true)
+ * @returns Formatted price string (e.g., "RD$25.00 por unidad")
+ */
+export const formatPriceWithUnit = (
+  amount: number,
+  unit: string = "por porción",
+  showDecimals: boolean = true,
+): string => {
+  return `${formatPrice(amount, showDecimals)} ${unit}`;
 };

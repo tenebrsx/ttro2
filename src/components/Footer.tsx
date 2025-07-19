@@ -17,8 +17,8 @@ const SOCIAL_LINKS = {
 
 const NAVIGATION_ITEMS = [
   { path: "/", label: "Inicio" },
-  { path: "/about", label: "Acerca de" },
   { path: "/menu", label: "Menú" },
+  { path: "/about", label: "Acerca de" },
   { path: "/contact", label: "Crea tu pedido personalizado" },
 ] as const;
 

@@ -5,6 +5,7 @@ export interface Product {
   shortDescription: string;
   price: number;
   originalPrice?: number;
+  priceUnit?: "por unidad" | "por docena" | "por porción" | "por torta";
   category: string;
   subcategory?: string;
   images: string[];

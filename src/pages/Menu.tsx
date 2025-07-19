@@ -10,15 +10,14 @@ import {
   TextReveal,
   StaggerReveal,
   StaggerChild,
-  SophisticatedButton,
 } from "../components/animations/SophisticatedAnimations";
 import * as TextureComponents from "../components/animations/TextureComponents";
-import { MessageCircle } from "lucide-react";
 
 import SEO from "../components/SEO";
 import PageTransition from "../components/PageTransition";
+import EnhancedDessertCard from "../components/EnhancedDessertCard";
 import { useProducts } from "../contexts/FirebaseProductsContext";
-import { formatPriceFrom } from "../utils/currency";
+import { formatPriceFrom, formatPriceWithUnit } from "../utils/currency";
 
 const Menu = () => {
   const { products, loading } = useProducts();
@@ -32,12 +31,15 @@ const Menu = () => {
       type: product.subcategory || product.category,
       name: product.name,
       description: product.description,
-      story: `${product.shortDescription} - ${product.preparationTime} de preparación.`,
+      story: `${product.shortDescription || product.description || "Delicioso postre artesanal"} - ${product.preparationTime} de preparación.`,
       image:
         product.thumbnailImage ||
         product.images[0] ||
         "https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
-      priceRange: formatPriceFrom(product.price),
+      priceRange: formatPriceWithUnit(
+        product.price,
+        (product as any).priceUnit,
+      ),
       tags: [...product.tags, "todos"],
       rating: product.rating,
       preparationTime: product.preparationTime,
@@ -264,103 +266,19 @@ const Menu = () => {
               >
                 {menuItems.map((item, index) => (
                   <StaggerChild key={index}>
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{
-                        duration: 0.6,
-                        delay: index * 0.1,
-                        ease: "easeOut",
+                    <EnhancedDessertCard
+                      id={item.id}
+                      name={item.name}
+                      image={item.image}
+                      price={item.priceRange}
+                      story={item.story}
+                      preparationTime={item.preparationTime}
+                      onClick={() => {
+                        const message = `Hola! Me interesa ordenar: ${item.name} - ${item.priceRange}`;
+                        const whatsappUrl = `https://api.whatsapp.com/send/?phone=18096581245&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
+                        window.open(whatsappUrl, "_blank");
                       }}
-                      whileHover={{ y: -6, scale: 1.02 }}
-                      className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-premium hover:shadow-luxury transition-all duration-700 overflow-hidden group border border-sage-100/50 relative"
-                    >
-                      <div className="relative overflow-hidden rounded-t-[28px]">
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src = "/images/placeholder-dessert.jpg";
-                          }}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                        {/* Sophisticated shimmer effect */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
-
-                        {/* Price overlay on hover */}
-                        <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm text-sage-600 px-3 py-2 rounded-premium font-bodoni font-bold text-lg opacity-0 group-hover:opacity-100 transition-all duration-500 shadow-elegant transform translate-y-2 group-hover:translate-y-0">
-                          {item.priceRange}
-                        </div>
-                      </div>
-
-                      <div className="p-8 relative z-10">
-                        <div className="mb-4">
-                          <h3 className="text-2xl font-academy text-cocoa-500 font-normal leading-elegant tracking-academy-normal group-hover:text-cocoa-600 transition-colors duration-500">
-                            {item.name}
-                          </h3>
-                        </div>
-
-                        <p className="font-bodoni text-base mb-6 line-clamp-3 leading-body-elegant font-normal text-cocoa-500/80 group-hover:text-cocoa-500 transition-colors duration-500">
-                          {item.description}
-                        </p>
-
-                        <div className="flex items-center justify-between mb-5">
-                          <p className="text-sage-600 font-medium text-2xl font-bodoni">
-                            {item.priceRange}
-                          </p>
-                          <span className="text-sm text-cocoa-500/70 bg-cream-100 px-3 py-2 rounded-premium font-bodoni font-normal shadow-inner-soft">
-                            {item.preparationTime}
-                          </span>
-                        </div>
-
-                        <div className="bg-gradient-to-br from-cream-50 to-cream-100 p-4 rounded-2xl mb-6 border border-sage-200/50 shadow-inner-soft">
-                          <p className="text-sm font-bodoni italic leading-body-elegant text-shadow-elegant font-normal tracking-bodoni-elegant text-cocoa-500/80">
-                            {item.story}
-                          </p>
-                        </div>
-
-                        {/* Action Buttons */}
-                        <div className="flex space-x-3">
-                          <Link
-                            to={`/product/${item.id}`}
-                            onClick={() => {
-                              console.log(
-                                "🔗 Menu page - Clicking Ver Detalles for product:",
-                                item.id,
-                                item.name,
-                              );
-                              console.log(
-                                "🔗 Menu page - Navigating to:",
-                                `/product/${item.id}`,
-                              );
-                            }}
-                            className="flex-1 flex items-center justify-center bg-gradient-to-r from-cream-100 to-cream-200 text-cocoa-500 py-3 px-5 rounded-full font-bodoni font-medium hover:from-sage-100 hover:to-sage-200 hover:text-sage-700 transition-all duration-500 text-base shadow-elegant hover:shadow-premium border border-sage-100/30 hover:-translate-y-1 tracking-button-refined relative overflow-hidden group"
-                          >
-                            <div className="absolute inset-0 bg-gradient-to-r from-sage-100/50 to-sage-200/50 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
-                            <span className="relative z-10">Ver Detalles</span>
-                          </Link>
-                          <SophisticatedButton
-                            onClick={() => {
-                              const message = `Hola! Me interesa ordenar: ${item.name} - ${item.priceRange}`;
-                              const whatsappUrl = `https://api.whatsapp.com/send/?phone=18096581245&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
-                              window.open(whatsappUrl, "_blank");
-                            }}
-                            variant="primary"
-                            className="py-3 px-4 text-sm flex items-center space-x-2"
-                          >
-                            <MessageCircle className="w-4 h-4" />
-                            <span>Ordenar</span>
-                          </SophisticatedButton>
-                        </div>
-                      </div>
-
-                      {/* Sophisticated card shimmer effect */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out rounded-3xl"></div>
-                    </motion.div>
+                    />
                   </StaggerChild>
                 ))}
               </StaggerReveal>

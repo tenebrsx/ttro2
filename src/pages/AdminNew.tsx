@@ -19,7 +19,7 @@ import {
   Monitor,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { formatPrice } from "../utils/currency";
+import { formatPrice, formatPriceWithUnit } from "../utils/currency";
 
 import Button from "../components/Button";
 import { SophisticatedButton } from "../components/animations/SophisticatedAnimations";
@@ -99,6 +99,11 @@ const Admin: React.FC<AdminPanelProps> = () => {
     shortDescription: "",
     price: "",
     originalPrice: 0,
+    priceUnit: "por porción" as
+      | "por unidad"
+      | "por docena"
+      | "por porción"
+      | "por torta",
     category: "tartas" as
       | "tartas"
       | "macarons"
@@ -141,6 +146,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
       shortDescription: "",
       price: "",
       originalPrice: 0,
+      priceUnit: "por porción",
       category: "tartas",
       subcategory: "",
       customCategory: "",
@@ -207,6 +213,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
       shortDescription: dessert.shortDescription,
       price: dessert.price.toString(),
       originalPrice: dessert.originalPrice || 0,
+      priceUnit: (dessert as any).priceUnit || "por porción",
       category: dessert.category as
         | "tartas"
         | "macarons"
@@ -246,12 +253,11 @@ const Admin: React.FC<AdminPanelProps> = () => {
     // Enhanced validation
     if (
       !formData.name ||
-      !formData.description ||
       !formData.price ||
       parseFloat(formData.price.toString()) <= 0
     ) {
       alert(
-        "Por favor completa todos los campos obligatorios: nombre, descripción y precio",
+        "Por favor completa todos los campos obligatorios: nombre y precio",
       );
       return;
     }
@@ -270,11 +276,6 @@ const Admin: React.FC<AdminPanelProps> = () => {
       alert(
         "Por favor agrega al menos una imagen del producto (imagen principal o imágenes adicionales)",
       );
-      return;
-    }
-
-    if (!formData.shortDescription) {
-      alert("Por favor agrega una descripción corta");
       return;
     }
 
@@ -330,7 +331,10 @@ const Admin: React.FC<AdminPanelProps> = () => {
       const defaultSeo = {
         metaTitle: formData.seo?.metaTitle?.trim() || formData.name,
         metaDescription:
-          formData.seo?.metaDescription?.trim() || formData.shortDescription,
+          formData.seo?.metaDescription?.trim() ||
+          formData.shortDescription?.trim() ||
+          formData.description?.trim() ||
+          `Delicioso ${formData.name} artesanal`,
         keywords:
           filteredKeywords.length > 0
             ? filteredKeywords
@@ -349,6 +353,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
         price: Number(formData.price),
         originalPrice:
           formData.originalPrice > 0 ? Number(formData.originalPrice) : 0,
+        priceUnit: formData.priceUnit,
         category:
           formData.category === "otro"
             ? formData.customCategory.trim()
@@ -459,7 +464,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
           errorMessage = `Error al actualizar el producto: ${error.message.replace("Failed to update product: ", "")}`;
         } else if (error.message.includes("Missing required fields")) {
           errorMessage =
-            "Error: Faltan campos obligatorios. Verifica que hayas completado nombre, descripción y precio.";
+            "Error: Faltan campos obligatorios. Verifica que hayas completado nombre y precio.";
         } else if (error.message.includes("permission")) {
           errorMessage =
             "Error de permisos. Verifica la configuración de Firebase.";
@@ -728,7 +733,9 @@ const Admin: React.FC<AdminPanelProps> = () => {
           minimalFormData.seo?.metaTitle?.trim() || minimalFormData.name,
         metaDescription:
           minimalFormData.seo?.metaDescription?.trim() ||
-          minimalFormData.shortDescription,
+          minimalFormData.shortDescription?.trim() ||
+          minimalFormData.description?.trim() ||
+          `Delicioso ${minimalFormData.name} artesanal`,
         keywords:
           filteredKeywords.length > 0
             ? filteredKeywords
@@ -1336,7 +1343,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
                 <img
                   src={dessert.thumbnailImage || dessert.images[0]}
                   alt={dessert.name}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-48 object-contain bg-gray-50"
                 />
                 <div className="absolute top-3 right-3 flex space-x-2">
                   {dessert.featured && (
@@ -1358,7 +1365,10 @@ const Admin: React.FC<AdminPanelProps> = () => {
                     {dessert.name}
                   </h3>
                   <span className="text-2xl font-sans font-bold text-dusty-rose">
-                    {formatPrice(dessert.price)}
+                    {formatPriceWithUnit(
+                      dessert.price,
+                      (dessert as any).priceUnit,
+                    )}
                   </span>
                 </div>
 
@@ -1416,16 +1426,16 @@ const Admin: React.FC<AdminPanelProps> = () => {
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto my-8"
+                className="bg-gradient-to-br from-cream-100 via-white to-cream-100 rounded-luxury shadow-luxury w-full max-w-4xl max-h-[90vh] overflow-y-auto my-8 border border-sage/20 backdrop-blur-md"
               >
-                <div className="p-6 border-b border-dusty-rose/10">
+                <div className="p-6 border-b border-sage/20 bg-gradient-to-r from-cream-50/50 to-white/50 rounded-t-luxury">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-3xl font-sans text-mocha font-bold">
+                    <h2 className="text-3xl font-bodoni text-cocoa-600 font-bold tracking-wide">
                       {isEditing ? "Editar Postre" : "Agregar Nuevo Postre"}
                     </h2>
                     <button
                       onClick={resetForm}
-                      className="text-mocha/70 hover:text-dusty-rose transition-colors p-2 rounded-lg hover:bg-dusty-rose/10"
+                      className="text-cocoa-600/70 hover:text-sage-600 transition-all duration-500 p-2 rounded-button hover:bg-sage-50 hover:shadow-elegant"
                     >
                       <X className="w-6 h-6" />
                     </button>
@@ -1435,12 +1445,12 @@ const Admin: React.FC<AdminPanelProps> = () => {
                 <div className="p-6 space-y-8">
                   {/* Basic Information */}
                   <div>
-                    <h3 className="text-xl font-sans font-bold text-mocha mb-6">
+                    <h3 className="text-xl font-bodoni font-bold text-cocoa-600 mb-6 tracking-wide">
                       Información Básica
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
+                        <label className="block text-lg font-medium text-cocoa-600/80 mb-3 font-bodoni">
                           Nombre del postre *
                         </label>
                         <input
@@ -1448,14 +1458,14 @@ const Admin: React.FC<AdminPanelProps> = () => {
                           name="name"
                           value={formData.name}
                           onChange={handleInputChange}
-                          className="w-full px-6 py-4 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-sans text-lg"
+                          className="w-full px-6 py-4 rounded-button border border-sage/20 focus:border-sage-400 focus:ring-2 focus:ring-sage/20 outline-none font-bodoni text-lg bg-white/70 backdrop-blur-sm hover:bg-white transition-all duration-300"
                           placeholder="Nombre del postre"
                           required
                         />
                       </div>
 
                       <div>
-                        <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
+                        <label className="block text-lg font-medium text-cocoa-600/80 mb-3 font-bodoni">
                           Precio *
                         </label>
                         <input
@@ -1464,21 +1474,39 @@ const Admin: React.FC<AdminPanelProps> = () => {
                           name="price"
                           value={formData.price}
                           onChange={handleInputChange}
-                          className="w-full px-6 py-4 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-sans text-lg"
+                          className="w-full px-6 py-4 rounded-button border border-sage/20 focus:border-sage-400 focus:ring-2 focus:ring-sage/20 outline-none font-bodoni text-lg bg-white/70 backdrop-blur-sm hover:bg-white transition-all duration-300"
                           placeholder="Ingresa el precio"
                           required
                         />
                       </div>
 
+                      {/* Price Unit */}
+                      <div className="mb-8">
+                        <label className="block text-lg font-medium text-cocoa-600/80 mb-3 font-bodoni">
+                          Unidad de precio
+                        </label>
+                        <select
+                          name="priceUnit"
+                          value={formData.priceUnit}
+                          onChange={handleInputChange}
+                          className="w-full px-6 py-4 rounded-button border border-sage/20 focus:border-sage-400 focus:ring-2 focus:ring-sage/20 outline-none font-bodoni text-lg bg-white/70 backdrop-blur-sm hover:bg-white transition-all duration-300"
+                        >
+                          <option value="por porción">Por porción</option>
+                          <option value="por unidad">Por unidad</option>
+                          <option value="por docena">Por docena</option>
+                          <option value="por torta">Por torta</option>
+                        </select>
+                      </div>
+
                       <div>
-                        <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
+                        <label className="block text-lg font-medium text-cocoa-600/80 mb-3 font-bodoni">
                           Categoría *
                         </label>
                         <select
                           name="category"
                           value={formData.category}
                           onChange={handleInputChange}
-                          className="w-full px-6 py-4 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-sans text-lg"
+                          className="w-full px-6 py-4 rounded-button border border-sage/20 focus:border-sage-400 focus:ring-2 focus:ring-sage/20 outline-none font-bodoni text-lg bg-white/70 backdrop-blur-sm hover:bg-white transition-all duration-300"
                           required
                         >
                           <option value="tartas">Tartas</option>
@@ -1496,7 +1524,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
                       {/* Custom Category Input - Only show when "otro" is selected */}
                       {formData.category === "otro" && (
                         <div>
-                          <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
+                          <label className="block text-lg font-medium text-cocoa-600/80 mb-3 font-bodoni">
                             Categoría Personalizada *
                           </label>
                           <input
@@ -1504,7 +1532,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
                             name="customCategory"
                             value={formData.customCategory}
                             onChange={handleInputChange}
-                            className="w-full px-6 py-4 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-sans text-lg"
+                            className="w-full px-6 py-4 rounded-button border border-sage/20 focus:border-sage-400 focus:ring-2 focus:ring-sage/20 outline-none font-bodoni text-lg bg-white/70 backdrop-blur-sm hover:bg-white transition-all duration-300"
                             placeholder="Ingresa la categoría personalizada"
                             required
                           />
@@ -1512,7 +1540,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
                       )}
 
                       <div>
-                        <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
+                        <label className="block text-lg font-medium text-cocoa-600/80 mb-3 font-bodoni">
                           Tiempo de preparación *
                         </label>
                         <input
@@ -1520,14 +1548,14 @@ const Admin: React.FC<AdminPanelProps> = () => {
                           name="preparationTime"
                           value={formData.preparationTime}
                           onChange={handleInputChange}
-                          className="w-full px-6 py-4 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-sans text-lg"
+                          className="w-full px-6 py-4 rounded-button border border-sage/20 focus:border-sage-400 focus:ring-2 focus:ring-sage/20 outline-none font-bodoni text-lg bg-white/70 backdrop-blur-sm hover:bg-white transition-all duration-300"
                           placeholder="2-3 días"
                           required
                         />
                       </div>
 
                       <div>
-                        <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
+                        <label className="block text-lg font-medium text-cocoa-600/80 mb-3 font-bodoni">
                           Porciones *
                         </label>
                         <input
@@ -1535,7 +1563,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
                           name="serves"
                           value={formData.serves}
                           onChange={handleInputChange}
-                          className="w-full px-6 py-4 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-sans text-lg"
+                          className="w-full px-6 py-4 rounded-button border border-sage/20 focus:border-sage-400 focus:ring-2 focus:ring-sage/20 outline-none font-bodoni text-lg bg-white/70 backdrop-blur-sm hover:bg-white transition-all duration-300"
                           placeholder="8-10 personas"
                           required
                         />
@@ -1545,7 +1573,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
 
                   {/* Images */}
                   <div>
-                    <h3 className="text-xl font-sans font-bold text-mocha mb-6">
+                    <h3 className="text-xl font-bodoni font-bold text-cocoa-600 mb-6 tracking-wide">
                       Imágenes del Producto
                     </h3>
 
@@ -1590,37 +1618,35 @@ const Admin: React.FC<AdminPanelProps> = () => {
 
                   {/* Descriptions */}
                   <div>
-                    <h3 className="text-xl font-sans font-bold text-mocha mb-6">
+                    <h3 className="text-xl font-bodoni font-bold text-cocoa-600 mb-6 tracking-wide">
                       Descripciones
                     </h3>
                     <div className="space-y-6">
                       <div>
-                        <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
-                          Descripción corta *
+                        <label className="block text-lg font-medium text-cocoa-600/80 mb-3 font-bodoni">
+                          Descripción corta
                         </label>
                         <textarea
                           name="shortDescription"
                           value={formData.shortDescription}
                           onChange={handleInputChange}
                           rows={3}
-                          className="w-full px-6 py-4 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none resize-none font-sans text-lg"
+                          className="w-full px-6 py-4 rounded-button border border-sage/20 focus:border-sage-400 focus:ring-2 focus:ring-sage/20 outline-none resize-none font-bodoni text-lg bg-white/70 backdrop-blur-sm hover:bg-white transition-all duration-300"
                           placeholder="Descripción breve para mostrar en tarjetas"
-                          required
                         />
                       </div>
 
                       <div>
-                        <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
-                          Descripción completa *
+                        <label className="block text-lg font-medium text-cocoa-600/80 mb-3 font-bodoni">
+                          Descripción completa
                         </label>
                         <textarea
                           name="description"
                           value={formData.description}
                           onChange={handleInputChange}
                           rows={5}
-                          className="w-full px-6 py-4 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none resize-none font-sans text-lg"
+                          className="w-full px-6 py-4 rounded-button border border-sage/20 focus:border-sage-400 focus:ring-2 focus:ring-sage/20 outline-none resize-none font-bodoni text-lg bg-white/70 backdrop-blur-sm hover:bg-white transition-all duration-300"
                           placeholder="Descripción detallada del postre"
-                          required
                         />
                       </div>
                     </div>
@@ -1628,12 +1654,12 @@ const Admin: React.FC<AdminPanelProps> = () => {
 
                   {/* Tags and Customizations */}
                   <div>
-                    <h3 className="text-lg font-academy font-bold text-mocha mb-4">
+                    <h3 className="text-lg font-bodoni font-bold text-cocoa-600 mb-4 tracking-wide">
                       Etiquetas y Personalizaciones
                     </h3>
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-mocha/80 mb-2 font-source-serif">
+                        <label className="block text-sm font-medium text-cocoa-600/80 mb-2 font-bodoni">
                           Etiquetas (separadas por comas)
                         </label>
                         <input
@@ -1647,13 +1673,13 @@ const Admin: React.FC<AdminPanelProps> = () => {
                                 .map((tag) => tag.trim()),
                             }))
                           }
-                          className="w-full px-4 py-3 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-source-serif"
+                          className="w-full px-4 py-3 rounded-button border border-sage/20 focus:border-sage-400 focus:ring-2 focus:ring-sage/20 outline-none font-bodoni bg-white/70 backdrop-blur-sm hover:bg-white transition-all duration-300"
                           placeholder="chocolate, premium, vegano..."
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-mocha/80 mb-2 font-source-serif">
+                        <label className="block text-sm font-medium text-cocoa-600/80 mb-2 font-bodoni">
                           Opciones de personalización (separadas por comas)
                         </label>
                         <textarea
@@ -1663,12 +1689,12 @@ const Admin: React.FC<AdminPanelProps> = () => {
                               ...prev,
                               customizations: e.target.value
                                 .split(",")
-                                .map((c) => c.trim()),
+                                .map((item) => item.trim()),
                             }))
                           }
-                          className="w-full px-4 py-3 rounded-xl border border-dusty-rose/20 focus:border-dusty-rose focus:ring-2 focus:ring-dusty-rose/20 outline-none font-source-serif"
-                          placeholder="Cambio de sabor, decoración especial, tamaño..."
                           rows={3}
+                          className="w-full px-4 py-3 rounded-button border border-sage/20 focus:border-sage-400 focus:ring-2 focus:ring-sage/20 outline-none resize-none font-bodoni bg-white/70 backdrop-blur-sm hover:bg-white transition-all duration-300"
+                          placeholder="Color del fondant, sabor del relleno, decoraciones especiales"
                         />
                       </div>
                     </div>
@@ -1676,45 +1702,45 @@ const Admin: React.FC<AdminPanelProps> = () => {
 
                   {/* Options */}
                   <div>
-                    <h3 className="text-lg font-academy font-bold text-mocha mb-4">
+                    <h3 className="text-lg font-bodoni font-bold text-cocoa-600 mb-4 tracking-wide">
                       Opciones
                     </h3>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                      <label className="flex items-center space-x-2 p-3 rounded-xl border border-dusty-rose/20 hover:bg-dusty-rose/5 transition-colors cursor-pointer">
+                      <label className="flex items-center space-x-2 p-3 rounded-button border border-sage/20 hover:bg-sage-50/70 transition-all duration-300 cursor-pointer backdrop-blur-sm">
                         <input
                           type="checkbox"
                           name="featured"
                           checked={formData.featured}
                           onChange={handleInputChange}
-                          className="rounded border-dusty-rose/20 text-dusty-rose focus:border-dusty-rose focus:ring-dusty-rose/20"
+                          className="rounded border-sage/20 text-sage-600 focus:border-sage-400 focus:ring-sage/20"
                         />
-                        <span className="text-sm text-mocha/80 font-source-serif">
+                        <span className="text-sm text-cocoa-600/80 font-bodoni">
                           Destacado
                         </span>
                       </label>
 
-                      <label className="flex items-center space-x-2 p-3 rounded-xl border border-dusty-rose/20 hover:bg-dusty-rose/5 transition-colors cursor-pointer">
+                      <label className="flex items-center space-x-2 p-3 rounded-button border border-sage/20 hover:bg-sage-50/70 transition-all duration-300 cursor-pointer backdrop-blur-sm">
                         <input
                           type="checkbox"
                           name="available"
                           checked={formData.available}
                           onChange={handleInputChange}
-                          className="rounded border-dusty-rose/20 text-dusty-rose focus:border-dusty-rose focus:ring-dusty-rose/20"
+                          className="rounded border-sage/20 text-sage-600 focus:border-sage-400 focus:ring-sage/20"
                         />
-                        <span className="text-sm text-mocha/80 font-source-serif">
+                        <span className="text-sm text-cocoa-600/80 font-bodoni">
                           Disponible
                         </span>
                       </label>
 
-                      <label className="flex items-center space-x-2 p-3 rounded-xl border border-dusty-rose/20 hover:bg-dusty-rose/5 transition-colors cursor-pointer">
+                      <label className="flex items-center space-x-2 p-3 rounded-button border border-sage/20 hover:bg-sage-50/70 transition-all duration-300 cursor-pointer backdrop-blur-sm">
                         <input
                           type="checkbox"
                           name="seasonal"
                           checked={formData.seasonal}
                           onChange={handleInputChange}
-                          className="rounded border-dusty-rose/20 text-dusty-rose focus:border-dusty-rose focus:ring-dusty-rose/20"
+                          className="rounded border-sage/20 text-sage-600 focus:border-sage-400 focus:ring-sage/20"
                         />
-                        <span className="text-sm text-mocha/80 font-source-serif">
+                        <span className="text-sm text-cocoa-600/80 font-bodoni">
                           Temporada
                         </span>
                       </label>
@@ -1722,7 +1748,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex items-center justify-end space-x-4 pt-6 border-t border-dusty-rose/10">
+                  <div className="flex items-center justify-end space-x-4 pt-6 border-t border-sage/20 bg-gradient-to-r from-cream-50/30 to-white/30 rounded-b-luxury -mx-6 -mb-6 px-6 pb-6 mt-6">
                     <SophisticatedButton
                       onClick={resetForm}
                       variant="secondary"
@@ -1762,17 +1788,17 @@ const Admin: React.FC<AdminPanelProps> = () => {
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-white rounded-3xl shadow-2xl p-6 w-full max-w-md"
+                className="bg-gradient-to-br from-cream-100 via-white to-cream-100 rounded-luxury shadow-luxury p-6 w-full max-w-md border border-sage/20 backdrop-blur-md"
               >
                 <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-red-100 rounded-button flex items-center justify-center shadow-elegant">
                     <AlertTriangle className="w-6 h-6 text-red-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-academy font-bold text-mocha">
+                    <h3 className="text-lg font-bodoni font-bold text-cocoa-600 tracking-wide">
                       Confirmar eliminación
                     </h3>
-                    <p className="text-mocha/70 text-sm font-source-serif">
+                    <p className="text-cocoa-600/70 text-sm font-bodoni">
                       Esta acción no se puede deshacer.
                     </p>
                   </div>

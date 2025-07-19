@@ -67,7 +67,7 @@ const SkeletonCircle: React.FC<{ size?: string; className?: string }> = ({
 export const DessertCardSkeleton: React.FC = () => (
   <div className="bg-white/60 backdrop-blur-sm rounded-3xl overflow-hidden shadow-gentle border border-dusty-rose/10 animate-pulse">
     {/* Image skeleton */}
-    <div className="relative h-48 bg-gradient-to-r from-warm-grey/20 via-warm-grey/40 to-warm-grey/20 overflow-hidden">
+    <div className="relative h-[28rem] bg-gradient-to-r from-warm-grey/20 via-warm-grey/40 to-warm-grey/20 overflow-hidden">
       <motion.div
         className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
         variants={shimmerVariants}
