@@ -1,342 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Academy+Engraved+LET&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Academy+Engraved+LET&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ========================================
-   SOPHISTICATED SHADOW SYSTEM
-   ======================================== */
-:root {
-    /* Shadow System - Multi-layered shadows for depth */
-    --shadow-xs: 0 1px 2px 0 rgba(55, 40, 19, 0.05);
-    --shadow-sm:
-        0 1px 3px 0 rgba(55, 40, 19, 0.1), 0 1px 2px -1px rgba(55, 40, 19, 0.1);
-    --shadow-md:
-        0 4px 6px -1px rgba(55, 40, 19, 0.1),
-        0 2px 4px -2px rgba(55, 40, 19, 0.1);
-    --shadow-lg:
-        0 10px 15px -3px rgba(55, 40, 19, 0.1),
-        0 4px 6px -4px rgba(55, 40, 19, 0.1);
-    --shadow-xl:
-        0 20px 25px -5px rgba(55, 40, 19, 0.1),
-        0 8px 10px -6px rgba(55, 40, 19, 0.1);
-    --shadow-2xl: 0 25px 50px -12px rgba(55, 40, 19, 0.25);
-
-    /* Premium shadow layers */
-    --shadow-elegant:
-        0 2px 4px rgba(55, 40, 19, 0.04), 0 8px 16px rgba(55, 40, 19, 0.08),
-        0 24px 48px rgba(55, 40, 19, 0.12);
-
-    --shadow-premium:
-        0 4px 8px rgba(55, 40, 19, 0.06), 0 12px 24px rgba(55, 40, 19, 0.1),
-        0 32px 64px rgba(55, 40, 19, 0.15);
-
-    --shadow-luxury:
-        0 8px 16px rgba(55, 40, 19, 0.08), 0 16px 32px rgba(55, 40, 19, 0.12),
-        0 48px 96px rgba(55, 40, 19, 0.18);
-
-    /* Inner shadows for depth */
-    --shadow-inner-soft: inset 0 2px 4px 0 rgba(55, 40, 19, 0.06);
-    --shadow-inner-medium: inset 0 4px 8px 0 rgba(55, 40, 19, 0.1);
-
-    /* Colored shadows for brand elements */
-    --shadow-sage:
-        0 4px 8px rgba(146, 155, 154, 0.15),
-        0 12px 24px rgba(146, 155, 154, 0.1);
-
-    --shadow-warm:
-        0 4px 8px rgba(250, 248, 245, 0.3), 0 12px 24px rgba(250, 248, 245, 0.2);
+/* Enhanced CTA Button Spacing */
+.cta-mobile-spacing-improved {
+    gap: 16px;
+    margin-top: 40px;
 }
 
-/* ========================================
-   SHADOW UTILITY CLASSES
-   ======================================== */
-@layer utilities {
-    .shadow-elegant {
-        box-shadow: var(--shadow-elegant);
-    }
-
-    .shadow-premium {
-        box-shadow: var(--shadow-premium);
-    }
-
-    .shadow-luxury {
-        box-shadow: var(--shadow-luxury);
-    }
-
-    .shadow-inner-soft {
-        box-shadow: var(--shadow-inner-soft);
-    }
-
-    .shadow-inner-medium {
-        box-shadow: var(--shadow-inner-medium);
-    }
-
-    .shadow-sage {
-        box-shadow: var(--shadow-sage);
-    }
-
-    .shadow-warm {
-        box-shadow: var(--shadow-warm);
-    }
-
-    /* Hover shadow transitions */
-    .shadow-hover-elegant:hover {
-        box-shadow: var(--shadow-elegant);
-        transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .shadow-hover-premium:hover {
-        box-shadow: var(--shadow-premium);
-        transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .shadow-hover-luxury:hover {
-        box-shadow: var(--shadow-luxury);
-        transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* Combined inner + outer shadows for depth */
-    .shadow-depth {
-        box-shadow: var(--shadow-inner-soft), var(--shadow-elegant);
-    }
-
-    .shadow-depth-premium {
-        box-shadow: var(--shadow-inner-medium), var(--shadow-premium);
-    }
-}
-
-/* ========================================
-   SOPHISTICATED BORDER RADIUS SYSTEM
-   ======================================== */
-:root {
-    /* Border Radius Scale - Progressive sizing */
-    --radius-xs: 6px;
-    --radius-sm: 12px;
-    --radius-md: 20px;
-    --radius-lg: 28px;
-    --radius-xl: 36px;
-    --radius-2xl: 48px;
-    --radius-full: 9999px;
-
-    /* Contextual radius values */
-    --radius-button: var(--radius-full);
-    --radius-card: var(--radius-lg);
-    --radius-modal: var(--radius-xl);
-    --radius-image: var(--radius-md);
-    --radius-input: var(--radius-md);
-
-    /* Organic radius patterns for premium feel */
-    --radius-organic-sm: 14px 18px 16px 12px;
-    --radius-organic-md: 24px 32px 28px 20px;
-    --radius-organic-lg: 32px 42px 38px 28px;
-}
-
-@layer utilities {
-    /* Standard radius utilities */
-    .rounded-elegant {
-        border-radius: var(--radius-card);
-    }
-
-    .rounded-premium {
-        border-radius: var(--radius-xl);
-    }
-
-    .rounded-luxury {
-        border-radius: var(--radius-2xl);
-    }
-
-    /* Organic radius for artistic feel */
-    .rounded-organic {
-        border-radius: var(--radius-organic-md);
-    }
-
-    .rounded-organic-sm {
-        border-radius: var(--radius-organic-sm);
-    }
-
-    .rounded-organic-lg {
-        border-radius: var(--radius-organic-lg);
-    }
-
-    /* Contextual radius classes */
-    .rounded-card {
-        border-radius: var(--radius-card);
-    }
-
-    .rounded-button {
-        border-radius: var(--radius-button);
-    }
-
-    .rounded-modal {
-        border-radius: var(--radius-modal);
-    }
-
-    .rounded-image {
-        border-radius: var(--radius-image);
-    }
-
-    /* Asymmetric radius for modern feel */
-    .rounded-asymmetric-1 {
-        border-radius: var(--radius-lg) var(--radius-md) var(--radius-lg)
-            var(--radius-md);
-    }
-
-    .rounded-asymmetric-2 {
-        border-radius: var(--radius-xl) var(--radius-sm) var(--radius-lg)
-            var(--radius-md);
-    }
-}
-
-/* ========================================
-   TEXTURE OVERLAY SYSTEM
-   ======================================== */
-:root {
-    /* Texture patterns */
-    --texture-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-
-    --texture-paper: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.02'%3E%3Ccircle cx='7' cy='7' r='1'/%3E%3Ccircle cx='53' cy='53' r='1'/%3E%3Ccircle cx='20' cy='30' r='1'/%3E%3Ccircle cx='40' cy='10' r='1'/%3E%3C/g%3E%3C/svg%3E");
-
-    --texture-canvas: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.03' fill-rule='evenodd'%3E%3Cpath d='m0 40l40-40h-40v40zm40 0v-40h-40l40 40z'/%3E%3C/g%3E%3C/svg%3E");
-}
-
-@layer utilities {
-    /* Texture overlay utilities */
-    .texture-grain::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-image: var(--texture-grain);
-        opacity: 0.015;
-        mix-blend-mode: overlay;
-        pointer-events: none;
-        z-index: 1;
-    }
-
-    .texture-paper::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-image: var(--texture-paper);
-        opacity: 0.4;
-        mix-blend-mode: multiply;
-        pointer-events: none;
-        z-index: 1;
-    }
-
-    .texture-canvas::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-image: var(--texture-canvas);
-        opacity: 0.25;
-        mix-blend-mode: soft-light;
-        pointer-events: none;
-        z-index: 1;
-    }
-
-    /* Animated texture for hero sections */
-    .texture-grain-animated::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-image: var(--texture-grain);
-        opacity: 0.02;
-        mix-blend-mode: overlay;
-        pointer-events: none;
-        z-index: 1;
-        animation: grain-animation 8s infinite linear;
-    }
-
-    @keyframes grain-animation {
-        0%,
-        100% {
-            transform: translate(0, 0) rotate(0deg);
-        }
-        10% {
-            transform: translate(-5%, -5%) rotate(1deg);
-        }
-        20% {
-            transform: translate(-10%, 5%) rotate(-1deg);
-        }
-        30% {
-            transform: translate(5%, -10%) rotate(2deg);
-        }
-        40% {
-            transform: translate(-5%, 15%) rotate(-2deg);
-        }
-        50% {
-            transform: translate(-15%, 5%) rotate(1deg);
-        }
-        60% {
-            transform: translate(15%, 0%) rotate(-1deg);
-        }
-        70% {
-            transform: translate(0%, -15%) rotate(2deg);
-        }
-        80% {
-            transform: translate(-10%, 10%) rotate(-2deg);
-        }
-        90% {
-            transform: translate(10%, 5%) rotate(1deg);
-        }
-    }
-
-    /* Premium surface treatments */
-    .surface-elegant {
-        background: linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.1) 0%,
-            rgba(255, 255, 255, 0.05) 100%
-        );
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .surface-premium {
-        background: linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.15) 0%,
-            rgba(255, 255, 255, 0.08) 50%,
-            rgba(255, 255, 255, 0.02) 100%
-        );
-        backdrop-filter: blur(30px);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-    }
-
-    .surface-luxury {
-        background: linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.2) 0%,
-            rgba(255, 255, 255, 0.1) 30%,
-            rgba(255, 255, 255, 0.05) 70%,
-            rgba(255, 255, 255, 0.02) 100%
-        );
-        backdrop-filter: blur(40px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    }
+.cta-mobile-spacing-improved > * {
+    flex: 1;
+    max-width: 300px;
 }
 
 /* Brand Identity Base Styles */
 @layer base {
     html {
         scroll-behavior: smooth;
+        scroll-padding-top: 80px; /* Account for navigation */
         -webkit-tap-highlight-color: transparent;
         background-color: #faf8f5; /* Brand background color */
     }
@@ -345,6 +29,8 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         touch-action: manipulation;
+        overscroll-behavior-y: contain; /* Smooth scroll experience */
+        -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
         font-family:
             "Bodoni Moda", "Bodoni 72", serif !important; /* MANDATORY Brand body font */
         font-weight: 400 !important; /* MANDATORY Regular weight for readability */
@@ -459,14 +145,10 @@
         );
     }
 
-    .hero-text-shadow {
-        text-shadow: 0 2px 4px rgba(55, 40, 19, 0.1);
-    }
-
     /* Brand Button Styles */
     .btn-brand-primary {
         background-color: #372813; /* Brand deep tone */
-        color: #faf8f5;
+        color: #ffffff;
         border: 2px solid #372813;
         border-radius: 50px; /* Pill-shaped */
         padding: 16px 32px;
@@ -478,13 +160,11 @@
         font-size: 1rem;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(55, 40, 19, 0.25);
     }
 
     .btn-brand-primary:hover {
         background-color: #2a1f0f; /* Darker shade on hover */
         border-color: #2a1f0f;
-        box-shadow: 0 8px 25px rgba(55, 40, 19, 0.4);
         transform: translateY(-2px) scale(1.02);
     }
 
@@ -506,10 +186,9 @@
 
     .btn-brand-secondary:hover {
         background-color: #372813; /* Fill with brand deep tone */
-        color: #faf8f5;
+        color: #ffffff;
         border-color: #372813;
         transform: translateY(-1px);
-        box-shadow: 0 6px 20px rgba(55, 40, 19, 0.3);
     }
 
     /* WhatsApp Button Brand Styling */
@@ -528,13 +207,11 @@
         border: 1px solid #aab5b3;
         border-radius: 16px;
         padding: 32px 24px;
-        box-shadow: 0 4px 20px rgba(146, 155, 154, 0.1);
         transition: all 0.3s ease;
     }
 
     .process-card:hover {
         transform: translateY(-4px);
-        box-shadow: 0 8px 30px rgba(146, 155, 154, 0.15);
     }
 
     /* Mobile optimizations with brand consistency */
@@ -576,19 +253,6 @@
         max-width: 300px;
     }
 
-    /* Brand Consistent Shadows */
-    .shadow-brand-soft {
-        box-shadow: 0 2px 8px rgba(146, 155, 154, 0.12);
-    }
-
-    .shadow-brand-medium {
-        box-shadow: 0 4px 16px rgba(146, 155, 154, 0.15);
-    }
-
-    .shadow-brand-strong {
-        box-shadow: 0 8px 24px rgba(146, 155, 154, 0.2);
-    }
-
     /* Text Contrast for Accessibility */
     .text-contrast-high {
         color: #372813;
@@ -597,7 +261,7 @@
 
     /* Flow elements */
     .flow-anchor-pulse {
-        animation: pulse-soft 2s ease-in-out infinite;
+        animation: pulse-soft 3s ease-in-out infinite;
     }
 
     /* Typography utilities */
@@ -623,15 +287,15 @@
 
     /* Animation classes with brand feel */
     .animate-fade-in {
-        animation: fadeIn 0.8s ease-out;
+        animation: fadeIn 1.3s ease-out;
     }
 
     .animate-slide-up {
-        animation: slideUp 0.8s ease-out;
+        animation: slideUp 1.3s ease-out;
     }
 
     .animate-fade-in-up {
-        animation: fadeInUp 0.8s ease-out;
+        animation: fadeInUp 1.3s ease-out;
     }
 
     /* Brand consistent keyframes */
@@ -744,22 +408,21 @@
     /* Brand consistent button styles */
     .hero-btn-primary {
         background-color: #372813; /* Brand deep tone */
-        color: #faf8f5;
+        color: #ffffff;
         border: 2px solid #372813;
+        border-radius: 9999px; /* Fully rounded pill shape */
         font-family:
             "Bodoni Moda", "Bodoni 72", serif; /* Bodoni for consistency */
         font-weight: 450; /* Slightly reduced weight for elegance */
         font-size: 1.125rem; /* Reduced from xl (1.25rem) for better proportion */
         padding: 0.75rem 2rem; /* Reduced padding for better scaling */
         letter-spacing: 0.025em; /* Refined spacing */
-        box-shadow: var(--shadow-premium);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .hero-btn-primary:hover {
         background-color: #2a1f0f; /* Darker shade on hover */
         border-color: #2a1f0f;
-        box-shadow: var(--shadow-luxury);
         transform: translateY(-3px) scale(1.02);
     }
 
@@ -767,6 +430,7 @@
         background: transparent;
         color: #372813; /* Brand deep tone text */
         border: 2px solid #372813; /* Brand deep tone border */
+        border-radius: 9999px; /* Fully rounded pill shape */
         font-family:
             "Bodoni Moda", "Bodoni 72", serif; /* Bodoni for consistency */
         font-weight: 450; /* Slightly reduced weight for elegance */
@@ -778,25 +442,9 @@
 
     .hero-btn-secondary:hover {
         background-color: #372813; /* Fill with brand deep tone */
-        color: #faf8f5;
+        color: #ffffff;
         border-color: #372813;
         transform: translateY(-2px) scale(1.01);
-        box-shadow: var(--shadow-premium);
-    }
-
-    /* Hero Logo Styling - Enhanced */
-    .hero-logo-shadow {
-        filter: drop-shadow(0 8px 24px rgba(55, 40, 19, 0.15))
-            drop-shadow(0 4px 12px rgba(55, 40, 19, 0.1))
-            drop-shadow(0 2px 6px rgba(55, 40, 19, 0.05));
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .hero-logo-shadow:hover {
-        filter: drop-shadow(0 12px 32px rgba(55, 40, 19, 0.2))
-            drop-shadow(0 6px 16px rgba(55, 40, 19, 0.15))
-            drop-shadow(0 3px 8px rgba(55, 40, 19, 0.08));
-        transform: scale(1.02);
     }
 
     /* Enhanced CTA Button Spacing */
@@ -842,7 +490,6 @@
 
     .card-organic-hover:hover {
         transform: translateY(-4px) scale(1.02);
-        box-shadow: 0 12px 40px rgba(146, 155, 154, 0.2);
     }
 
     .texture-organic {
@@ -870,25 +517,23 @@
             var(--tw-gradient-from) 0%,
             var(--tw-gradient-to) 100%
         );
-        box-shadow: 0 2px 8px rgba(146, 155, 154, 0.15);
     }
 
     .icon-glow {
         filter: drop-shadow(0 2px 4px rgba(146, 155, 154, 0.15));
     }
 
-    .text-shadow-soft {
-        text-shadow: 0 1px 2px rgba(55, 40, 19, 0.1);
-    }
-
-    .text-shadow-elegant {
-        text-shadow: 0 2px 4px rgba(55, 40, 19, 0.15);
-    }
-
     /* Brand contrast improvements */
     .btn-contrast-high {
-        color: #faf8f5;
+        color: #ffffff;
         font-weight: 500; /* Medium weight, not bold */
+    }
+
+    /* Force white text on primary buttons */
+    .bg-cocoa-500,
+    .bg-cocoa-500 *,
+    .bg-cocoa-500 span {
+        color: #ffffff !important;
     }
 
     .contrast-high {
@@ -919,25 +564,111 @@
 
     /* Additional brand animations */
     .float-gentle {
-        animation: float-gentle 4s ease-in-out infinite;
+        animation: float-gentle 6s ease-in-out infinite;
     }
 
     .float-gentle-delayed {
-        animation: float-gentle-delayed 5s ease-in-out infinite 1s;
+        animation: float-gentle-delayed 7s ease-in-out infinite 1.5s;
     }
 
     .pulse-soft {
-        animation: pulse-soft 3s ease-in-out infinite;
+        animation: pulse-soft 4s ease-in-out infinite;
     }
 
     .pulse-soft-delayed {
-        animation: pulse-soft-delayed 3s ease-in-out infinite 1.5s;
+        animation: pulse-soft-delayed 4s ease-in-out infinite 2s;
+    }
+
+    /* ===========================================
+       GLOBAL ANIMATION TIMING OVERRIDES
+       Makes all animations consistently slower
+       =========================================== */
+
+    /* CSS Custom Properties for Centralized Timing */
+    :root {
+        --duration-instant: 375ms;
+        --duration-fast: 660ms;
+        --duration-normal: 940ms;
+        --duration-medium: 1220ms;
+        --duration-slow: 1500ms;
+        --duration-elegant: 1880ms;
+        --duration-dramatic: 2350ms;
+        --duration-ambient: 2820ms;
+    }
+
+    /* Override Tailwind's default duration classes to be slower */
+    .duration-75 {
+        transition-duration: var(--duration-instant) !important;
+    }
+    .duration-100 {
+        transition-duration: var(--duration-instant) !important;
+    }
+    .duration-150 {
+        transition-duration: var(--duration-fast) !important;
+    }
+    .duration-200 {
+        transition-duration: var(--duration-fast) !important;
+    }
+    .duration-300 {
+        transition-duration: var(--duration-fast) !important;
+    }
+    .duration-500 {
+        transition-duration: var(--duration-medium) !important;
+    }
+    .duration-700 {
+        transition-duration: var(--duration-slow) !important;
+    }
+    .duration-1000 {
+        transition-duration: var(--duration-elegant) !important;
+    }
+
+    /* Override animation durations to be slower */
+    .animate-pulse {
+        animation-duration: var(--duration-elegant) !important;
+    }
+    .animate-bounce {
+        animation-duration: var(--duration-medium) !important;
+    }
+    .animate-spin {
+        animation-duration: var(--duration-medium) !important;
+    }
+    .animate-ping {
+        animation-duration: var(--duration-medium) !important;
+    }
+
+    /* Global transition override for common patterns */
+    .transition-all {
+        transition-duration: var(--duration-medium) !important;
+    }
+    .transition-colors {
+        transition-duration: var(--duration-fast) !important;
+    }
+    .transition-opacity {
+        transition-duration: var(--duration-fast) !important;
+    }
+    .transition-transform {
+        transition-duration: var(--duration-medium) !important;
+    }
+
+    /* Hover effects should be faster */
+    .group:hover .group-hover\:scale-105,
+    .group:hover .group-hover\:scale-110,
+    .hover\:scale-105:hover,
+    .hover\:scale-110:hover {
+        transition-duration: var(--duration-fast) !important;
+    }
+
+    /* Framer Motion global overrides */
+    [data-framer-motion] {
+        --motion-duration-fast: 0.7s;
+        --motion-duration-normal: 1s;
+        --motion-duration-slow: 1.6s;
     }
 
     /* Flowing path animation */
     .flowing-path {
         stroke-dasharray: 20;
-        animation: flow 8s linear infinite;
+        animation: flow 12s linear infinite;
     }
 
     @keyframes flow {
@@ -970,17 +701,13 @@
         );
         backdrop-filter: blur(8px);
         border: 1px solid rgba(146, 155, 154, 0.1);
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.8),
-            0 4px 20px rgba(146, 155, 154, 0.08);
+
         transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
     }
 
     .process-card-refined:hover {
         transform: translateY(-4px);
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.9),
-            0 8px 30px rgba(146, 155, 154, 0.15);
+
         border-color: rgba(146, 155, 154, 0.2);
     }
 
@@ -992,17 +719,12 @@
             rgba(250, 248, 245, 0.3) 50%,
             rgba(146, 155, 154, 0.05) 100%
         );
-        box-shadow:
-            0 2px 8px rgba(146, 155, 154, 0.15),
-            inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
         transition: all 0.5s ease;
     }
 
     .process-icon-container:hover {
         transform: scale(1.05);
-        box-shadow:
-            0 4px 16px rgba(146, 155, 154, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.9);
     }
 
     /* Refined Number Badges */
@@ -1024,9 +746,6 @@
         );
         backdrop-filter: blur(12px);
         border: 1px solid rgba(146, 155, 154, 0.15);
-        box-shadow:
-            0 8px 32px rgba(146, 155, 154, 0.12),
-            inset 0 1px 0 rgba(255, 255, 255, 0.9);
     }
 
     /* Mobile Process Dividers */
@@ -1040,11 +759,6 @@
         height: 1px;
         margin: 2rem auto;
         width: 3rem;
-    }
-
-    /* Refined Text Shadows */
-    .text-shadow-refined {
-        text-shadow: 0 1px 3px rgba(55, 40, 19, 0.08);
     }
 
     /* Enhanced Gradient Overlays */
@@ -1361,18 +1075,157 @@
     /* Enhanced Button Styling for Process Section */
     .process-btn-primary {
         background: linear-gradient(135deg, #929b9a 0%, #7a8382 100%);
-        color: #faf8f5;
+        color: #ffffff;
         border: none;
-        box-shadow:
-            0 4px 20px rgba(146, 155, 154, 0.25),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        border-radius: 9999px; /* Fully rounded pill shape */
         transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
     }
 
     .process-btn-primary:hover {
         background-color: #2a1f0f; /* Darker shade on hover */
         border-color: #2a1f0f;
-        box-shadow: 0 8px 25px rgba(55, 40, 19, 0.4);
         transform: translateY(-1px) scale(1.02);
+    }
+}
+
+/* ==================== CIRCULAR BUTTON UTILITIES ==================== */
+/* Brand Identity: Soft, rounded, circular feel for all buttons */
+
+@layer utilities {
+    /* Circular button styling - brand identity */
+    .rounded-button {
+        border-radius: 9999px; /* Full circular */
+    }
+
+    .rounded-elegant {
+        border-radius: 9999px; /* Full circular */
+    }
+
+    .rounded-luxury {
+        border-radius: 2rem; /* Highly rounded for containers */
+    }
+
+    .rounded-premium {
+        border-radius: 1.5rem; /* Highly rounded for cards */
+    }
+
+    /* Button contrast and accessibility */
+    .btn-contrast-high {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-contrast-high:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        transform: translateY(-1px);
+    }
+
+    /* Surface styling for mobile navigation */
+    .surface-premium {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* Shadow variations for buttons */
+    .shadow-luxury {
+        box-shadow:
+            0 8px 25px rgba(146, 155, 154, 0.15),
+            0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .shadow-premium {
+        box-shadow:
+            0 4px 15px rgba(146, 155, 154, 0.12),
+            0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .shadow-elegant {
+        box-shadow:
+            0 2px 10px rgba(146, 155, 154, 0.1),
+            0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    .shadow-inner-soft {
+        box-shadow: inset 0 1px 2px rgba(146, 155, 154, 0.1);
+    }
+
+    /* Typography for buttons */
+    .tracking-button-refined {
+        letter-spacing: 0.025em;
+    }
+
+    /* Input styling */
+    .input-high-contrast {
+        border: 2px solid rgba(146, 155, 154, 0.2);
+        background: rgba(255, 255, 255, 0.95);
+    }
+
+    .input-high-contrast:focus {
+        border-color: #929b9a;
+        box-shadow: 0 0 0 3px rgba(146, 155, 154, 0.1);
+        outline: none;
+    }
+
+    /* Contrast utilities */
+    .contrast-high {
+        color: #372813;
+        font-weight: 500;
+    }
+
+    .text-contrast-high {
+        color: #372813;
+    }
+
+    /* Brand texture */
+    .texture-grain {
+        background-image: radial-gradient(
+            circle at 1px 1px,
+            rgba(146, 155, 154, 0.03) 1px,
+            transparent 0
+        );
+        background-size: 20px 20px;
+    }
+
+    /* Flow anchor animation */
+    .flow-anchor-pulse {
+        animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    @keyframes pulse {
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    /* Enhanced smooth scroll utilities */
+    .smooth-scroll {
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Scroll snap removed to prevent involuntary section jumping */
+
+    /* Enhanced page transitions */
+    .page-transition {
+        transition: all 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+
+    /* Optimized scroll performance */
+    .scroll-optimized {
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        perspective: 1000px;
+    }
+
+    /* Enhanced focus states for accessibility */
+    .focus-visible {
+        outline: 2px solid #929b9a;
+        outline-offset: 4px;
+        border-radius: 4px;
     }
 }

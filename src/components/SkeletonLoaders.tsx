@@ -286,7 +286,7 @@ export const PageSkeleton: React.FC<{ children: React.ReactNode }> = ({
 
 // Loading overlay
 export const LoadingOverlay: React.FC<{ message?: string }> = ({
-  message = "Preparando algo dulce...",
+  message = "Preparando algo especial...",
 }) => (
   <motion.div
     className="fixed inset-0 bg-cream/90 backdrop-blur-sm flex items-center justify-center z-50"

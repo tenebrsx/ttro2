@@ -463,7 +463,7 @@ const ContactPageForm: React.FC = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`w-full bg-sage text-white py-3 px-6 rounded-lg font-academy font-medium transition-all transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-sage/20 ${
+          className={`w-full bg-sage text-white py-3 px-6 rounded-button font-bodoni font-medium transition-all transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-sage/20 btn-contrast-high tracking-button-refined shadow-premium hover:shadow-luxury ${
             isSubmitting ? "opacity-50 cursor-not-allowed" : "hover:bg-sage/90"
           }`}
         >

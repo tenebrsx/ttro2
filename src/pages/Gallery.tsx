@@ -132,7 +132,7 @@ const Gallery = () => {
             </div>
 
             <h1 className="text-4xl sm:text-5xl font-playfair text-black-bold text-shadow-elegant mb-6">
-              Momentos Dulces &
+              Momentos Especiales &
               <span className="block text-dusty-rose-elegant italic">
                 Recuerdos Hermosos
               </span>
@@ -254,7 +254,7 @@ const Gallery = () => {
             <div className="flex items-center justify-center mb-6">
               <Instagram className="h-8 w-8 text-dusty-rose mr-3" />
               <h2 className="text-3xl font-playfair text-black-bold text-shadow-elegant">
-                Sigue Mi Viaje Dulce
+                Sigue Mi Viaje Creativo
               </h2>
             </div>
 

@@ -67,13 +67,13 @@ const Services = () => {
           <h2 className="text-4xl sm:text-5xl font-academy text-mocha mb-6 text-shadow-soft">
             Servicios que
             <span className="block text-dusty-rose italic mt-2 font-bold">
-              Endulzan tu Vida
+              Alegran tu Día
             </span>
           </h2>
 
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-sage/40 to-transparent mx-auto mb-6 shadow-inner-soft"></div>
 
-          <p className="text-lg text-mocha/70 max-w-2xl mx-auto font-karla font-light leading-relaxed bg-gradient-to-r from-cream/10 via-white/20 to-cream/10 rounded-elegant px-6 py-4 shadow-inner-soft backdrop-blur-sm">
+          <p className="text-lg text-mocha/70 max-w-2xl mx-auto font-karla font-light leading-relaxed bg-gradient-to-r from-cream/10 via-white/20 to-cream/10 rounded-2xl px-6 py-4 shadow-inner-soft backdrop-blur-sm">
             Cada servicio está hecho a medida para tu visión, tu espacio y tu
             gente. Creemos algo hermoso juntos.
             <span className="block mt-2 italic text-mocha/60 bg-sage/5 rounded-premium px-3 py-1 shadow-inner-soft">
@@ -87,7 +87,7 @@ const Services = () => {
           {services.map((service, index) => (
             <div
               key={index}
-              className="relative bg-white/80 backdrop-blur-md rounded-elegant p-8 shadow-premium hover:shadow-luxury transition-all duration-500 border border-sage/10 group transform hover:scale-105 hover:-rotate-1 surface-elegant"
+              className="relative bg-white/80 backdrop-blur-md rounded-2xl p-8 shadow-premium hover:shadow-luxury transition-all duration-500 border border-sage/10 group transform hover:scale-105 hover:-rotate-1 surface-elegant"
             >
               <div className="flex items-center justify-center w-16 h-16 bg-sage/20 rounded-luxury mb-6 group-hover:bg-sage/30 transition-all duration-500 shadow-elegant group-hover:shadow-premium backdrop-blur-sm">
                 <service.icon
@@ -130,7 +130,7 @@ const Services = () => {
         </div>
 
         <div className="text-center mt-16 relative">
-          <div className="bg-sage/10 p-8 rounded-elegant shadow-premium hover:shadow-luxury transition-all duration-500 max-w-2xl mx-auto backdrop-blur-sm surface-premium">
+          <div className="bg-sage/10 p-8 rounded-2xl shadow-premium hover:shadow-luxury transition-all duration-500 max-w-2xl mx-auto backdrop-blur-sm surface-premium">
             <p className="text-mocha/70 font-karla font-light leading-relaxed mb-6 bg-gradient-to-r from-cream/10 via-white/20 to-cream/10 rounded-premium px-4 py-3 shadow-inner-soft">
               "Mi pasión es crear experiencias que nutran no solo el cuerpo,
               sino también el alma. Cada servicio está impregnado con la
@@ -140,7 +140,7 @@ const Services = () => {
             <h3 className="text-2xl font-academy mb-4 text-shadow-soft bg-gradient-to-r from-mocha/5 to-transparent rounded-premium px-4 py-2 shadow-inner-soft">
               ¿Listo para{" "}
               <span className="text-dusty-rose font-bold bg-dusty-rose/10 rounded-premium px-2 py-1 shadow-inner-soft">
-                Endulzar
+                Personalizar
               </span>{" "}
               tu Evento?
             </h3>
@@ -152,7 +152,7 @@ const Services = () => {
 
         <div className="mt-16 text-center relative">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber/5 to-transparent rounded-luxury"></div>
-          <blockquote className="relative text-xl font-academy text-amber-700 italic mb-4 bg-amber/5 rounded-elegant px-6 py-4 shadow-premium backdrop-blur-sm">
+          <blockquote className="relative text-xl font-academy text-amber-700 italic mb-4 bg-amber/5 rounded-2xl px-6 py-4 shadow-premium backdrop-blur-sm">
             "Rosa convirtió nuestro aniversario en pura magia. Cada bocado era
             una carta de amor."
           </blockquote>

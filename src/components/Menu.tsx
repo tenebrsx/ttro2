@@ -81,9 +81,9 @@ const Menu = () => {
           </div>
 
           <h2 className="text-4xl sm:text-5xl font-bodoni text-cocoa mb-6 text-shadow-soft">
-            <span className="text-sage font-bold">Dulces</span> Creaciones
+            <span className="text-sage font-bold">Postres</span> Artesanales
             <span className="block text-sage italic mt-2 font-bold">
-              Hechas con Amor
+              Hechos con Amor
             </span>
           </h2>
 

@@ -26,15 +26,15 @@ class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="min-h-screen flex items-center justify-center bg-cream">
           <div className="text-center p-8 max-w-md">
-            <h2 className="text-2xl font-academy text-mocha mb-4">
+            <h2 className="text-2xl font-academy text-cocoa-500 mb-4">
               Oops! Algo salió mal
             </h2>
-            <p className="text-mocha/70 font-karla mb-4">
+            <p className="text-cocoa-500/70 font-bodoni mb-4">
               Hubo un error cargando la página. Por favor, intenta recargar.
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="bg-dusty-rose text-cream px-6 py-3 rounded-full font-karla hover:bg-mocha transition-colors"
+              className="bg-sage-500 text-cream-200 px-6 py-3 rounded-button font-bodoni font-medium hover:bg-sage-600 transition-all duration-300 btn-contrast-high tracking-button-refined shadow-premium hover:shadow-luxury"
             >
               Recargar página
             </button>

@@ -41,7 +41,7 @@ Descripción: "🍰 Postres artesanales premium en Santo Domingo. Especialistas 
 ```html
 <!-- Meta Tags Optimizados para RD -->
 <title>Cucinanostrard | Postres Artesanales Santo Domingo | Repostería Francesa República Dominicana</title>
-<meta name="description" content="🍰 Los mejores postres artesanales en Santo Domingo, RD. Macarons franceses, tartas personalizadas, cupcakes gourmet. Ingredientes premium, entrega rápida. Pedidos WhatsApp +1-809-XXX-XXXX" />
+<meta name="description" content="🍰 Los mejores postres artesanales en Santo Domingo, RD. Macarons franceses, tartas personalizadas, cupcakes gourmet. Ingredientes premium, entrega rápida. Pedidos WhatsApp +18096581245" />
 
 <!-- Structured Data para Dominicana -->
 <script type="application/ld+json">
@@ -63,7 +63,7 @@ Descripción: "🍰 Postres artesanales premium en Santo Domingo. Especialistas 
     "latitude": 18.4861,
     "longitude": -69.9312
   },
-  "telephone": "+1-809-XXX-XXXX",
+  "telephone": "+18096581245",
   "priceRange": "$$",
   "servesCuisine": ["Postres Franceses", "Repostería Artesanal"],
   "areaServed": [

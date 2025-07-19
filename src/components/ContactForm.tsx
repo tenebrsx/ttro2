@@ -120,7 +120,7 @@ const ContactForm: React.FC = () => {
           ¡Gracias por tu mensaje!
         </h3>
         <p className="text-mocha/70 font-karla">
-          Te contactaré pronto para conversar sobre tu dulce celebración.
+          Te contactaré pronto para conversar sobre tu ocasión especial.
         </p>
       </div>
     );
@@ -289,7 +289,7 @@ const ContactForm: React.FC = () => {
           {loading ? "Enviando..." : "Enviar Consulta"}
         </Button>
         <p className="text-sm text-cocoa-500/70 mt-4 font-bodoni font-medium">
-          Te responderé en 24 horas para conversar sobre tu dulce celebración
+          Te responderé en 24 horas para conversar sobre tu evento único
         </p>
       </div>
     </form>

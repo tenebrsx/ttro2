@@ -264,7 +264,7 @@ export const CustomerPhotoShowcase: React.FC<CustomerPhotoShowcaseProps> = ({
               Galería de Clientes
             </h2>
             <p className="text-gray-600">
-              Nuestros clientes comparten sus momentos dulces
+              Nuestros clientes comparten sus momentos especiales
             </p>
           </div>
           <div className="flex items-center space-x-4">

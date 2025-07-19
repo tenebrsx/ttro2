@@ -42,7 +42,7 @@ Nombre: Cucinanostrard - Postres Artesanales Santo Domingo
 Categoría Principal: Repostería
 Categorías Secundarias: Pastelería, Servicio de Catering, Panadería Artesanal
 Dirección: Santo Domingo Este, DN, República Dominicana
-Teléfono: +1-809-XXX-XXXX
+Teléfono: +18096581245
 Horarios: Lun-Vie 8:00-19:00, Sáb 9:00-17:00, Dom 10:00-15:00
 Servicios: Entrega a domicilio, Pedidos personalizados, Consultas virtuales
 ```

@@ -148,21 +148,7 @@ export default {
         },
       },
       boxShadow: {
-        xs: "0 1px 2px 0 rgba(55, 40, 19, 0.05)",
-        sm: "0 1px 3px 0 rgba(55, 40, 19, 0.1), 0 1px 2px 0 rgba(55, 40, 19, 0.06)",
-        DEFAULT:
-          "0 1px 3px 0 rgba(55, 40, 19, 0.1), 0 1px 2px 0 rgba(55, 40, 19, 0.06)",
-        md: "0 4px 6px -1px rgba(55, 40, 19, 0.1), 0 2px 4px -1px rgba(55, 40, 19, 0.06)",
-        lg: "0 10px 15px -3px rgba(55, 40, 19, 0.1), 0 4px 6px -2px rgba(55, 40, 19, 0.05)",
-        xl: "0 20px 25px -5px rgba(55, 40, 19, 0.1), 0 10px 10px -5px rgba(55, 40, 19, 0.04)",
-        "2xl": "0 25px 50px -12px rgba(55, 40, 19, 0.25)",
-        inner: "inset 0 2px 4px 0 rgba(55, 40, 19, 0.06)",
-        gentle:
-          "0 2px 8px rgba(146, 155, 154, 0.15), 0 1px 3px rgba(55, 40, 19, 0.1)",
-        warm: "0 4px 12px rgba(146, 155, 154, 0.2), 0 2px 6px rgba(55, 40, 19, 0.1)",
-        soft: "0 8px 25px rgba(146, 155, 154, 0.15), 0 3px 10px rgba(55, 40, 19, 0.1)",
-        elegant:
-          "0 4px 20px rgba(146, 155, 154, 0.15), 0 1px 3px rgba(55, 40, 19, 0.1)",
+        none: "none",
       },
       animation: {
         "fade-in": "fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1)",

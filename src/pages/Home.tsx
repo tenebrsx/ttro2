@@ -16,7 +16,7 @@ import HomeContactSection from "../components/HomeContactSection";
 const SEO_CONFIG = {
   title: "Cucina | Repostería Artesanal Casera | Postres Hechos con Amor",
   description:
-    "Cucina - Postres artesanales hechos con amor y tradición casera. Ingredientes premium, técnicas artesanales, sabores auténticos. Creamos dulces momentos para tus celebraciones especiales. Pedidos personalizados.",
+    "Cucina - Postres artesanales hechos con amor y tradición casera. Ingredientes premium, técnicas artesanales, sabores auténticos. Creamos momentos memorables para tus celebraciones especiales. Pedidos personalizados.",
   image: "/images/cucina-postres-artesanales.jpg",
   type: "website" as const,
   price: 1500,

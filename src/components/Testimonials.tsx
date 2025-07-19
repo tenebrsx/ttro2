@@ -49,7 +49,8 @@ const Testimonials = () => {
           </div>
 
           <h2 className="text-4xl sm:text-5xl font-academy text-mocha mb-6 text-shadow-soft">
-            Palabras <span className="text-dusty-rose font-bold">Dulces</span>
+            Palabras{" "}
+            <span className="text-dusty-rose font-bold">de Gratitud</span>
           </h2>
 
           <div className="w-24 h-px bg-sage/40 mx-auto mb-6"></div>

@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { Instagram } from "lucide-react";
 import { HeartMail, ChatBubble, HeartLocation } from "./icons/ArtisanalIcons";
-import Logo from "./Logo";
 
 // Constants
 const CONTACT_INFO = {
@@ -25,23 +24,23 @@ const NAVIGATION_ITEMS = [
 
 // Utility styles
 const linkStyles =
-  "text-cream/80 hover:text-sage transition-all duration-500 font-bodoni font-normal tracking-button-refined hover:bg-sage/10 rounded-premium px-3 py-1 shadow-hover-elegant backdrop-blur-sm";
+  "text-[#FAFAFA] hover:text-[#FAFAFA] transition-all duration-500 font-bodoni font-normal tracking-button-refined hover:bg-black/10 rounded-premium px-3 py-1";
 const sectionHeaderStyles =
-  "text-lg font-academy mb-4 text-sage font-normal text-shadow-elegant leading-elegant tracking-academy-normal bg-gradient-to-r from-sage/10 to-transparent rounded-premium px-3 py-2 shadow-inner-soft";
+  "text-lg font-academy mb-4 text-[#FAFAFA] font-normal leading-elegant tracking-academy-normal px-3 py-2";
 
 // Sub-components
 const CompanyInfo = () => (
   <div className="space-y-4 md:col-span-2">
     <div className="flex items-center space-x-2">
       <div className="relative">
-        <div className="absolute inset-0 bg-gradient-radial from-white/10 via-transparent to-transparent rounded-luxury blur-xl scale-110 opacity-60"></div>
-        <Logo
-          size="md"
-          className="relative filter brightness-0 invert shadow-luxury"
+        <img
+          src="/logo.png"
+          alt="Cucina - homemade goods"
+          className="h-20 w-auto object-contain filter brightness-0 invert"
         />
       </div>
     </div>
-    <p className="text-cream/80 leading-body-elegant font-bodoni font-normal max-w-md text-shadow-elegant bg-gradient-to-r from-cream/5 to-transparent rounded-elegant px-4 py-3 shadow-inner-soft backdrop-blur-sm">
+    <p className="text-[#FAFAFA] leading-body-elegant font-bodoni font-normal max-w-md">
       Creando postres artesanales con amor, ingredientes de calidad y la
       tradición de la repostería casera.
     </p>
@@ -50,12 +49,12 @@ const CompanyInfo = () => (
         href={SOCIAL_LINKS.instagram}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-cream/80 hover:text-sage transition-all duration-500 hover:bg-sage/10 rounded-button p-2 shadow-hover-premium backdrop-blur-sm"
+        className="text-[#FAFAFA] hover:text-[#FAFAFA] transition-all duration-500 hover:bg-black/10 rounded-button p-2"
         aria-label="Visit our Instagram page"
       >
-        <Instagram className="h-5 w-5" />
+        <Instagram className="h-5 w-5 text-[#FAFAFA]" />
       </a>
-      <span className="text-cream/60 font-bodoni text-sm font-normal bg-cream/5 rounded-premium px-3 py-1 shadow-inner-soft">
+      <span className="text-[#FAFAFA] font-bodoni text-sm font-normal px-3 py-1">
         @cucina
       </span>
     </div>
@@ -78,9 +77,9 @@ const NavigationSection = () => (
           href={SOCIAL_LINKS.instagram}
           target="_blank"
           rel="noopener noreferrer"
-          className={`${linkStyles} flex items-center space-x-2 shadow-elegant hover:shadow-premium`}
+          className={`${linkStyles} flex items-center space-x-2`}
         >
-          <Instagram className="h-4 w-4" />
+          <Instagram className="h-4 w-4 text-[#FAFAFA]" />
           <span>Instagram</span>
         </a>
       </li>
@@ -89,9 +88,11 @@ const NavigationSection = () => (
           href={SOCIAL_LINKS.whatsapp}
           target="_blank"
           rel="noopener noreferrer"
-          className={`${linkStyles} flex items-center space-x-2 shadow-elegant hover:shadow-premium`}
+          className={`${linkStyles} flex items-center space-x-2`}
         >
-          <ChatBubble className="text-current" size={20} />
+          <div className="[&_svg]:!stroke-white [&_path]:!stroke-white [&_rect]:!stroke-white [&_circle]:!fill-white">
+            <ChatBubble size={20} />
+          </div>
           <span>WhatsApp</span>
         </a>
       </li>
@@ -106,34 +107,28 @@ const ContactInfoItem = ({
   icon: React.ComponentType<{ className?: string }>;
   text: string;
 }) => (
-  <div className="flex items-center space-x-3 bg-gradient-to-r from-cream/5 to-transparent rounded-premium px-3 py-2 shadow-inner-soft backdrop-blur-sm hover:bg-cream/10 transition-all duration-500">
-    <div className="bg-sage/20 rounded-button p-1 shadow-elegant">
-      <Icon className="text-sage" size={16} />
+  <div className="flex items-center space-x-3 px-3 py-2 hover:bg-black/10 transition-all duration-500">
+    <div className="bg-black/20 rounded-button p-1 [&_svg]:!stroke-white [&_path]:!stroke-white [&_rect]:!stroke-white [&_circle]:!fill-white">
+      <Icon size={16} />
     </div>
-    <span className="text-cream/80 font-bodoni text-sm text-shadow-elegant">
-      {text}
-    </span>
+    <span className="text-[#FAFAFA] font-bodoni text-sm">{text}</span>
   </div>
 );
 
 const ContactSection = () => (
-  <div className="relative">
-    <div className="absolute inset-0 bg-gradient-to-br from-sage/5 to-transparent rounded-luxury blur-xl opacity-60"></div>
-    <div className="relative">
-      <h4 className={sectionHeaderStyles}>Contacto</h4>
-      <div className="space-y-3">
-        <ContactInfoItem icon={HeartMail} text={CONTACT_INFO.email} />
-        <ContactInfoItem icon={ChatBubble} text={CONTACT_INFO.phone} />
-        <ContactInfoItem icon={HeartLocation} text={CONTACT_INFO.location} />
-      </div>
+  <div>
+    <h4 className={sectionHeaderStyles}>Contacto</h4>
+    <div className="space-y-3">
+      <ContactInfoItem icon={HeartMail} text={CONTACT_INFO.email} />
+      <ContactInfoItem icon={ChatBubble} text={CONTACT_INFO.phone} />
+      <ContactInfoItem icon={HeartLocation} text={CONTACT_INFO.location} />
     </div>
   </div>
 );
 
 const Copyright = () => (
-  <div className="border-t border-cream/20 mt-8 pt-8 text-center relative">
-    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cream/5 to-transparent rounded-luxury"></div>
-    <p className="relative text-cream/60 font-bodoni text-shadow-elegant bg-gradient-to-r from-transparent via-cream/5 to-transparent rounded-premium px-6 py-3 shadow-inner-soft backdrop-blur-sm">
+  <div className="border-t border-[#FAFAFA]/20 mt-8 pt-8 text-center">
+    <p className="text-[#FAFAFA] font-bodoni px-6 py-3">
       © 2024 Cucina. Postres artesanales hechos con amor.
     </p>
   </div>
@@ -141,18 +136,19 @@ const Copyright = () => (
 
 const Footer = () => {
   return (
-    <footer className="bg-cocoa text-cream py-12 relative texture-grain">
-      <div className="absolute inset-0 bg-gradient-to-t from-cocoa-600/50 to-transparent"></div>
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
-          <div className="absolute inset-0 bg-gradient-to-br from-sage/5 via-transparent to-cream/5 rounded-luxury opacity-60 shadow-luxury"></div>
-          <div className="relative">
+    <footer
+      className="py-12"
+      style={{ backgroundColor: "#8C9594", color: "#FAFAFA" }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
             <CompanyInfo />
           </div>
-          <div className="relative">
+          <div>
             <NavigationSection />
           </div>
-          <div className="relative">
+          <div>
             <ContactSection />
           </div>
         </div>

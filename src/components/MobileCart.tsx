@@ -238,7 +238,7 @@ const MobileCart: React.FC = () => {
                     <motion.button
                       whileTap={{ scale: 0.98 }}
                       onClick={generateWhatsAppMessage}
-                      className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-4 rounded-xl font-karla font-medium flex items-center justify-center space-x-2 shadow-lg hover:from-green-600 hover:to-green-700 transition-all duration-200"
+                      className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-4 rounded-button font-bodoni font-medium flex items-center justify-center space-x-2 shadow-premium hover:from-green-600 hover:to-green-700 transition-all duration-300 btn-contrast-high tracking-button-refined"
                     >
                       <MessageCircle className="w-5 h-5" />
                       <span>Continuar con WhatsApp</span>

@@ -2,12 +2,11 @@ import * as React from "react";
 const { useRef, useEffect, useState } = React;
 import {
   motion,
-  useAnimation,
-  useMotionValue,
   useTransform,
   useScroll,
   AnimatePresence,
 } from "framer-motion";
+import { DURATIONS } from "../../config/animationTiming";
 
 // ==================== SOPHISTICATED EASING CURVES ====================
 export const sophisticatedEasing = [0.25, 0.1, 0.25, 1] as const; // Smooth, professional
@@ -28,7 +27,7 @@ export const FadeReveal: React.FC<FadeRevealProps> = ({
   children,
   className = "",
   delay = 0,
-  duration = 0.8,
+  duration = DURATIONS.elegant,
   direction = "up",
   distance = 30,
 }) => {
@@ -58,7 +57,7 @@ export const FadeReveal: React.FC<FadeRevealProps> = ({
         y: 0,
         x: 0,
       }}
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: "-63px" }}
       transition={{
         duration,
         delay,
@@ -81,8 +80,8 @@ interface StaggerRevealProps {
 export const StaggerReveal: React.FC<StaggerRevealProps> = ({
   children,
   className = "",
-  staggerDelay = 0.1,
-  childDelay = 0.6,
+  staggerDelay = 0.15,
+  childDelay = 0.8,
 }) => {
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -101,7 +100,7 @@ export const StaggerReveal: React.FC<StaggerRevealProps> = ({
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }}
+      viewport={{ once: true, margin: "-32px" }}
     >
       {children}
     </motion.div>
@@ -121,7 +120,7 @@ export const StaggerChild: React.FC<{
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.8,
+        duration: DURATIONS.elegant,
         ease: sophisticatedEasing as any,
       },
     },
@@ -150,7 +149,6 @@ export const ProximityMagnet: React.FC<ProximityMagnetProps> = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [isNear, setIsNear] = useState(false);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -267,9 +265,9 @@ export const TextReveal: React.FC<TextRevealProps> = ({
         className={className}
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: "-63px" }}
         transition={{
-          duration: 0.6,
+          duration: DURATIONS.elegant,
           ease: sophisticatedEasing,
           delay,
         }}
@@ -284,7 +282,7 @@ export const TextReveal: React.FC<TextRevealProps> = ({
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true }}
+      viewport={{ once: true, margin: "-63px" }}
       transition={{ staggerChildren: staggerDelay, delayChildren: delay }}
     >
       {words.map((word, i) => (
@@ -297,7 +295,7 @@ export const TextReveal: React.FC<TextRevealProps> = ({
               opacity: 1,
               y: 0,
               transition: {
-                duration: 0.6,
+                duration: DURATIONS.elegant,
                 ease: sophisticatedEasing,
               },
             },
@@ -322,7 +320,7 @@ export const HoverLift: React.FC<HoverLiftProps> = ({
   children,
   className = "",
   liftHeight = 8,
-  duration = 0.3,
+  duration = DURATIONS.fast,
 }) => {
   return (
     <motion.div
@@ -351,8 +349,8 @@ interface ScaleHoverProps {
 export const ScaleHover: React.FC<ScaleHoverProps> = ({
   children,
   className = "",
-  scale = 1.02,
-  duration = 0.3,
+  scale = 1.05,
+  duration = DURATIONS.fast,
 }) => {
   return (
     <motion.div
@@ -382,7 +380,7 @@ export const MorphContainer: React.FC<MorphContainerProps> = ({
   children,
   className = "",
   hoverRadius = 24,
-  duration = 0.4,
+  duration = DURATIONS.instant,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -450,7 +448,7 @@ export const Entrance: React.FC<EntranceProps> = ({
   children,
   className = "",
   delay = 0,
-  duration = 0.8,
+  duration = DURATIONS.medium,
   type = "fade",
 }) => {
   const getInitialState = () => {
@@ -531,7 +529,7 @@ export const SophisticatedButton: React.FC<SophisticatedButtonProps> = ({
     "relative overflow-hidden rounded-full px-8 py-4 font-bodoni font-medium cursor-pointer transition-all duration-300 tracking-button-refined";
   const variantClasses = {
     primary:
-      "bg-cocoa-500 text-cream-200 font-medium border-2 border-cocoa-500 shadow-lg",
+      "bg-cocoa-500 text-white font-medium border-2 border-cocoa-500 shadow-lg",
     secondary:
       "bg-transparent text-cocoa-500 border-2 border-cocoa-500 font-medium",
     ghost: "bg-transparent text-sage-600 border border-sage-300/50 font-normal",
@@ -547,14 +545,14 @@ export const SophisticatedButton: React.FC<SophisticatedButtonProps> = ({
         y: -2,
         scale: variant === "primary" ? 1.02 : 1.01,
         transition: {
-          duration: 0.2,
+          duration: DURATIONS.instant,
           ease: subtleEasing as any,
         },
       }}
       whileTap={{
         scale: 0.98,
         transition: {
-          duration: 0.1,
+          duration: DURATIONS.instant,
           ease: subtleEasing as any,
         },
       }}
@@ -564,7 +562,7 @@ export const SophisticatedButton: React.FC<SophisticatedButtonProps> = ({
         initial={{ x: "-100%" }}
         animate={{ x: isHovered ? "100%" : "-100%" }}
         transition={{
-          duration: 0.6,
+          duration: DURATIONS.fast,
           ease: elegantEasing as any,
         }}
       />
@@ -868,7 +866,7 @@ export const CinematicReveal: React.FC<CinematicRevealProps> = ({
   className = "",
   direction = "horizontal",
   delay = 0,
-  duration = 1.2,
+  duration = DURATIONS.dramatic,
   easing = "dramatic",
 }) => {
   const getEasing = () => {
@@ -955,7 +953,7 @@ export const CinematicReveal: React.FC<CinematicRevealProps> = ({
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }}
+      viewport={{ once: true, margin: "-32px" }}
       variants={maskVariants}
     >
       {children}
@@ -1067,6 +1065,8 @@ export const GlitchEffect: React.FC<GlitchEffectProps> = ({
     }
   }, [trigger]);
 
+  const glitchIntensity = intensity * 4; // Scale intensity for better effect
+
   const glitchVariants = {
     normal: {
       x: 0,
@@ -1074,11 +1074,27 @@ export const GlitchEffect: React.FC<GlitchEffectProps> = ({
       filter: "hue-rotate(0deg)",
     },
     glitch: {
-      x: [-2, 2, -2, 2, 0],
-      skew: [-2, 2, -2, 2, 0],
-      filter: ["hue-rotate(0deg)", "hue-rotate(90deg)", "hue-rotate(0deg)"],
+      x: [
+        -glitchIntensity,
+        glitchIntensity,
+        -glitchIntensity,
+        glitchIntensity,
+        0,
+      ],
+      skew: [
+        -glitchIntensity,
+        glitchIntensity,
+        -glitchIntensity,
+        glitchIntensity,
+        0,
+      ],
+      filter: [
+        "hue-rotate(0deg)",
+        `hue-rotate(${90 * intensity}deg)`,
+        "hue-rotate(0deg)",
+      ],
       transition: {
-        duration: 0.2,
+        duration: DURATIONS.instant,
         times: [0, 0.25, 0.5, 0.75, 1],
       },
     },
@@ -1178,7 +1194,7 @@ export const PremiumReveal: React.FC<PremiumRevealProps> = ({
       <CinematicReveal
         direction="iris"
         delay={delay}
-        duration={1.5}
+        duration={DURATIONS.elegant}
         easing="dramatic"
         className={className}
       >
@@ -1200,7 +1216,7 @@ export const PremiumReveal: React.FC<PremiumRevealProps> = ({
       <CinematicReveal
         direction="curtain"
         delay={delay}
-        duration={1.8}
+        duration={DURATIONS.dramatic}
         easing="elegant"
         className={className}
       >
@@ -1222,7 +1238,7 @@ export const PremiumReveal: React.FC<PremiumRevealProps> = ({
       <CinematicReveal
         direction="center"
         delay={delay}
-        duration={2}
+        duration={DURATIONS.elegant}
         easing="dramatic"
         className={className}
       >

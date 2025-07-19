@@ -79,8 +79,8 @@ export const FloatingActionButton: React.FC = () => {
           flex items-center gap-3 px-4 py-3 sm:px-6 sm:py-4
           bg-gradient-to-r from-sage-500 to-sage-600
           hover:from-sage-600 hover:to-sage-700
-          text-white rounded-full
-          shadow-brand-medium hover:shadow-brand-strong
+          text-white rounded-button
+          shadow-premium hover:shadow-luxury
           border border-sage-400/30
           transition-all duration-300
           relative overflow-hidden
@@ -88,6 +88,7 @@ export const FloatingActionButton: React.FC = () => {
           min-h-[48px]
           backdrop-blur-sm
           btn-contrast-high
+          tracking-button-refined
         "
         whileHover={ANIMATION_CONFIG.buttonHover}
         whileTap={ANIMATION_CONFIG.buttonTap}

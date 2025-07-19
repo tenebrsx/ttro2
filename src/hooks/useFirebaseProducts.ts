@@ -176,6 +176,10 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
           if (updatedProducts.length === 0) {
             console.log("🔥 REAL-TIME UPDATE: No products found in Firestore!");
 
+            // Check environment variable for auto-migration control
+            const AUTO_MIGRATION_ENABLED =
+              import.meta.env.VITE_AUTO_MIGRATION_ENABLED === "true";
+
             // Check if this is an intentional deletion vs initial empty state
             if (hasEverHadProducts) {
               console.log(
@@ -191,7 +195,7 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
                 dataSource: "firebase",
                 lastSync: new Date(),
               });
-            } else if (!migrationAttempted) {
+            } else if (!migrationAttempted && AUTO_MIGRATION_ENABLED) {
               console.log(
                 "🚀 AUTO-MIGRATION: Firebase is empty on first load, automatically migrating local products for PERSISTENCE...",
               );
@@ -235,7 +239,9 @@ export const useFirebaseProducts = (): UseFirebaseProductsReturn => {
                 });
             } else {
               console.log(
-                "🔄 FALLBACK: Migration already attempted, keeping empty state",
+                !AUTO_MIGRATION_ENABLED
+                  ? "🚫 AUTO-MIGRATION: Disabled by environment variable, keeping empty state"
+                  : "🔄 FALLBACK: Migration already attempted, keeping empty state",
               );
               setProducts([]);
               calculateStats([]);

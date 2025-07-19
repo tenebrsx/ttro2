@@ -105,7 +105,7 @@ const SEO: React.FC<SEOProps> = ({
       "https://cucinanostrard.com/images/featured-desserts.jpg",
       "https://cucinanostrard.com/images/instagram-gallery.jpg",
     ],
-    telephone: "+1-809-XXX-XXXX",
+    telephone: "+18096581245",
     email: "info@cucinanostrard.com",
     foundingDate: "2020",
     founder: {
@@ -335,10 +335,7 @@ const SEO: React.FC<SEOProps> = ({
         name="business:contact_data:country_name"
         content="República Dominicana"
       />
-      <meta
-        name="business:contact_data:phone_number"
-        content="+1-809-XXX-XXXX"
-      />
+      <meta name="business:contact_data:phone_number" content="+18096581245" />
       <meta
         name="business:contact_data:email"
         content="info@cucinanostrard.com"
@@ -383,7 +380,7 @@ const SEO: React.FC<SEOProps> = ({
             logo: "https://cucinanostrard.com/images/logo.png",
             contactPoint: {
               "@type": "ContactPoint",
-              telephone: "+1-809-XXX-XXXX",
+              telephone: "+18096581245",
               contactType: "customer service",
               areaServed: "DO",
               availableLanguage: "Spanish",

@@ -224,7 +224,7 @@ const EnhancedDessertCard: React.FC<DessertCardProps> = ({
             transition={{ duration: 0.3, delay: 0.1 }}
           >
             <motion.button
-              className="w-full bg-dusty-rose text-cream py-3 rounded-full text-sm font-medium shadow-gentle hover:shadow-soft transition-all duration-300 relative overflow-hidden"
+              className="w-full bg-dusty-rose text-cream py-3 rounded-full text-sm font-medium transition-all duration-300 relative overflow-hidden"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={(e) => {

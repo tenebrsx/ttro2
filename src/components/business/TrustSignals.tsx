@@ -145,7 +145,7 @@ export const TrustSignals: React.FC<TrustSignalsProps> = ({
       label: "Años de Experiencia",
       value: "8+",
       icon: <Calendar className="w-6 h-6" />,
-      description: "Creando momentos dulces desde 2016",
+      description: "Creando momentos especiales desde 2016",
     },
     {
       label: "Clientes Satisfechos",

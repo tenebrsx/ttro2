@@ -20,7 +20,7 @@ const CartButton: React.FC = () => {
       <motion.button
         whileTap={{ scale: 0.95 }}
         onClick={() => navigate("/cart")}
-        className="relative bg-sage text-white w-16 h-16 rounded-full shadow-xl hover:bg-cocoa transition-colors duration-200 flex items-center justify-center"
+        className="relative bg-sage text-white w-16 h-16 rounded-full hover:bg-cocoa transition-colors duration-200 flex items-center justify-center"
       >
         <ShoppingBag className="w-6 h-6" />
 

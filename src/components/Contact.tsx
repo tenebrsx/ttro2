@@ -61,7 +61,7 @@ const Contact = () => {
           </div>
 
           <h2 className="text-4xl sm:text-5xl font-academy mb-6 font-bold leading-tight">
-            <span className="block text-cocoa-500 text-shadow-elegant">
+            <span className="block text-cocoa-500">
               Convirtamos Tu Sueño en
             </span>
             <span className="block text-sage-500 italic font-academy mt-2 relative">
@@ -85,13 +85,13 @@ const Contact = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div className="space-y-8">
             <div>
-              <h3 className="text-2xl font-academy text-cocoa-500 text-shadow-elegant mb-6">
+              <h3 className="text-2xl font-academy text-cocoa-500 mb-6">
                 Conectemos Nuestros{" "}
                 <span className="text-sage-500 font-bold">Corazones</span>
               </h3>
               <div className="space-y-6">
                 <div className="flex items-center space-x-4 group">
-                  <div className="w-12 h-12 bg-sage/20 rounded-full flex items-center justify-center shadow-gentle group-hover:shadow-warm transition-all duration-300">
+                  <div className="w-12 h-12 bg-sage/20 rounded-full flex items-center justify-center transition-all duration-300">
                     <HeartMail className="text-sage-600" size={24} />
                   </div>
                   <div>
@@ -105,7 +105,7 @@ const Contact = () => {
                 </div>
 
                 <div className="flex items-center space-x-4 group">
-                  <div className="w-12 h-12 bg-sage/20 rounded-full flex items-center justify-center shadow-gentle group-hover:shadow-warm transition-all duration-300">
+                  <div className="w-12 h-12 bg-sage/20 rounded-full flex items-center justify-center transition-all duration-300">
                     <ChatBubble className="text-sage-600" size={24} />
                   </div>
                   <div>
@@ -117,7 +117,7 @@ const Contact = () => {
                 </div>
 
                 <div className="flex items-center space-x-4 group">
-                  <div className="w-12 h-12 bg-sage/20 rounded-full flex items-center justify-center shadow-gentle group-hover:shadow-warm transition-all duration-300">
+                  <div className="w-12 h-12 bg-sage/20 rounded-full flex items-center justify-center transition-all duration-300">
                     <HeartLocation className="text-sage-600" size={24} />
                   </div>
                   <div>
@@ -132,10 +132,10 @@ const Contact = () => {
               </div>
             </div>
 
-            <div className="bg-sage/10 p-6 rounded-lg shadow-gentle">
+            <div className="bg-sage/10 p-6 rounded-lg">
               <div className="flex items-center mb-4">
                 <HandHeart className="text-sage-600 mr-2" size={20} />
-                <h4 className="text-lg font-academy text-cocoa-500 text-shadow-elegant">
+                <h4 className="text-lg font-academy text-cocoa-500">
                   <span className="text-sage-500 font-bold">
                     Una Promesa Personal
                   </span>
@@ -149,8 +149,8 @@ const Contact = () => {
             </div>
           </div>
 
-          <div className="bg-white p-8 rounded-lg shadow-gentle">
-            <h3 className="text-2xl font-academy text-cocoa-500 text-shadow-elegant mb-6">
+          <div className="bg-white p-8 rounded-lg">
+            <h3 className="text-2xl font-academy text-cocoa-500 mb-6">
               <span className="text-sage-500 font-bold">Cuéntanos</span> Tu
               Historia
             </h3>
@@ -241,10 +241,10 @@ const Contact = () => {
 
               <button
                 type="submit"
-                className="w-full bg-sage text-cream px-8 py-4 rounded-lg text-lg font-karla font-medium hover:bg-sage/90 transition-all duration-300 transform hover:scale-105 shadow-gentle hover:shadow-warm flex items-center justify-center space-x-2"
+                className="w-full bg-sage text-cream px-8 py-4 rounded-button text-lg font-bodoni font-medium hover:bg-sage/90 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 btn-contrast-high tracking-button-refined shadow-premium hover:shadow-luxury"
               >
                 <MessageWings className="text-cream" size={20} />
-                <span>Comenzar Mi Historia Dulce</span>
+                <span>Comenzar Mi Historia Especial</span>
               </button>
             </form>
           </div>

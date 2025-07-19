@@ -448,8 +448,8 @@ export const useDessertNotifications = () => {
 
   const cookieNotice = () => {
     const notificationId = notifications.info(
-      "Cookies & Dulces",
-      "Usamos cookies para mejorar tu experiencia (¡solo las digitales, las reales las hacemos por pedido!).",
+      "Cookies & Privacidad",
+      "Usamos cookies para mejorar tu experiencia de navegación.",
       {
         persistent: true,
         action: {

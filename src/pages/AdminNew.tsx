@@ -20,12 +20,10 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { formatPrice } from "../utils/currency";
-import {
-  compressImage,
-  validateImageSize,
-  COMPRESSION_PRESETS,
-} from "../utils/imageCompression";
+
 import Button from "../components/Button";
+import { SophisticatedButton } from "../components/animations/SophisticatedAnimations";
+import DragDropImageUpload from "../components/admin/DragDropImageUpload";
 
 import type { Product } from "../data/products";
 import { useFirebaseProducts } from "../hooks/useFirebaseProducts";
@@ -52,8 +50,6 @@ const Admin: React.FC<AdminPanelProps> = () => {
   const [isOperationLoading, setIsOperationLoading] = useState(false);
   const [showMigrationDialog, setShowMigrationDialog] = useState(false);
   const [migrationStatus, setMigrationStatus] = useState<string>("");
-  const [isCompressingThumbnail, setIsCompressingThumbnail] = useState(false);
-  const [isCompressingImages, setIsCompressingImages] = useState(false);
 
   // Firebase integration
   const {
@@ -861,26 +857,26 @@ const Admin: React.FC<AdminPanelProps> = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-gentle p-6 sm:p-8 w-full max-w-md border border-dusty-rose-200"
+          className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-gentle p-6 sm:p-8 w-full max-w-md border border-sage-200"
         >
           <div className="text-center mb-8">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-dusty-rose-50 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Package className="w-8 h-8 sm:w-10 sm:h-10 text-dusty-rose-600" />
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-sage-50 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Package className="w-8 h-8 sm:w-10 sm:h-10 text-sage-600" />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-playfair text-mocha-700 font-bold mb-2">
+            <h1 className="text-2xl sm:text-3xl font-academy text-cocoa-700 font-bold mb-2">
               Panel de Administración
             </h1>
-            <p className="text-mocha-600 font-source-serif text-sm sm:text-base">
-              Gestiona tus dulces creaciones
+            <p className="text-cocoa-600 font-bodoni text-sm sm:text-base">
+              Gestiona tus creaciones artesanales
             </p>
-            <div className="mt-3 p-3 bg-dusty-rose-50 rounded-lg border border-dusty-rose-200">
-              <div className="flex items-center space-x-2 text-dusty-rose-700">
+            <div className="mt-3 p-3 bg-sage-50 rounded-lg border border-sage-200">
+              <div className="flex items-center space-x-2 text-sage-700">
                 <Shield className="w-4 h-4" />
                 <span className="text-xs font-medium">
                   Acceso multi-dispositivo habilitado
                 </span>
               </div>
-              <p className="text-xs text-dusty-rose-600 mt-1">
+              <p className="text-xs text-sage-600 mt-1">
                 Puedes iniciar sesión desde múltiples dispositivos
                 simultáneamente
               </p>
@@ -966,18 +962,17 @@ const Admin: React.FC<AdminPanelProps> = () => {
               </div>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-4 w-full sm:w-auto">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <SophisticatedButton
                 onClick={() => {
                   resetForm();
                   setShowAddForm(true);
                 }}
-                className="bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 text-white px-8 py-4 rounded-full hover:from-dusty-rose-600 hover:to-dusty-rose-700 transition-all duration-300 flex items-center space-x-3 font-sans font-bold shadow-lg hover:shadow-xl transform hover:scale-105 text-lg"
+                variant="primary"
+                className="flex items-center space-x-3 text-lg px-8 py-4"
               >
                 <Plus className="w-6 h-6" />
                 <span>Agregar Postre</span>
-              </motion.button>
+              </SophisticatedButton>
 
               <div className="flex items-center space-x-2">
                 {allSessions.length > 1 && (
@@ -1555,207 +1550,41 @@ const Admin: React.FC<AdminPanelProps> = () => {
                     </h3>
 
                     <div className="space-y-8">
-                      <div>
-                        <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
-                          Imagen Principal *
-                        </label>
-                        <div className="border-2 border-dashed border-dusty-rose-300 rounded-xl p-6 text-center hover:border-dusty-rose-500 transition-colors">
-                          <input
-                            type="file"
-                            accept="image/*"
-                            capture="environment"
-                            className="hidden"
-                            id="thumbnailImage"
-                            onChange={async (e) => {
-                              const file = e.target.files?.[0];
-                              if (file) {
-                                setIsCompressingThumbnail(true);
-                                try {
-                                  console.log(
-                                    "🖼️ Compressing thumbnail image...",
-                                  );
-                                  const compressedImage = await compressImage(
-                                    file,
-                                    COMPRESSION_PRESETS.large,
-                                  );
+                      <DragDropImageUpload
+                        onImagesChange={(images) => {
+                          setFormData((prev) => ({
+                            ...prev,
+                            thumbnailImage: images[0] || "",
+                          }));
+                        }}
+                        currentImages={
+                          formData.thumbnailImage
+                            ? [formData.thumbnailImage]
+                            : []
+                        }
+                        maxFiles={1}
+                        label="Imagen Principal"
+                        description="Arrastra tu imagen aquí o toca para seleccionar"
+                        compressionPreset="large"
+                        required={true}
+                      />
 
-                                  const validation =
-                                    validateImageSize(compressedImage);
-                                  if (validation.isValid) {
-                                    setFormData((prev) => ({
-                                      ...prev,
-                                      thumbnailImage: compressedImage,
-                                    }));
-                                    console.log(
-                                      `✅ Thumbnail image compressed successfully: ${validation.sizeKB} KB`,
-                                    );
-                                  } else {
-                                    alert(
-                                      `Error: La imagen es demasiado grande (${validation.sizeKB} KB). El máximo permitido es ${validation.maxSizeKB} KB.`,
-                                    );
-                                  }
-                                } catch (error) {
-                                  console.error(
-                                    "Error compressing thumbnail image:",
-                                    error,
-                                  );
-                                  alert(
-                                    "Error al procesar la imagen. Por favor intenta con una imagen más pequeña.",
-                                  );
-                                } finally {
-                                  setIsCompressingThumbnail(false);
-                                }
-                              }
-                            }}
-                          />
-                          <label
-                            htmlFor="thumbnailImage"
-                            className="cursor-pointer flex flex-col items-center space-y-2"
-                          >
-                            <div className="w-12 h-12 bg-dusty-rose-100 rounded-full flex items-center justify-center">
-                              {isCompressingThumbnail ? (
-                                <div className="w-6 h-6 border-2 border-dusty-rose-600 border-t-transparent rounded-full animate-spin" />
-                              ) : (
-                                <Plus className="w-6 h-6 text-dusty-rose-600" />
-                              )}
-                            </div>
-                            <span className="text-sm font-playfair text-mocha-600">
-                              {isCompressingThumbnail
-                                ? "Comprimiendo imagen..."
-                                : "Toca para subir imagen desde tu teléfono"}
-                            </span>
-                            <span className="text-xs text-mocha-400">
-                              {isCompressingThumbnail
-                                ? "Optimizando tamaño para Firebase..."
-                                : "PNG, JPG hasta 5MB (se comprimirá automáticamente)"}
-                            </span>
-                          </label>
-                          {formData.thumbnailImage && (
-                            <div className="mt-4">
-                              <img
-                                src={formData.thumbnailImage}
-                                alt="Preview"
-                                className="w-20 h-20 object-cover rounded-lg mx-auto"
-                              />
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="block text-lg font-medium text-mocha/80 mb-3 font-sans">
-                          Imágenes Adicionales (opcional)
-                        </label>
-                        <div className="border-2 border-dashed border-dusty-rose-300 rounded-xl p-6 text-center hover:border-dusty-rose-500 transition-colors">
-                          <input
-                            type="file"
-                            accept="image/*"
-                            multiple
-                            capture="environment"
-                            className="hidden"
-                            id="additionalImages"
-                            onChange={async (e) => {
-                              const files = Array.from(e.target.files || []);
-
-                              if (files.length > 0) {
-                                setIsCompressingImages(true);
-                              }
-
-                              for (const file of files) {
-                                try {
-                                  console.log(
-                                    "🖼️ Compressing additional image...",
-                                  );
-                                  const compressedImage = await compressImage(
-                                    file,
-                                    COMPRESSION_PRESETS.medium,
-                                  );
-
-                                  const validation =
-                                    validateImageSize(compressedImage);
-                                  if (validation.isValid) {
-                                    setFormData((prev) => ({
-                                      ...prev,
-                                      images: [
-                                        ...prev.images.filter((img) => img),
-                                        compressedImage,
-                                      ],
-                                    }));
-                                    console.log(
-                                      `✅ Additional image compressed successfully: ${validation.sizeKB} KB`,
-                                    );
-                                  } else {
-                                    alert(
-                                      `Error: Una de las imágenes es demasiado grande (${validation.sizeKB} KB). El máximo permitido es ${validation.maxSizeKB} KB.`,
-                                    );
-                                  }
-                                } catch (error) {
-                                  console.error(
-                                    "Error compressing additional image:",
-                                    error,
-                                  );
-                                  alert(
-                                    "Error al procesar una de las imágenes. Por favor intenta con imágenes más pequeñas.",
-                                  );
-                                }
-                              }
-
-                              setIsCompressingImages(false);
-                            }}
-                          />
-                          <label
-                            htmlFor="additionalImages"
-                            className="cursor-pointer flex flex-col items-center space-y-2"
-                          >
-                            <div className="w-12 h-12 bg-dusty-rose-100 rounded-full flex items-center justify-center">
-                              {isCompressingImages ? (
-                                <div className="w-6 h-6 border-2 border-dusty-rose-600 border-t-transparent rounded-full animate-spin" />
-                              ) : (
-                                <Plus className="w-6 h-6 text-dusty-rose-600" />
-                              )}
-                            </div>
-                            <span className="text-sm font-playfair text-mocha-600">
-                              {isCompressingImages
-                                ? "Comprimiendo imágenes..."
-                                : "Agregar más imágenes"}
-                            </span>
-                            <span className="text-xs text-mocha-400">
-                              {isCompressingImages
-                                ? "Optimizando tamaño para Firebase..."
-                                : "Puedes seleccionar múltiples imágenes (se comprimirán automáticamente)"}
-                            </span>
-                          </label>
-                          {formData.images.filter((img) => img).length > 0 && (
-                            <div className="mt-4 grid grid-cols-3 gap-2">
-                              {formData.images
-                                .filter((img) => img)
-                                .map((img, imgIndex) => (
-                                  <div key={imgIndex} className="relative">
-                                    <img
-                                      src={img}
-                                      alt={`Preview ${imgIndex + 1}`}
-                                      className="w-full h-16 object-cover rounded-lg"
-                                    />
-                                    <button
-                                      type="button"
-                                      onClick={() => {
-                                        setFormData((prev) => ({
-                                          ...prev,
-                                          images: prev.images.filter(
-                                            (_, i) => i !== imgIndex,
-                                          ),
-                                        }));
-                                      }}
-                                      className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs"
-                                    >
-                                      <X className="w-3 h-3" />
-                                    </button>
-                                  </div>
-                                ))}
-                            </div>
-                          )}
-                        </div>
-                      </div>
+                      <DragDropImageUpload
+                        onImagesChange={(images) => {
+                          setFormData((prev) => ({
+                            ...prev,
+                            images: images,
+                          }));
+                        }}
+                        currentImages={formData.images.filter(
+                          (img) => img.trim() !== "",
+                        )}
+                        maxFiles={10}
+                        label="Imágenes Adicionales"
+                        description="Puedes agregar hasta 10 imágenes adicionales"
+                        compressionPreset="medium"
+                        required={false}
+                      />
                     </div>
                   </div>
 
@@ -1894,19 +1723,17 @@ const Admin: React.FC<AdminPanelProps> = () => {
 
                   {/* Action Buttons */}
                   <div className="flex items-center justify-end space-x-4 pt-6 border-t border-dusty-rose/10">
-                    <button
-                      type="button"
+                    <SophisticatedButton
                       onClick={resetForm}
-                      className="px-6 py-3 text-mocha/70 hover:text-mocha transition-colors font-source-serif"
+                      variant="secondary"
+                      className="px-6 py-3"
                     >
                       Cancelar
-                    </button>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                    </SophisticatedButton>
+                    <SophisticatedButton
                       onClick={saveDessert}
-                      disabled={isOperationLoading}
-                      className="bg-gradient-to-r from-dusty-rose-500 to-dusty-rose-600 text-white px-10 py-5 rounded-full hover:from-dusty-rose-600 hover:to-dusty-rose-700 transition-all duration-300 font-sans font-bold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-3 text-xl"
+                      variant="primary"
+                      className={`px-10 py-5 text-xl flex items-center space-x-3 ${isOperationLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                     >
                       <Save className="w-6 h-6" />
                       <span>
@@ -1914,7 +1741,7 @@ const Admin: React.FC<AdminPanelProps> = () => {
                           ? "Guardando..."
                           : (isEditing ? "Actualizar" : "Agregar") + " Postre"}
                       </span>
-                    </motion.button>
+                    </SophisticatedButton>
                   </div>
                 </div>
               </motion.div>
@@ -1952,22 +1779,23 @@ const Admin: React.FC<AdminPanelProps> = () => {
                 </div>
 
                 <div className="flex items-center justify-end space-x-4">
-                  <button
+                  <SophisticatedButton
                     onClick={() => setShowDeleteConfirm(null)}
-                    className="px-4 py-2 text-mocha/70 hover:text-mocha transition-colors font-source-serif"
+                    variant="secondary"
+                    className="px-4 py-2"
                   >
                     Cancelar
-                  </button>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                  </SophisticatedButton>
+                  <SophisticatedButton
                     onClick={() => deleteDessert(showDeleteConfirm)}
-                    disabled={isOperationLoading}
-                    className="bg-red-600 text-white px-4 py-2 rounded-xl hover:bg-red-700 transition-colors font-source-serif disabled:opacity-50 disabled:cursor-not-allowed"
+                    variant="primary"
+                    className={`px-4 py-2 !bg-red-600 !border-red-600 hover:!bg-red-700 hover:!border-red-700 flex items-center space-x-2 ${isOperationLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                   >
-                    <Trash2 className="w-4 h-4 mr-2" />
-                    {isOperationLoading ? "Eliminando..." : "Eliminar"}
-                  </motion.button>
+                    <Trash2 className="w-4 h-4" />
+                    <span>
+                      {isOperationLoading ? "Eliminando..." : "Eliminar"}
+                    </span>
+                  </SophisticatedButton>
                 </div>
               </motion.div>
             </motion.div>

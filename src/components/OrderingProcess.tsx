@@ -13,7 +13,7 @@ const OrderingProcess = () => {
       icon: HeartTalk,
       title: "Compartamos tu Sueño",
       description:
-        "Cada dulce comienza con una historia. Cuéntame sobre ese momento especial que quieres endulzar, y juntas daremos vida a tu visión más hermosa.",
+        "Cada postre comienza con una historia. Cuéntame sobre ese momento especial que quieres celebrar, y juntas daremos vida a tu visión más hermosa.",
       details: "Conversación personalizada • Respuesta en 2 horas",
       color: "from-sage-300 to-cream-300",
       accent: "sage-500",
@@ -113,7 +113,7 @@ const OrderingProcess = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Cada dulce que creamos es una promesa: transformar tus sueños en
+            Cada postre que creamos es una promesa: transformar tus sueños en
             realidad tangible, donde cada bocado cuenta una historia y cada
             detalle susurra
             <span

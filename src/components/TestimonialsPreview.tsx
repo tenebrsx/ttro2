@@ -1,11 +1,18 @@
 import { Quote } from "lucide-react";
 import { motion } from "framer-motion";
 import {
-  FadeInUp,
-  StaggerChildren,
+  FadeReveal,
+  TextReveal,
+  StaggerReveal,
   StaggerChild,
-} from "./animations/AnimationComponents";
+  CinematicReveal,
+} from "./animations/SophisticatedAnimations";
 import { HandDrawnDivider } from "./animations/TextureComponents";
+import {
+  SECTION_DELAYS,
+  DURATIONS,
+  STAGGER_DELAYS,
+} from "../config/animationTiming";
 
 const TestimonialsPreview = () => {
   const testimonials = [
@@ -36,9 +43,14 @@ const TestimonialsPreview = () => {
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }).map((_, i) => (
       <motion.div
+        key={i}
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: i * 0.1, duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+        transition={{
+          delay: i * STAGGER_DELAYS.normal,
+          duration: DURATIONS.fast,
+          ease: [0.4, 0, 0.2, 1],
+        }}
         className="relative"
       >
         <svg
@@ -53,8 +65,8 @@ const TestimonialsPreview = () => {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{
-              delay: i * 0.1 + 0.2,
-              duration: 0.3,
+              delay: i * STAGGER_DELAYS.normal + DURATIONS.instant,
+              duration: DURATIONS.fast,
               ease: [0.4, 0, 0.2, 1],
             }}
             className="absolute inset-0 flex items-center justify-center"
@@ -67,10 +79,14 @@ const TestimonialsPreview = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-cream-400 to-cream-500">
+    <section className="py-20 bg-gradient-to-br from-cream-400 to-cream-500 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <FadeInUp>
-          <div className="text-center mb-16">
+        <div className="text-center mb-16">
+          <FadeReveal
+            delay={SECTION_DELAYS.testimonials.divider}
+            duration={DURATIONS.medium}
+            direction="none"
+          >
             <div className="flex items-center justify-center mb-6">
               <div className="w-16 h-px bg-sage/40"></div>
               <span className="mx-4 text-sm font-source-serif text-sage/70 uppercase tracking-wider">
@@ -78,13 +94,49 @@ const TestimonialsPreview = () => {
               </span>
               <div className="w-16 h-px bg-sage/40"></div>
             </div>
+          </FadeReveal>
 
-            <h2 className="text-4xl sm:text-5xl font-academy text-black-bold text-shadow-elegant mb-6">
-              Palabras <span className="text-dusty-rose">Dulces</span>
-            </h2>
+          <div className="mb-8">
+            <TextReveal
+              delay={SECTION_DELAYS.testimonials.title}
+              staggerDelay={STAGGER_DELAYS.normal}
+              className="text-4xl sm:text-5xl font-academy text-black-bold text-shadow-elegant block tracking-academy-hero"
+            >
+              Palabras
+            </TextReveal>
+            <div className="mt-2 relative">
+              <TextReveal
+                delay={SECTION_DELAYS.testimonials.subtitle}
+                staggerDelay={STAGGER_DELAYS.normal}
+                className="text-4xl sm:text-5xl font-academy text-sage-600 italic tracking-academy-subhead"
+              >
+                de Gratitud
+              </TextReveal>
+              <FadeReveal
+                delay={SECTION_DELAYS.testimonials.underline}
+                duration={DURATIONS.medium}
+                direction="none"
+                className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-sage-300 to-sage-400 rounded-full"
+              >
+                <div></div>
+              </FadeReveal>
+            </div>
+          </div>
 
+          <CinematicReveal
+            direction="center"
+            delay={SECTION_DELAYS.testimonials.subtitle}
+            duration={DURATIONS.elegant}
+          >
             <HandDrawnDivider className="mb-6" />
+          </CinematicReveal>
 
+          <FadeReveal
+            delay={SECTION_DELAYS.testimonials.content}
+            duration={DURATIONS.slow}
+            direction="up"
+            distance={20}
+          >
             <p className="text-lg body-elegant max-w-2xl mx-auto font-light leading-relaxed">
               La mayor alegría viene de saber que mis postres se convierten en
               parte de los recuerdos{" "}
@@ -93,19 +145,23 @@ const TestimonialsPreview = () => {
               </span>{" "}
               de alguien.
             </p>
-          </div>
-        </FadeInUp>
+          </FadeReveal>
+        </div>
 
-        <StaggerChildren className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <StaggerReveal
+          staggerDelay={STAGGER_DELAYS.slow}
+          childDelay={SECTION_DELAYS.testimonials.cards}
+          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+        >
           {testimonials.map((testimonial, index) => (
             <StaggerChild key={index}>
               <motion.div
-                className="bg-elegant-cream backdrop-blur-sm p-8 rounded-elegant shadow-premium hover:shadow-luxury border border-dusty-rose group relative overflow-hidden"
+                className="bg-elegant-cream backdrop-blur-sm p-8 rounded-2xl shadow-premium hover:shadow-luxury border border-dusty-rose group relative overflow-hidden"
                 whileHover={{ y: -12, scale: 1.05 }}
                 transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
               >
                 <motion.div
-                  className="absolute top-0 left-0 w-full h-1 bg-dusty-rose-gradient rounded-t-elegant"
+                  className="absolute top-0 left-0 w-full h-1 bg-dusty-rose-gradient rounded-t-2xl"
                   initial={{ scaleX: 0 }}
                   whileHover={{ scaleX: 1 }}
                   transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
@@ -133,12 +189,15 @@ const TestimonialsPreview = () => {
 
                 {/* Testimonial text */}
                 <div className="relative">
-                  <Quote className="absolute -top-2 -left-1 h-8 w-8 text-dusty-rose/20 transform rotate-180" />
-                  <p className="body-elegant italic mb-4 leading-relaxed font-light pl-4 pr-2 text-shadow-elegant">
-                    &quot;{testimonial.text}&quot;
+                  <Quote className="absolute -top-1 -left-1 h-4 w-4 text-dusty-rose/30 transform rotate-180" />
+                  <p className="body-elegant italic mb-4 leading-relaxed font-light pl-3 pr-3 text-shadow-elegant">
+                    {testimonial.text}
                   </p>
-                  <Quote className="absolute -bottom-2 -right-1 h-8 w-8 text-dusty-rose/20" />
+                  <Quote className="absolute -bottom-1 -right-1 h-4 w-4 text-dusty-rose/30" />
                 </div>
+
+                {/* Sophisticated shimmer effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out rounded-2xl"></div>
 
                 {/* Decorative elements */}
                 <motion.div
@@ -156,7 +215,35 @@ const TestimonialsPreview = () => {
               </motion.div>
             </StaggerChild>
           ))}
-        </StaggerChildren>
+        </StaggerReveal>
+
+        <FadeReveal
+          delay={1.2}
+          duration={1.0}
+          direction="up"
+          distance={30}
+          className="text-center mt-16"
+        >
+          <div className="relative mb-8">
+            <CinematicReveal direction="iris" delay={1.4} duration={1.5}>
+              <TextReveal
+                delay={1.4}
+                staggerDelay={0.08}
+                className="text-2xl font-bodoni font-normal italic leading-body-elegant text-shadow-elegant text-cocoa-500 tracking-bodoni-elegant"
+              >
+                Cada testimonio es una sonrisa que perdura en el tiempo
+              </TextReveal>
+            </CinematicReveal>
+            <FadeReveal
+              delay={1.6}
+              duration={0.8}
+              direction="none"
+              className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-40 h-1 bg-gradient-to-r from-sage-300 via-sage-400 to-sage-300 rounded-full"
+            >
+              <div></div>
+            </FadeReveal>
+          </div>
+        </FadeReveal>
       </div>
     </section>
   );

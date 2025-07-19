@@ -30,7 +30,7 @@ const About = () => {
             </div>
 
             <h2 className="text-4xl sm:text-5xl font-academy mb-8 font-bold leading-tight">
-              <span className="block text-cocoa-500 text-shadow-elegant">
+              <span className="block text-cocoa-500">
                 Detrás de Cada Postre
               </span>
               <span className="block text-sage-500 italic font-academy mt-2 relative">

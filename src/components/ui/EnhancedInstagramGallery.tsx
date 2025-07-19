@@ -106,7 +106,7 @@ const EnhancedInstagramGallery: React.FC<InstagramGalleryProps> = ({
       imageUrl: "/images/instagram/decorated-cookies.jpg",
       thumbnailUrl: "/images/instagram/thumbs/decorated-cookies-thumb.jpg",
       caption:
-        "Galletas decoradas para baby shower. Cada una pintada a mano con royal icing. Un dulce recuerdo para celebrar la llegada del bebé. #BabyShower #GalletasDecoradas #RoyalIcing",
+        "Galletas decoradas para baby shower. Cada una pintada a mano con royal icing. Un hermoso recuerdo para celebrar la llegada del bebé. #BabyShower #GalletasDecoradas #RoyalIcing",
       likes: 241,
       comments: 52,
       timestamp: new Date("2024-11-22"),
@@ -297,7 +297,7 @@ const EnhancedInstagramGallery: React.FC<InstagramGalleryProps> = ({
 
               <h2 className="text-4xl sm:text-5xl font-cormorant text-dark-cocoa mb-6">
                 Momentos
-                <span className="block text-sage italic">Dulces</span>
+                <span className="block text-sage italic">Memorables</span>
               </h2>
 
               <div className="w-24 h-px bg-sage/40 mx-auto mb-8"></div>

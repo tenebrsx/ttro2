@@ -22,7 +22,7 @@ const ANALYTICS_CONFIG = {
     name: "Cucinanostrard",
     location: "Santo Domingo, República Dominicana",
     industry: "Artisanal Desserts",
-    phone: "+1-809-XXX-XXXX",
+    phone: "+18096581245",
     currency: "DOP",
   },
 };

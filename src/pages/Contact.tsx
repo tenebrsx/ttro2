@@ -108,7 +108,7 @@ const Contact = () => {
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-academy text-black-bold text-shadow-elegant mb-6">
                 Hagamos Realidad
                 <span className="block text-dusty-rose-elegant italic mt-2">
-                  Tu Dulce Especial
+                  Tu Ocasión Especial
                 </span>
               </h1>
 

@@ -79,7 +79,7 @@ const Gallery = () => {
           <div className="flex items-center justify-center mb-6">
             <div className="w-16 h-px bg-dusty-rose/40"></div>
             <span className="mx-4 text-sm font-karla text-dusty-rose/70 uppercase tracking-wider">
-              Galería de Dulces Momentos
+              Galería de Momentos Especiales
             </span>
             <div className="w-16 h-px bg-dusty-rose/40"></div>
           </div>
@@ -87,7 +87,7 @@ const Gallery = () => {
           <h2 className="text-4xl sm:text-5xl font-academy text-mocha mb-6 text-shadow-soft">
             Momentos que
             <span className="block text-dusty-rose italic mt-2 font-bold">
-              Endulzan la Vida
+              Inspiran tu Vida
             </span>
           </h2>
 
@@ -134,8 +134,8 @@ const Gallery = () => {
               <span className="text-dusty-rose font-bold">Instagram</span>
             </h3>
             <p className="text-mocha/70 font-karla font-light leading-relaxed mb-6">
-              Creaciones dulces, momentos especiales y el día a día de nuestra
-              cocina en nuestro perfil de Instagram.
+              Creaciones artesanales, momentos especiales y el día a día de
+              nuestra cocina en nuestro perfil de Instagram.
             </p>
             <a
               href="https://www.instagram.com/cucinanostrard/?hl=en"
